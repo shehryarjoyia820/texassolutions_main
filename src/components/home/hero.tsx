@@ -15,9 +15,9 @@ const RouteScene = dynamic(() => import('./route-scene').then((m) => m.RouteScen
 });
 
 const HIGHLIGHTS = [
-  'Dispatch desk answering in under 90 seconds, 24/7',
-  'Five regions, five authored price tables',
-  '30 days notice on every recurring service',
+  'Custom software, AI/ML and QA for enterprises',
+  'Serving the US, UK, Europe, the Gulf and Asia',
+  'Published pricing in seven regions',
 ];
 
 export function Hero() {
@@ -44,12 +44,8 @@ export function Hero() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/5 px-3.5 py-1.5"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-accent" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
             <span className="text-xs font-medium text-accent">
-              Dispatch desk open now · prices shown in {region.currency}
+              Software development · AI &amp; ML · QA &amp; testing · Truck dispatch
             </span>
           </motion.div>
 
@@ -67,10 +63,10 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="mt-7 max-w-2xl text-lg leading-relaxed text-fg-muted sm:text-xl"
           >
-            Thirteen service lines under one accountable partner: web and app development, QA, AI, data,
-            cloud, CRM and ERP, cybersecurity and dedicated teams, plus lead generation, auto engines, truck
-            dispatch, ads and AdSense. Published pricing in your region, a named contact on every service, and thirty days
-            notice if it stops working for you.
+            Custom software development, web and mobile app development, AI and machine learning, and QA and
+            software testing for enterprises in the United States, United Kingdom, Europe, Canada, Australia,
+            the Gulf and Asia, plus 24/7 truck dispatch for US carriers. Transparent pricing in{' '}
+            {region.currency}, a named contact on every project, and thirty days notice.
           </motion.p>
 
           <motion.div

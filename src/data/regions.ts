@@ -3,7 +3,7 @@
  * The switcher changes WHICH ROW of a price table is read.
  * It never converts currency live — every region has its own authored figures.
  */
-export type RegionCode = 'US' | 'UK' | 'CA' | 'AU' | 'EU';
+export type RegionCode = 'US' | 'UK' | 'CA' | 'AU' | 'EU' | 'GCC' | 'APAC';
 
 export interface Region {
   code: RegionCode;
@@ -66,9 +66,33 @@ export const REGIONS: Region[] = [
     symbol: '€',
     locale: 'en-IE',
     flag: '🇪🇺',
-    countries: ['DE', 'FR', 'NL', 'ES', 'IT', 'PL', 'PT', 'BE', 'AT', 'SE', 'DK', 'FI', 'CZ', 'RO', 'GR', 'HU'],
+    countries: ['DE', 'FR', 'NL', 'ES', 'IT', 'PL', 'PT', 'BE', 'AT', 'SE', 'DK', 'FI', 'CZ', 'RO', 'GR', 'HU', 'CH', 'NO', 'LU'],
+  },
+  {
+    code: 'GCC',
+    label: 'Gulf (GCC)',
+    short: 'Gulf',
+    // Gulf currencies are pegged to the dollar and B2B technology work is
+    // usually contracted in USD, so the Gulf table is authored in USD.
+    currency: 'USD',
+    symbol: 'US$',
+    locale: 'en-AE',
+    flag: '🇦🇪',
+    countries: ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'],
+  },
+  {
+    code: 'APAC',
+    label: 'Asia',
+    short: 'Asia',
+    currency: 'USD',
+    symbol: 'US$',
+    locale: 'en-SG',
+    flag: '🌏',
+    countries: ['SG', 'JP', 'KR', 'HK', 'TW', 'MY', 'TH', 'ID', 'PH', 'VN', 'IN', 'CN'],
   },
 ];
+
+export const REGION_CODES = REGIONS.map((r) => r.code);
 
 export const DEFAULT_REGION: RegionCode = 'US';
 

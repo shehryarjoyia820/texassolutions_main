@@ -8,7 +8,7 @@ import type { EstimateServiceConfig, QuestionOption } from './estimate-config';
  * duration. The questions below mirror those drivers.
  */
 
-const ALL_REGIONS: EstimateServiceConfig['regions'] = ['US', 'UK', 'CA', 'AU', 'EU'];
+const ALL_REGIONS: EstimateServiceConfig['regions'] = ['US', 'UK', 'CA', 'AU', 'EU', 'GCC', 'APAC'];
 
 const COMPLEXITY: QuestionOption[] = [
   { value: 'simple', label: 'Simple', hint: 'Well-defined, few edge cases', factor: 0.7 },
@@ -18,7 +18,7 @@ const COMPLEXITY: QuestionOption[] = [
 
 const COMPLIANCE: QuestionOption[] = [
   { value: 'none', label: 'No special requirements', factor: 1 },
-  { value: 'gdpr', label: 'GDPR or CCPA personal data', factor: 1.08 },
+  { value: 'gdpr', label: 'Personal data: GDPR, CCPA, UAE/Saudi PDPL or Singapore PDPA', factor: 1.08 },
   { value: 'regulated', label: 'Regulated: HIPAA, PCI or financial', factor: 1.2 },
 ];
 

@@ -1,6 +1,18 @@
 import type { Metadata } from 'next';
 import { SITE, OFFICES } from '@/data/site';
 
+/**
+ * Absolute canonical URL. The public site on GitHub Pages serves every page
+ * with a trailing slash, so canonicals, the sitemap and schema use it too and
+ * search engines never have to follow a redirect.
+ */
+export function absUrl(path: string): string {
+  if (path === '/' || path === '') return `${SITE.url}/`;
+  const [base, hash] = path.split('#');
+  const withSlash = base.endsWith('/') || /\.[a-z0-9]+$/i.test(base) ? base : `${base}/`;
+  return `${SITE.url}${withSlash}${hash ? `#${hash}` : ''}`;
+}
+
 export function pageMeta({
   title,
   description,
@@ -9,7 +21,9 @@ export function pageMeta({
   image,
   publishedTime,
   noIndex,
+  keywords,
 }: {
+  keywords?: string[];
   title: string;
   description: string;
   path?: string;
@@ -18,13 +32,14 @@ export function pageMeta({
   publishedTime?: string;
   noIndex?: boolean;
 }): Metadata {
-  const url = `${SITE.url}${path === '/' ? '' : path}`;
+  const url = absUrl(path);
   const ogImage = image ?? `/og/default.png`;
 
   return {
     title,
     description,
     alternates: { canonical: url },
+    ...(keywords?.length ? { keywords } : {}),
     robots: noIndex ? { index: false, follow: false } : undefined,
     openGraph: {
       title,
@@ -48,10 +63,69 @@ export function pageMeta({
 /*  JSON-LD                                                            */
 /* ------------------------------------------------------------------ */
 
+/** Countries we actively serve, used for areaServed across the schema. */
+export const AREA_SERVED = [
+  'United States', 'United Kingdom', 'Canada', 'Australia', 'New Zealand', 'Ireland',
+  'Germany', 'Netherlands', 'Sweden', 'Denmark', 'Norway', 'Finland', 'Switzerland', 'France',
+  'United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Kuwait', 'Bahrain', 'Oman',
+  'Singapore', 'Japan', 'Hong Kong', 'South Korea', 'Malaysia',
+].map((name) => ({ '@type': 'Country', name }));
+
+export const KNOWS_ABOUT = [
+  'Custom software development', 'Web application development', 'SaaS development',
+  'Mobile app development', 'Artificial intelligence', 'Machine learning', 'Generative AI',
+  'AI agents', 'Retrieval-augmented generation', 'Computer vision', 'Software testing',
+  'Quality assurance', 'Test automation', 'Playwright', 'Performance testing', 'DevOps',
+  'Cloud migration', 'AWS', 'Microsoft Azure', 'Data engineering', 'Business intelligence',
+  'Salesforce', 'Microsoft Dynamics 365', 'Odoo', 'Cybersecurity', 'SOC 2',
+  'Truck dispatch', 'Freight dispatch', 'Lead generation', 'PPC management', 'Google AdSense',
+];
+
+export function websiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
+    inLanguage: 'en',
+    publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  };
+}
+
+/** Marks the quick-answer block as speakable for voice and answer engines. */
+export function speakableSchema(path: string, name: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name,
+    url: absUrl(path),
+    speakable: { '@type': 'SpeakableSpecification', cssSelector: ['[data-speakable]'] },
+  };
+}
+
+export function howToSchema(name: string, steps: { title: string; body: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    step: steps.map((st, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: st.title,
+      text: st.body,
+    })),
+  };
+}
+
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    slogan: SITE.tagline,
+    logo: `${SITE.url}/icon-512.png`,
+    knowsAbout: KNOWS_ABOUT,
+    areaServed: AREA_SERVED,
     name: SITE.name,
     legalName: SITE.legalName,
     url: SITE.url,
@@ -71,7 +145,7 @@ export function organizationSchema() {
         '@type': 'ContactPoint',
         telephone: SITE.phone,
         contactType: 'sales',
-        areaServed: ['US', 'GB', 'CA', 'AU', 'EU'],
+        areaServed: ['US', 'GB', 'CA', 'AU', 'NZ', 'IE', 'DE', 'NL', 'SE', 'CH', 'AE', 'SA', 'QA', 'KW', 'BH', 'OM', 'SG', 'JP', 'HK', 'KR', 'MY'],
         availableLanguage: ['English'],
       },
     ],
@@ -111,15 +185,18 @@ export function serviceSchema(service: {
   description: string;
   slug: string;
   subServices: { name: string }[];
+  keywords?: string[];
 }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: service.name,
     description: service.description,
-    url: `${SITE.url}/services/${service.slug}`,
+    url: absUrl(`/services/${service.slug}`),
     provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
-    areaServed: ['United States', 'United Kingdom', 'Canada', 'Australia', 'Europe'],
+    areaServed: AREA_SERVED,
+    serviceType: service.name,
+    ...(service.keywords ? { keywords: service.keywords.join(', ') } : {}),
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: `${service.name} options`,
@@ -170,7 +247,7 @@ export function articleSchema(a: {
     dateModified: a.date,
     author: { '@type': 'Organization', name: a.author },
     publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
-    mainEntityOfPage: `${SITE.url}/insights/${a.slug}`,
+    mainEntityOfPage: absUrl(`/insights/${a.slug}`),
   };
 }
 
@@ -182,7 +259,7 @@ export function breadcrumbSchema(trail: { label: string; href: string }[]) {
       '@type': 'ListItem',
       position: i + 1,
       name: c.label,
-      item: `${SITE.url}${c.href === '/' ? '' : c.href}`,
+      item: absUrl(c.href),
     })),
   };
 }

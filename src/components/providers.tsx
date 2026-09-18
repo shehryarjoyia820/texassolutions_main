@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { DEFAULT_REGION, getRegion, guessRegionFromLocale, type Region, type RegionCode } from '@/data/regions';
+import { DEFAULT_REGION, REGION_CODES, getRegion, guessRegionFromLocale, type Region, type RegionCode } from '@/data/regions';
 import { trackRegionChange } from '@/lib/analytics';
 
 /* ------------------------------------------------------------------ */
@@ -92,7 +92,7 @@ export function Providers({ children }: { children: ReactNode }) {
     }
     const fromUrl = new URLSearchParams(window.location.search).get('region');
     const candidate = (fromUrl || stored || '').toUpperCase();
-    const valid = ['US', 'UK', 'CA', 'AU', 'EU'].includes(candidate);
+    const valid = (REGION_CODES as string[]).includes(candidate);
     setCode(valid ? (candidate as RegionCode) : guessRegionFromLocale(navigator.language));
     setReady(true);
   }, []);

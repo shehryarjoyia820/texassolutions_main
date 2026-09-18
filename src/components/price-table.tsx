@@ -114,7 +114,7 @@ export function FullPriceTable({ table }: { table: PriceTable }) {
     <div>
       <p className="mb-4 text-sm leading-relaxed text-fg-muted">{table.intro}</p>
       <div className="overflow-x-auto rounded-2xl border border-line">
-        <table className="w-full min-w-[46rem] border-collapse text-left text-sm">
+        <table className="w-full min-w-[58rem] border-collapse text-left text-sm">
           <caption className="sr-only">{table.title} pricing across all regions</caption>
           <thead>
             <tr className="border-b border-line bg-bg-soft">

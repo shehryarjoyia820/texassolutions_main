@@ -21,6 +21,54 @@ export interface PriceRow {
   footnotes?: Partial<Record<RegionCode, string>>;
 }
 
+/** Regions authored by hand in section 6 of the spec. */
+type AuthoredRegion = 'US' | 'UK' | 'CA' | 'AU' | 'EU';
+
+type AuthoredRow = Omit<PriceRow, 'values'> & {
+  values: Record<AuthoredRegion, Range | null> & Partial<Record<RegionCode, Range | null>>;
+};
+
+type AuthoredTable = Omit<PriceTable, 'rows'> & { rows: AuthoredRow[] };
+
+/**
+ * Gulf and Asia tables are authored in USD from the US row: Gulf enterprise
+ * rates track US levels, Asia sits about 10% below. Services not offered in a
+ * region (truck dispatch, engine supply) carry explicit nulls instead.
+ */
+const DERIVED_FACTOR: Partial<Record<RegionCode, number>> = { GCC: 1.0, APAC: 0.9 };
+const NOT_OFFERED: Record<string, RegionCode[]> = {
+  'truck-dispatch': ['GCC', 'APAC'],
+  'auto-engines': ['GCC', 'APAC'],
+};
+
+function tidyValue(n: number) {
+  if (n >= 100000) return Math.round(n / 5000) * 5000;
+  if (n >= 10000) return Math.round(n / 1000) * 1000;
+  if (n >= 1000) return Math.round(n / 100) * 100;
+  return Math.round(n / 5) * 5;
+}
+
+function completeTable(t: AuthoredTable): PriceTable {
+  return {
+    ...t,
+    rows: t.rows.map((row) => {
+      const values = { ...row.values } as Record<RegionCode, Range | null>;
+      const plus = { ...(row.plus ?? {}) };
+      for (const [code, factor] of Object.entries(DERIVED_FACTOR) as [RegionCode, number][]) {
+        if (values[code] !== undefined) continue;
+        if (NOT_OFFERED[t.service]?.includes(code)) {
+          values[code] = null;
+          continue;
+        }
+        const us = row.values.US;
+        values[code] = us ? [tidyValue(us[0] * factor), tidyValue(us[1] * factor)] : null;
+        if (row.plus?.US) plus[code] = true;
+      }
+      return { ...row, values, plus };
+    }),
+  };
+}
+
 export interface PriceTable {
   service: string;
   title: string;
@@ -39,7 +87,7 @@ export const UNIT_LABEL: Record<PriceRow['unit'], string> = {
   'per-unit': 'supplied and installed',
 };
 
-const BASE_PRICE_TABLES: PriceTable[] = [
+const BASE_PRICE_TABLES: AuthoredTable[] = [
   {
     service: 'web-development',
     title: 'Web and app development',
@@ -294,7 +342,7 @@ const BASE_PRICE_TABLES: PriceTable[] = [
 
 /** Every table, in the same order as the services across the site. */
 export const PRICE_TABLES: PriceTable[] = SERVICE_ORDER.map((slug) =>
-  [...BASE_PRICE_TABLES, ...ENTERPRISE_PRICE_TABLES].find((t) => t.service === slug),
+  [...BASE_PRICE_TABLES.map(completeTable), ...ENTERPRISE_PRICE_TABLES].find((t) => t.service === slug),
 ).filter((t): t is PriceTable => Boolean(t));
 
 export const PRICE_TABLE_MAP: Record<string, PriceTable> = PRICE_TABLES.reduce(
@@ -331,7 +379,7 @@ export const DISPATCH_DISCLAIMER = 'Fee applies to linehaul only, not fuel surch
  * Regions whose figures were scaled from US and UK benchmarks rather than
  * measured directly. Flagged on the pricing page per the specification.
  */
-export const DERIVED_REGIONS: RegionCode[] = ['CA', 'EU'];
+export const DERIVED_REGIONS: RegionCode[] = ['CA', 'EU', 'GCC', 'APAC'];
 
 /** Source list rendered on the pricing page. */
 export const PRICE_SOURCES = [

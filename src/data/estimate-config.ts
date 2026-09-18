@@ -105,7 +105,7 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
   {
     service: 'web-development',
     billing: 'one-time',
-    regions: ['US', 'UK', 'CA', 'AU', 'EU'],
+    regions: ['US', 'UK', 'CA', 'AU', 'EU', 'GCC', 'APAC'],
     subTypeLabel: 'What are we building?',
     subTypes: [
       { id: 'landing-page', label: 'Landing page', description: 'One page, one offer', priceRow: 'landing-page' },
@@ -196,7 +196,7 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
   {
     service: 'lead-generation',
     billing: 'monthly',
-    regions: ['US', 'UK', 'CA', 'AU', 'EU'],
+    regions: ['US', 'UK', 'CA', 'AU', 'EU', 'GCC', 'APAC'],
     subTypeLabel: 'What kind of leads?',
     defaultDurationMonths: 3,
     durationOptions: [1, 3, 6, 12],
@@ -255,7 +255,7 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
   {
     service: 'ads-optimization',
     billing: 'monthly',
-    regions: ['US', 'UK', 'CA', 'AU', 'EU'],
+    regions: ['US', 'UK', 'CA', 'AU', 'EU', 'GCC', 'APAC'],
     subTypeLabel: 'Which platform leads the account?',
     defaultDurationMonths: 3,
     durationOptions: [1, 3, 6, 12],
@@ -326,7 +326,7 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
   {
     service: 'adsense-management',
     billing: 'monthly',
-    regions: ['US', 'UK', 'CA', 'AU', 'EU'],
+    regions: ['US', 'UK', 'CA', 'AU', 'EU', 'GCC', 'APAC'],
     subTypeLabel: 'One site or a portfolio?',
     defaultDurationMonths: 6,
     durationOptions: [3, 6, 12],
@@ -445,7 +445,7 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
   {
     service: 'qa-testing',
     billing: 'monthly',
-    regions: ['US', 'UK', 'CA', 'AU', 'EU'],
+    regions: ['US', 'UK', 'CA', 'AU', 'EU', 'GCC', 'APAC'],
     subTypeLabel: 'What kind of testing?',
     defaultDurationMonths: 3,
     durationOptions: [1, 3, 6, 12],
@@ -502,7 +502,7 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
   {
     service: 'auto-engines',
     billing: 'one-time',
-    regions: ['US', 'UK', 'CA', 'AU', 'EU'],
+    regions: ['US', 'UK', 'CA', 'AU', 'EU', 'GCC', 'APAC'],
     subTypeLabel: 'Which type of engine?',
     subTypes: [
       { id: 'used', label: 'Used', description: 'Tested and mileage-verified', priceRow: 'used' },

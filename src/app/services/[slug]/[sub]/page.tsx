@@ -12,9 +12,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const found = getSubService(slug, sub);
   if (!found) return {};
   return pageMeta({
-    title: `${found.sub.name} — ${found.service.navLabel}`,
-    description: found.sub.summary,
+    title: `${found.sub.name} Services | ${found.service.navLabel} Company`,
+    description: `${found.sub.summary} ${found.sub.name} for companies in the US, UK, Europe, the UAE, Saudi Arabia and Singapore, with published pricing.`,
     path: `/services/${slug}/${sub}`,
+    keywords: [found.sub.keyword, `${found.sub.name.toLowerCase()} company`, `${found.sub.name.toLowerCase()} services`],
   });
 }
 

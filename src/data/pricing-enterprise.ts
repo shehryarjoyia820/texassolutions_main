@@ -18,6 +18,9 @@ const REGION_FACTOR: Record<RegionCode, number> = {
   CA: 1.3,
   AU: 1.4,
   EU: 0.9,
+  // Authored in USD for the Gulf and Asia.
+  GCC: 1.0,
+  APAC: 0.9,
 };
 
 function tidy(n: number) {
@@ -36,7 +39,7 @@ function regional([low, high]: Range): Record<RegionCode, Range> {
 }
 
 const SCALED_NOTE =
-  'US figures are benchmarked; UK, Canada, Australia and Europe are scaled from them and are indicative until confirmed on a call.';
+  'US figures are benchmarked; UK, Canada, Australia, Europe, the Gulf and Asia are scaled from them and are indicative until confirmed on a call.';
 
 export const ENTERPRISE_PRICE_TABLES: PriceTable[] = [
   {

@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next';
-import { SITE } from '@/data/site';
+import { absUrl } from '@/lib/seo';
 import { SERVICES, ALL_SUB_SERVICE_PATHS } from '@/data/services';
 import { SOLUTIONS } from '@/data/solutions';
 import { PRODUCTS, MARKETPLACE_ITEMS } from '@/data/catalog';
 import { INSIGHTS } from '@/data/insights';
+import { MARKETS } from '@/data/markets';
 
 export const dynamic = 'force-static';
 
@@ -26,49 +27,57 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/contact', priority: 0.85, freq: 'monthly' },
     { path: '/portfolio', priority: 0.7, freq: 'monthly' },
     { path: '/advertise', priority: 0.5, freq: 'monthly' },
+    { path: '/markets', priority: 0.85, freq: 'monthly' },
+    { path: '/answers', priority: 0.8, freq: 'weekly' },
     { path: '/privacy', priority: 0.3, freq: 'yearly' },
     { path: '/terms', priority: 0.3, freq: 'yearly' },
   ];
 
   return [
     ...staticPaths.map((p) => ({
-      url: `${SITE.url}${p.path === '/' ? '' : p.path}`,
+      url: absUrl(p.path),
       lastModified: now,
       changeFrequency: p.freq,
       priority: p.priority,
     })),
     ...SERVICES.map((s) => ({
-      url: `${SITE.url}/services/${s.slug}`,
+      url: absUrl(`/services/${s.slug}`),
       lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     })),
     ...ALL_SUB_SERVICE_PATHS.map((p) => ({
-      url: `${SITE.url}/services/${p.slug}/${p.sub}`,
+      url: absUrl(`/services/${p.slug}/${p.sub}`),
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.75,
     })),
+    ...MARKETS.map((m) => ({
+      url: absUrl(`/markets/${m.slug}`),
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
+    })),
     ...SOLUTIONS.map((s) => ({
-      url: `${SITE.url}/solutions/${s.slug}`,
+      url: absUrl(`/solutions/${s.slug}`),
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     })),
     ...PRODUCTS.map((p) => ({
-      url: `${SITE.url}/products/${p.slug}`,
+      url: absUrl(`/products/${p.slug}`),
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })),
     ...MARKETPLACE_ITEMS.map((m) => ({
-      url: `${SITE.url}/marketplace/${m.slug}`,
+      url: absUrl(`/marketplace/${m.slug}`),
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.65,
     })),
     ...INSIGHTS.map((i) => ({
-      url: `${SITE.url}/insights/${i.slug}`,
+      url: absUrl(`/insights/${i.slug}`),
       lastModified: new Date(i.date),
       changeFrequency: 'monthly' as const,
       priority: 0.7,

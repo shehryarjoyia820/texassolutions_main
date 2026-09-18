@@ -3,7 +3,7 @@ export const SITE = {
   legalName: 'Texas Solutions LLC',
   tagline: 'Custom Web Platforms & Software Built for Modern Enterprises',
   description:
-    'Texas Solutions runs truck dispatch, web and app development, lead generation, ads, AdSense revenue management, QA testing and auto engines for clients across the US, UK, Canada, Australia and Europe.',
+    'Texas Solutions is a custom software development company: web and mobile app development, SaaS, AI and machine learning, QA and software testing, and dedicated development teams for enterprises in the US, UK, Europe, Canada, Australia, the UAE, Saudi Arabia and Singapore, plus truck dispatch for US carriers.',
   url: 'https://texassolutions.co',
   dispatchUrl: 'https://dispatch.texassolutions.co',
   phone: '(838) 910-3147',

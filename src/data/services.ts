@@ -85,10 +85,10 @@ export interface Service {
 const BASE_SERVICES: Service[] = [
   {
     slug: 'web-development',
-    name: 'Web and App Development',
-    navLabel: 'Web and App Development',
+    name: 'Custom Software, Web and App Development',
+    navLabel: 'Software and App Development',
     promise: 'Sites and apps that load fast, rank well and turn visitors into booked work.',
-    summary: 'Landing pages, business sites, stores, portals and mobile apps, built to a design system and handed over with documentation.',
+    summary: 'Custom software, SaaS platforms, web applications, enterprise portals and iOS and Android apps, built to a design system and handed over with documentation.',
     description:
       'We design and build the whole surface a customer touches: the landing page that catches the ad click, the site that answers their questions, the store that takes the order and the app that keeps them coming back. Everything ships on a component library you own, with a CMS your team can actually use.',
     icon: 'Code2',
@@ -120,6 +120,30 @@ const BASE_SERVICES: Service[] = [
       ],
     },
     subServices: [
+      {
+        slug: 'custom-software-development',
+        name: 'Custom software development',
+        summary: 'Software built around your processes, integrated with your systems and owned by you.',
+        body: 'Bespoke business software that replaces spreadsheets, disconnected tools and expensive per-seat licences: workflow systems, operations platforms, customer portals and internal tools, integrated with your CRM, ERP, accounting and data stack. We run discovery, architecture, development, QA and cloud deployment, and hand over documented code in your repository.',
+        deliverables: ['Discovery and requirements', 'Solution architecture', 'Agile development in two-week sprints', 'Automated testing in CI', 'Cloud deployment on AWS or Azure', 'Documentation and handover'],
+        keyword: 'custom software development company',
+      },
+      {
+        slug: 'saas-development',
+        name: 'SaaS development',
+        summary: 'Multi-tenant SaaS platforms with billing, roles and analytics.',
+        body: 'We build SaaS products from MVP to scale: multi-tenant architecture, authentication and single sign-on, roles and permissions, Stripe or Paddle subscription billing, usage analytics, audit trails and an admin console. Releases are phased so you can onboard paying customers before the full roadmap is done.',
+        deliverables: ['Product and MVP scoping', 'Multi-tenant architecture', 'Auth, SSO and permissions', 'Subscription billing', 'Admin console and analytics', 'Scaling and performance testing'],
+        keyword: 'SaaS development company',
+      },
+      {
+        slug: 'enterprise-software',
+        name: 'Enterprise software development',
+        summary: 'Secure, integrated systems for large organisations.',
+        body: 'Enterprise applications that meet security, compliance and scale requirements: single sign-on with Azure AD or Okta, role-based access, audit logging, data residency in-region for GDPR, UAE and Saudi PDPL or Singapore PDPA, and integrations with Salesforce, Dynamics 365, SAP and Odoo.',
+        deliverables: ['Security and compliance design', 'SSO and role-based access', 'ERP and CRM integration', 'Data residency planning', 'Load and security testing', 'Long-term support SLAs'],
+        keyword: 'enterprise software development services',
+      },
       {
         slug: 'landing-pages',
         name: 'Landing pages',

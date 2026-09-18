@@ -1,6 +1,7 @@
 import { SERVICES } from './services';
 import { SOLUTIONS } from './solutions';
 import { PRODUCTS, MARKETPLACE_CATEGORIES } from './catalog';
+import { MARKETS } from './markets';
 
 export interface NavLink {
   label: string;
@@ -126,6 +127,14 @@ export const MEGA_MENUS: MegaMenu[] = [
           description: s.summary,
         })),
       },
+      {
+        title: 'By market',
+        links: MARKETS.map((m) => ({
+          label: `${m.flag} ${m.name}`,
+          href: `/markets/${m.slug}`,
+          description: m.cities.slice(0, 3).join(', '),
+        })),
+      },
     ],
   },
   {
@@ -160,6 +169,7 @@ export const MEGA_MENUS: MegaMenu[] = [
           { label: 'Guides and whitepapers', href: '/insights?kind=Guide', description: 'Longer operational playbooks.' },
           { label: 'Industry reports', href: '/insights?kind=Industry+report', description: 'What we see across our own book.' },
           { label: 'Events', href: '/insights?kind=Event', description: 'Open sessions and live desk walkthroughs.' },
+          { label: 'Answers', href: '/answers', description: 'Every question we get asked, answered.' },
           { label: 'Newsletter', href: '/insights#newsletter', description: 'One email, every other week.' },
         ],
       },
@@ -318,6 +328,8 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: 'Pricing', href: '/pricing' },
       { label: 'Rough estimate', href: '/estimate' },
+      { label: 'Answers', href: '/answers' },
+      { label: 'Markets we serve', href: '/markets' },
       { label: 'Portfolio', href: '/portfolio' },
       { label: 'Investors', href: '/investors' },
       { label: 'Advertise with us', href: '/advertise' },

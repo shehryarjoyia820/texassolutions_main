@@ -23,8 +23,18 @@ import {
 import { ServicePriceTable } from './price-table';
 import { ServiceInteractive } from './service-widgets';
 import { cn } from '@/lib/utils';
+import type { ServiceSeo } from '@/data/seo-content';
+import { QuickAnswer, SeoGuide, MarketLinks } from './seo-blocks';
 
-export function ServiceDetail({ service }: { service: Service }) {
+export function ServiceDetail({
+  service,
+  seo,
+  markets = [],
+}: {
+  service: Service;
+  seo?: ServiceSeo;
+  markets?: { slug: string; name: string; flag: string }[];
+}) {
   const { code, region } = useRegion();
   const Icon = (Icons[service.icon as keyof typeof Icons] ?? Icons.Circle) as LucideIcon;
 
@@ -124,6 +134,15 @@ export function ServiceDetail({ service }: { service: Service }) {
           </div>
         </Container>
       </section>
+
+      {/* ---------- Quick answer (AEO) ---------- */}
+      {seo && (
+        <section className="border-b border-line bg-bg-soft py-10">
+          <Container>
+            <QuickAnswer question={`What is ${service.name.toLowerCase()} from Texas Solutions?`} answer={seo.quickAnswer} />
+          </Container>
+        </section>
+      )}
 
       {/* ---------- 2. Problem and solution ---------- */}
       <Section>
@@ -416,12 +435,41 @@ export function ServiceDetail({ service }: { service: Service }) {
         </Container>
       </Section>
 
+      {/* ---------- Guide (SEO) ---------- */}
+      {seo && (
+        <Section id="guide">
+          <Container>
+            <SeoGuide title={seo.guideTitle} sections={seo.guide} keywords={seo.keywords} accent="svc" />
+          </Container>
+        </Section>
+      )}
+
+      {/* ---------- Markets ---------- */}
+      {markets.length > 0 && (
+        <section className="border-y border-line bg-bg-soft py-12">
+          <Container>
+            <h2 className="font-display text-xl font-semibold">
+              {service.navLabel} for clients in the US, UK, Europe, the Gulf and Asia
+            </h2>
+            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-fg-muted">
+              Pricing is published for each region, and engineering hours overlap with your working day.
+            </p>
+            <div className="mt-6">
+              <MarketLinks markets={markets} />
+            </div>
+          </Container>
+        </section>
+      )}
+
       {/* ---------- 9. FAQ ---------- */}
       <Section tone="soft" id="faq">
         <Container>
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-            <SectionHeading eyebrow="Questions" title={`About ${service.navLabel.toLowerCase()}`} />
-            <Accordion items={service.faqs} defaultOpen={0} />
+            <SectionHeading
+              eyebrow="Frequently asked questions"
+              title={`${service.navLabel}: your questions answered`}
+            />
+            <Accordion items={[...service.faqs, ...(seo?.faqs ?? [])]} defaultOpen={0} />
           </div>
         </Container>
       </Section>

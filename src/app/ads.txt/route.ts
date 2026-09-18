@@ -10,7 +10,7 @@ export const dynamic = 'force-static';
  */
 export function GET() {
   const lines = ['# ads.txt for texassolutions.co', '# Edit src/config/head-codes.ts to change this file.'];
-  const pub = adsensePublisherId();
+  const pub = adsensePublisherId(pub-4507418978047945);
   if (pub) lines.push(`google.com, ${pub}, DIRECT, f08c47fec0942fa0`);
   const extra = HEAD_CODES.adsTxt
     .split('\n')

@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 import { Container, SectionHeading } from '@/components/ui';
 
 /**
- * Pinned horizontal scroll of the seven service cards.
+ * Pinned horizontal scroll of the thirteen service cards.
  * Pinning is disabled under 768px and under prefers-reduced-motion; the cards
  * then stack vertically, which is what the spec asks for.
  */
@@ -74,7 +74,7 @@ export function ServicesScroll() {
         <Container>
           <SectionHeading
             eyebrow="What we do"
-            title="Seven service lines, priced in the open"
+            title="Thirteen service lines, priced in the open"
             body="Each one stands alone with its own agreement and its own published ranges. Clients who use several get one contact across all of them."
             className="mb-10 md:mb-12"
           />
@@ -99,7 +99,7 @@ export function ServicesScroll() {
                 <p className="eyebrow mb-3">All services</p>
                 <p className="font-display text-2xl font-semibold">Compare every line side by side</p>
                 <p className="mt-3 text-sm leading-relaxed text-fg-muted">
-                  Ranges, packages and what is included, for all seven, in one place.
+                  Ranges, packages and what is included, for all thirteen, in one place.
                 </p>
               </div>
               <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-accent">
@@ -153,7 +153,7 @@ function ServiceCard({
         <span className="grid h-12 w-12 place-items-center rounded-xl border border-svc/30 bg-svc/10 text-svc">
           <Icon className="h-6 w-6" aria-hidden />
         </span>
-        <span className="font-mono text-xs text-fg-subtle">0{index + 1}</span>
+        <span className="font-mono text-xs text-fg-subtle">{String(index + 1).padStart(2, '0')}</span>
       </div>
 
       <h3 className="relative mt-6 font-display text-xl font-semibold">{service.name}</h3>

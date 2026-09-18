@@ -6,7 +6,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Solutions by industry',
   description:
-    'Our seven service lines bundled the way each industry actually buys them: trucking, e-commerce, healthcare, real estate, publishers, automotive and SaaS.',
+    'Our thirteen service lines bundled the way each industry actually buys them: trucking, e-commerce, healthcare, real estate, publishers, automotive and SaaS.',
   path: '/solutions',
 });
 
@@ -60,7 +60,7 @@ export default function SolutionsPage() {
 
       <CtaSection
         title="Your industry not listed?"
-        body="The seven lines still apply. Tell us the shape of your business and we will say plainly whether we are a fit."
+        body="The thirteen lines still apply. Tell us the shape of your business and we will say plainly whether we are a fit."
         primary={{ href: '/contact', label: 'Start a conversation' }}
         secondary={{ href: '/services', label: 'Browse services instead' }}
       />

@@ -1,7 +1,7 @@
 export const SITE = {
   name: 'Texas Solutions',
   legalName: 'Texas Solutions LLC',
-  tagline: 'Seven service lines. One accountable partner.',
+  tagline: 'Thirteen service lines. One accountable partner.',
   description:
     'Texas Solutions runs truck dispatch, web and app development, lead generation, ads, AdSense revenue management, QA testing and auto engines for clients across the US, UK, Canada, Australia and Europe.',
   url: 'https://texassolutions.co',

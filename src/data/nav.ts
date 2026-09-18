@@ -81,22 +81,20 @@ export const MEGA_MENUS: MegaMenu[] = [
     label: 'Services',
     href: '/services',
     overviewLabel: 'All services',
-    overviewDescription: 'Seven service lines, each with its own pricing and sub-services.',
+    overviewDescription: 'Thirteen service lines, each with its own pricing and sub-services.',
     wide: true,
     columns: [
       {
-        title: 'Operations and freight',
-        links: SERVICES.filter((s) => ['truck-dispatch', 'auto-engines'].includes(s.slug)).map(serviceLink),
+        title: 'Core services',
+        links: pick(['web-development', 'qa-testing', 'lead-generation', 'auto-engines']),
       },
       {
-        title: 'Growth and marketing',
-        links: SERVICES.filter((s) =>
-          ['lead-generation', 'ads-optimization', 'adsense-management'].includes(s.slug),
-        ).map(serviceLink),
+        title: 'Enterprise IT',
+        links: pick(['ai-machine-learning', 'data-analytics', 'cloud-devops', 'crm-erp', 'cybersecurity', 'dedicated-teams']),
       },
       {
-        title: 'Build and quality',
-        links: SERVICES.filter((s) => ['web-development', 'qa-testing'].includes(s.slug)).map(serviceLink),
+        title: 'Operations and revenue',
+        links: pick(['truck-dispatch', 'ads-optimization', 'adsense-management']),
       },
     ],
     featured: {
@@ -139,7 +137,7 @@ export const MEGA_MENUS: MegaMenu[] = [
     columns: [
       {
         links: [
-          { label: 'Our difference', href: '/why-texas-solutions#difference', description: 'Seven service lines, one accountable contact.' },
+          { label: 'Our difference', href: '/why-texas-solutions#difference', description: 'Thirteen service lines, one accountable contact.' },
           { label: 'Process', href: '/why-texas-solutions#process', description: 'From first enquiry to reporting cadence.' },
           { label: 'Guarantees and SLAs', href: '/why-texas-solutions#guarantees', description: 'Response times, reporting and notice periods.' },
           { label: 'Security and compliance', href: '/why-texas-solutions#security', description: 'How we handle and retain your data.' },
@@ -214,7 +212,7 @@ export const MEGA_MENUS: MegaMenu[] = [
       {
         links: [
           { label: 'Story', href: '/about#story', description: 'From a two-person dispatch desk in 2019.' },
-          { label: 'Timeline', href: '/about#timeline', description: 'How seven service lines came together.' },
+          { label: 'Timeline', href: '/about#timeline', description: 'How thirteen service lines came together.' },
           { label: 'Leadership', href: '/about#leadership', description: 'Who is accountable for what.' },
           { label: 'Certifications and partners', href: '/about#certifications', description: 'Badges, and their current status.' },
           { label: 'Offices', href: '/about#offices', description: 'Five locations across four time zones.' },
@@ -244,6 +242,11 @@ export const MEGA_MENUS: MegaMenu[] = [
   },
 ];
 
+/** Services in the order given, keeping the site-wide order within each column. */
+function pick(slugs: string[]): NavLink[] {
+  return SERVICES.filter((s) => slugs.includes(s.slug)).map(serviceLink);
+}
+
 function serviceLink(s: (typeof SERVICES)[number]): NavLink {
   return {
     label: s.navLabel,
@@ -266,12 +269,33 @@ function marketplaceBlurb(category: string): string {
       return 'Statics and short-form video in every placement size.';
     case 'Engine listings':
       return 'Verified used and remanufactured engines.';
+    case 'AI and automation':
+      return 'Chatbots, document extraction and agent pilots.';
+    case 'Dashboards and data':
+      return 'Executive, attribution and fleet dashboards.';
+    case 'Cloud and security kits':
+      return 'Landing zones, SOC 2 kits and quick scans.';
     case 'Add-ons':
-      return 'Tracking rebuilds and automation starters.';
+      return 'Tracking rebuilds, lead lists and trials.';
     default:
       return 'Factoring, load boards and vetted partners.';
   }
 }
+
+/** Menus moved out of the header into the footer, with their related links. */
+export const FOOTER_MENU_LABELS = ['Why Texas Solutions', 'Insights', 'Look Inside', 'About Us'];
+
+export const HEADER_MENUS = MEGA_MENUS.filter((m) => !FOOTER_MENU_LABELS.includes(m.label));
+
+export const FOOTER_MENUS = FOOTER_MENU_LABELS.map((label) => {
+  const menu = MEGA_MENUS.find((m) => m.label === label)!;
+  return {
+    title: menu.short ?? menu.label,
+    href: menu.href,
+    overviewLabel: menu.overviewLabel,
+    links: menu.columns.flatMap((c) => c.links).map((l) => ({ label: l.label, href: l.href })),
+  };
+});
 
 export const FOOTER_COLUMNS = [
   {
@@ -283,31 +307,21 @@ export const FOOTER_COLUMNS = [
     links: SOLUTIONS.map((s) => ({ label: s.navLabel, href: `/solutions/${s.slug}` })),
   },
   {
-    title: 'Products',
+    title: 'Products and marketplace',
     links: [
       ...PRODUCTS.map((p) => ({ label: p.name, href: `/products/${p.slug}` })),
       { label: 'Marketplace', href: '/marketplace' },
     ],
   },
   {
-    title: 'Company',
-    links: [
-      { label: 'About us', href: '/about' },
-      { label: 'Why Texas Solutions', href: '/why-texas-solutions' },
-      { label: 'Look inside', href: '/look-inside' },
-      { label: 'Investors', href: '/investors' },
-      { label: 'Careers', href: '/look-inside#careers' },
-      { label: 'Contact', href: '/contact' },
-    ],
-  },
-  {
     title: 'Resources',
     links: [
-      { label: 'Insights', href: '/insights' },
       { label: 'Pricing', href: '/pricing' },
       { label: 'Rough estimate', href: '/estimate' },
       { label: 'Portfolio', href: '/portfolio' },
+      { label: 'Investors', href: '/investors' },
       { label: 'Advertise with us', href: '/advertise' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
 ];

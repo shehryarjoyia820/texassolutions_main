@@ -1,12 +1,13 @@
 import { MARKETPLACE_ITEMS, MARKETPLACE_CATEGORIES } from '@/data/catalog';
 import { PageHero, FilterGrid, ProofBlock, CtaSection } from '@/components/page-shell';
 import { Container, Section, SectionHeading, NoteBox } from '@/components/ui';
+import { TemplatePreview } from '@/components/template-preview';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
   title: 'Marketplace',
   description:
-    'Website and landing page templates, ad creative packs, engine listings, add-ons and partner tools. Enquiry-only in this release, priced from the same regional tables as our services.',
+    'Website and landing page templates, AI kits, dashboards, cloud and security kits, ad creative packs, engine listings, add-ons and partner tools. Enquiry-only in this release, priced from the same regional tables as our services.',
   path: '/marketplace',
 });
 
@@ -20,6 +21,7 @@ export default function MarketplacePage() {
     meta: m.priceLabel ?? 'Priced per region',
     accentHex: m.accentHex,
     tags: m.tags,
+    thumbnail: m.preview ? <TemplatePreview config={m.preview} accent={m.accentHex} /> : undefined,
   }));
 
   return (
@@ -37,11 +39,11 @@ export default function MarketplacePage() {
         <Container>
           <SectionHeading
             eyebrow="Browse"
-            title="Twelve packages across six categories"
+            title={`${MARKETPLACE_ITEMS.length} packages across ${MARKETPLACE_CATEGORIES.length} categories`}
             body="Filter by what you need, or search by platform and use case."
           />
           <div className="mt-10">
-            <FilterGrid items={items} categories={[...MARKETPLACE_CATEGORIES]} />
+            <FilterGrid items={items} categories={[...MARKETPLACE_CATEGORIES]} paramKey="category" />
           </div>
 
           <NoteBox tone="warn" className="mt-10">
@@ -58,7 +60,7 @@ export default function MarketplacePage() {
         body="A template priced from the business-site row costs what that row says for your region. We do not run a separate marketplace price list, because two prices for the same work is how trust goes missing."
         metrics={[
           { label: 'Regions priced', value: '5' },
-          { label: 'Categories', value: '6' },
+          { label: 'Categories', value: String(MARKETPLACE_CATEGORIES.length) },
           { label: 'Hidden fees', value: 'None' },
         ]}
         href="/pricing"

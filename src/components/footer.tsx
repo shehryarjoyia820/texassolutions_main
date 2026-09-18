@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { SITE, OFFICES, CERTIFICATIONS } from '@/data/site';
-import { FOOTER_COLUMNS } from '@/data/nav';
+import { FOOTER_COLUMNS, FOOTER_MENUS } from '@/data/nav';
 import { submitForm } from '@/lib/forms';
 import { Logo } from './header';
 import { Button } from './ui';
@@ -26,7 +26,7 @@ export function Footer() {
         </div>
 
         {/* ---- link columns ---- */}
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_repeat(5,minmax(0,1fr))]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
           <div>
             <Link href="/" className="flex items-center gap-2.5" aria-label={`${SITE.name} home`}>
               <Logo />
@@ -75,6 +75,30 @@ export function Footer() {
                       href={link.href}
                       className="text-sm text-fg-muted transition-colors hover:text-accent"
                     >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* ---- company menus, moved here from the header ---- */}
+        <div className="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-2 lg:grid-cols-4">
+          {FOOTER_MENUS.map((menu) => (
+            <div key={menu.title}>
+              <Link
+                href={menu.href}
+                className="group mb-4 inline-flex items-center gap-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle transition-colors hover:text-accent"
+              >
+                {menu.title}
+                <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              </Link>
+              <ul className="space-y-2.5">
+                {menu.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm text-fg-muted transition-colors hover:text-accent">
                       {link.label}
                     </Link>
                   </li>

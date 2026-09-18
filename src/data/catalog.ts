@@ -187,11 +187,16 @@ export const PRODUCT_MAP: Record<string, Product> = PRODUCTS.reduce(
 /*  Marketplace — enquiry-only in v1, no checkout.                      */
 /* ------------------------------------------------------------------ */
 
+import type { TemplatePreviewConfig } from '@/components/template-preview';
+
 export type MarketplaceCategory =
   | 'Website templates'
   | 'Landing pages'
   | 'Ad creative packs'
   | 'Engine listings'
+  | 'AI and automation'
+  | 'Dashboards and data'
+  | 'Cloud and security kits'
   | 'Add-ons'
   | 'Partner tools';
 
@@ -209,6 +214,10 @@ export interface MarketplaceItem {
   highlights: string[];
   service: string;
   accentHex: string;
+  /** Rendered miniature for templates and landing pages. */
+  preview?: TemplatePreviewConfig;
+  /** Pages or screens included, shown on template cards. */
+  pages?: string[];
 }
 
 export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
@@ -225,6 +234,8 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
     highlights: ['Driver application flow', 'Equipment and lane pages', 'Shipper quote request', 'Lighthouse 90+ on mobile'],
     service: 'web-development',
     accentHex: '#FF7A1A',
+    preview: { layout: 'split', brand: 'Lonestar Freight', headline: 'Drive with a carrier that pays on time', sub: 'Home weekly. Paid every Friday. Dispatch that answers.', cta: 'Apply to drive', nav: ['Drivers', 'Shippers', 'Lanes', 'About'], tone: 'dark', accent2: '#FFC53D' },
+    pages: ['Home', 'Drive for us', 'Shippers', 'Lane map', 'Equipment', 'Apply', 'Quote'],
   },
   {
     slug: 'clinic-website-template',
@@ -239,6 +250,8 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
     highlights: ['Staged intake with save and resume', 'Location and practitioner pages', 'Encrypted submission handling', 'Booking widget with time zones'],
     service: 'web-development',
     accentHex: '#22C55E',
+    preview: { layout: 'booking', brand: 'Northside Health', headline: 'Care that fits around your week', sub: 'Same-week appointments at four locations.', cta: 'Book now', nav: ['Services', 'Doctors', 'Locations', 'Patients'], tone: 'light', accent2: '#0EA5E9' },
+    pages: ['Home', 'Services', 'Practitioners', 'Locations', 'Intake', 'Booking', 'Patient info'],
   },
   {
     slug: 'store-launch-template',
@@ -253,6 +266,8 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
     highlights: ['Catalogue and merchandising', 'Server-side conversion tracking', 'Abandoned cart flows', 'Load tested before peak'],
     service: 'web-development',
     accentHex: '#4F8CFF',
+    preview: { layout: 'store', brand: 'Atlas Goods', headline: 'Built to last. Priced to move.', sub: 'Free shipping over $75. Easy returns.', cta: 'Shop now', nav: ['New', 'Men', 'Women', 'Sale'], tone: 'light', accent2: '#A855F7' },
+    pages: ['Home', 'Collection', 'Product', 'Cart', 'Checkout', 'Account', 'Order tracking'],
   },
   {
     slug: 'campaign-landing-pack',
@@ -267,6 +282,8 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
     highlights: ['Three pages plus variants', 'Copy polish included', 'CRM handoff', 'Conversion tracking'],
     service: 'web-development',
     accentHex: '#4F8CFF',
+    preview: { layout: 'centered', brand: 'Offer Page', headline: 'Cut your cost per lead in 30 days', sub: 'One offer, one form, one next step.', cta: 'Claim your audit', nav: ['How it works', 'Results', 'FAQ'], tone: 'dark', accent2: '#22C55E' },
+    pages: ['Offer A', 'Offer B', 'Offer C', 'Variant for each', 'Thank-you pages'],
   },
   {
     slug: 'static-creative-pack',
@@ -378,6 +395,315 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
     service: 'truck-dispatch',
     accentHex: '#FF7A1A',
   },
+  /* ---------------- more website templates ---------------- */
+  {
+    slug: 'saas-product-template',
+    name: 'SaaS Product Template',
+    category: 'Website templates',
+    summary: 'Marketing site plus in-app dashboard shell for a software product.',
+    description:
+      'A product marketing site with pricing, changelog and docs, paired with an authenticated dashboard shell: navigation, charts, tables, settings and billing screens ready to connect to your API.',
+    priceService: 'web-development',
+    priceRow: 'web-app',
+    tags: ['SaaS', 'Dashboard', 'Auth'],
+    highlights: ['Pricing, changelog and docs pages', 'Dashboard shell with charts and tables', 'Auth, settings and billing screens', 'Dark and light themes'],
+    service: 'web-development',
+    accentHex: '#6366F1',
+    preview: { layout: 'dashboard', brand: 'Metricly', headline: 'Good morning, Alex', cta: 'Upgrade', nav: ['Dashboard', 'Reports', 'Team'], tone: 'dark', accent2: '#22D3EE' },
+    pages: ['Home', 'Pricing', 'Docs', 'Changelog', 'Sign in', 'Dashboard', 'Settings', 'Billing'],
+  },
+  {
+    slug: 'real-estate-template',
+    name: 'Real Estate Listings Template',
+    category: 'Website templates',
+    summary: 'IDX-ready listing search with instant lead routing.',
+    description:
+      'Property search with filters, saved searches and map view, listing pages with enquiry forms that route to the right agent in seconds, and agent profile pages. Built to take an IDX or MLS feed.',
+    priceService: 'web-development',
+    priceRow: 'agency-build',
+    tags: ['Real estate', 'IDX', 'Lead routing'],
+    highlights: ['Search with filters and map view', 'Saved searches and alerts', 'Instant agent routing', 'IDX and MLS feed ready'],
+    service: 'web-development',
+    accentHex: '#A855F7',
+    preview: { layout: 'listing', brand: 'Bluebonnet Realty', headline: 'Find your place in Texas', sub: '2,400 homes listed this week.', cta: 'List with us', nav: ['Buy', 'Sell', 'Rent', 'Agents'], tone: 'light', accent2: '#F59E0B' },
+    pages: ['Home', 'Search', 'Listing', 'Map', 'Agents', 'Sell', 'Valuation'],
+  },
+  {
+    slug: 'professional-services-template',
+    name: 'Professional Services Template',
+    category: 'Website templates',
+    summary: 'For law, accounting and consulting firms that sell trust.',
+    description:
+      'Practice areas, partner profiles, insights and a consultation booking flow, with the restrained typography and proof points that professional buyers expect.',
+    priceService: 'web-development',
+    priceRow: 'business-site',
+    tags: ['Legal', 'Accounting', 'Consulting'],
+    highlights: ['Practice area pages', 'Partner and team profiles', 'Insights and articles', 'Consultation booking'],
+    service: 'web-development',
+    accentHex: '#0EA5E9',
+    preview: { layout: 'split', brand: 'Hale & Moreno', headline: 'Counsel that sees around corners', sub: 'Corporate, employment and property law.', cta: 'Book a consultation', nav: ['Practice', 'People', 'Insights', 'Contact'], tone: 'light', accent2: '#1E3A8A' },
+    pages: ['Home', 'Practice areas', 'People', 'Insights', 'Careers', 'Contact'],
+  },
+  {
+    slug: 'restaurant-template',
+    name: 'Restaurant and Hospitality Template',
+    category: 'Website templates',
+    summary: 'Menus, reservations and online ordering in one site.',
+    description:
+      'Menus that are easy to update, table reservations, online ordering hand-off and location pages for multi-site groups, built mobile first because that is where diners look.',
+    priceService: 'web-development',
+    priceRow: 'business-site',
+    tags: ['Hospitality', 'Reservations', 'Mobile first'],
+    highlights: ['Editable menus', 'Reservation widget', 'Online ordering hand-off', 'Multi-location pages'],
+    service: 'web-development',
+    accentHex: '#EF4444',
+    preview: { layout: 'booking', brand: 'Ember & Oak', headline: 'Wood-fired, every night', sub: 'Reserve a table or order for pickup.', cta: 'Reserve', nav: ['Menu', 'Locations', 'Events', 'Gift cards'], tone: 'dark', accent2: '#F59E0B' },
+    pages: ['Home', 'Menu', 'Reservations', 'Locations', 'Private events', 'Gift cards'],
+  },
+  {
+    slug: 'publisher-magazine-template',
+    name: 'Publisher Magazine Template',
+    category: 'Website templates',
+    summary: 'Fast editorial layout with ad slots that do not shift the page.',
+    description:
+      'Article, category and author templates with reserved ad slots, so revenue units load without hurting Core Web Vitals. Built for AdSense and Ad Manager from the start.',
+    priceService: 'web-development',
+    priceRow: 'business-site',
+    tags: ['Publishing', 'AdSense ready', 'Core Web Vitals'],
+    highlights: ['Reserved, shift-free ad slots', 'Article and author templates', 'Newsletter capture', 'Lighthouse 90+ on mobile'],
+    service: 'web-development',
+    accentHex: '#F59E0B',
+    preview: { layout: 'editorial', brand: 'The Road Report', headline: 'Freight rates cool as capacity returns', cta: 'Subscribe', nav: ['News', 'Rates', 'Guides', 'Podcast'], tone: 'light', accent2: '#EF4444' },
+    pages: ['Home', 'Category', 'Article', 'Author', 'Newsletter', 'Advertise'],
+  },
+  {
+    slug: 'logistics-portal-template',
+    name: 'Logistics Customer Portal',
+    category: 'Website templates',
+    summary: 'Shipment tracking, documents and invoices for your shippers.',
+    description:
+      'A customer portal where shippers track loads, download proof of delivery, view invoices and request quotes, so your team stops answering where-is-my-truck calls.',
+    priceService: 'web-development',
+    priceRow: 'web-app',
+    tags: ['Logistics', 'Portal', 'Tracking'],
+    highlights: ['Live shipment tracking', 'Document downloads', 'Invoice history', 'Quote requests'],
+    service: 'web-development',
+    accentHex: '#FF7A1A',
+    preview: { layout: 'dashboard', brand: 'FreightView', headline: 'Shipments this week', cta: 'New quote', nav: ['Loads', 'Docs', 'Invoices'], tone: 'dark', accent2: '#FFC53D' },
+    pages: ['Sign in', 'Shipments', 'Tracking', 'Documents', 'Invoices', 'Quotes', 'Users'],
+  },
+
+  /* ---------------- more landing pages ---------------- */
+  {
+    slug: 'webinar-landing-page',
+    name: 'Webinar and Event Landing Page',
+    category: 'Landing pages',
+    summary: 'Registration page with reminders and replay access.',
+    description:
+      'An event page with speaker profiles, agenda and a registration flow that sends calendar invites, reminders and the replay link automatically.',
+    priceService: 'web-development',
+    priceRow: 'landing-page',
+    tags: ['Events', 'Registration', 'Email flows'],
+    highlights: ['Speaker and agenda blocks', 'Calendar invites', 'Reminder sequence', 'Replay gating'],
+    service: 'web-development',
+    accentHex: '#EC4899',
+    preview: { layout: 'centered', brand: 'Live Session', headline: 'Watch a dispatcher work, live', sub: 'October 15 · 2 hours · Online', cta: 'Save my seat', nav: ['Agenda', 'Speakers', 'FAQ'], tone: 'dark', accent2: '#A855F7' },
+    pages: ['Registration', 'Confirmation', 'Replay'],
+  },
+  {
+    slug: 'app-launch-landing-page',
+    name: 'App Launch Landing Page',
+    category: 'Landing pages',
+    summary: 'Pre-launch waitlist that turns into a store download page.',
+    description:
+      'A launch page with waitlist capture and referral positions before release, then App Store and Google Play buttons, screenshots and reviews afterwards.',
+    priceService: 'web-development',
+    priceRow: 'landing-page',
+    tags: ['Mobile apps', 'Waitlist', 'Launch'],
+    highlights: ['Waitlist with referral ranking', 'Store download switch', 'Screenshot carousel', 'Press kit block'],
+    service: 'web-development',
+    accentHex: '#22C55E',
+    preview: { layout: 'split', brand: 'Routewise', headline: 'Your loads, one tap away', sub: 'Join 3,200 drivers on the waitlist.', cta: 'Join waitlist', nav: ['Features', 'Pricing', 'FAQ'], tone: 'light', accent2: '#0EA5E9' },
+    pages: ['Waitlist', 'Launch', 'Press kit'],
+  },
+
+  /* ---------------- ad creative ---------------- */
+  {
+    slug: 'linkedin-b2b-creative-pack',
+    name: 'LinkedIn B2B Creative Pack',
+    category: 'Ad creative packs',
+    summary: 'Document ads, carousels and single images for B2B buyers.',
+    description:
+      'Five LinkedIn creatives built around a single B2B offer: a document ad, a carousel and three single images, with copy written for senior buyers rather than consumers.',
+    priceService: 'ads-optimization',
+    priceRow: 'creative-pack',
+    tags: ['LinkedIn', 'B2B', 'Document ads'],
+    highlights: ['Document ad for lead gen forms', 'Five-card carousel', 'Three single-image variants', 'Copy for senior buyers'],
+    service: 'ads-optimization',
+    accentHex: '#0A66C2',
+  },
+
+  /* ---------------- AI and automation ---------------- */
+  {
+    slug: 'support-chatbot-starter',
+    name: 'Support Chatbot Starter',
+    category: 'AI and automation',
+    summary: 'A grounded assistant on your help centre, live in weeks.',
+    description:
+      'Ingests your help centre and policies, answers with citations, hands off to a person when unsure and reports on what customers ask most. Deploys to your website, Slack or Teams.',
+    priceService: 'ai-machine-learning',
+    priceRow: 'ai-chatbot',
+    tags: ['Chatbot', 'Retrieval', 'Support'],
+    highlights: ['Answers with citations', 'Human hand-off', 'Website, Slack or Teams', 'Question analytics'],
+    service: 'ai-machine-learning',
+    accentHex: '#EC4899',
+  },
+  {
+    slug: 'document-extraction-kit',
+    name: 'Document Extraction Kit',
+    category: 'AI and automation',
+    summary: 'Invoices, BOLs and forms turned into structured data.',
+    description:
+      'Extracts fields from invoices, bills of lading, rate confirmations and forms into your system of record, with confidence scores and a review queue for anything uncertain.',
+    priceService: 'ai-machine-learning',
+    priceRow: 'ai-genai',
+    tags: ['Extraction', 'Invoices', 'Logistics'],
+    highlights: ['Invoices, BOLs and rate cons', 'Confidence scoring', 'Human review queue', 'ERP and TMS export'],
+    service: 'ai-machine-learning',
+    accentHex: '#EC4899',
+  },
+  {
+    slug: 'ai-agent-pilot',
+    name: 'AI Agent Pilot',
+    category: 'AI and automation',
+    summary: 'One multi-step workflow automated, measured and approved.',
+    description:
+      'A fixed-scope pilot that automates one multi-step workflow, such as quote preparation or lead research, with approvals before any irreversible action and a report comparing it with the current process.',
+    priceService: 'ai-machine-learning',
+    priceRow: 'ai-consulting',
+    tags: ['AI agents', 'Pilot', 'Workflow'],
+    highlights: ['One workflow end to end', 'Approval checkpoints', 'Full audit log', 'Before and after report'],
+    service: 'ai-machine-learning',
+    accentHex: '#EC4899',
+  },
+
+  /* ---------------- dashboards and data ---------------- */
+  {
+    slug: 'executive-dashboard-pack',
+    name: 'Executive Dashboard Pack',
+    category: 'Dashboards and data',
+    summary: 'Revenue, pipeline, cash and operations on one screen.',
+    description:
+      'A Power BI or Looker executive pack connected to your CRM, accounting and operations tools, with every metric defined once and refreshed automatically.',
+    priceService: 'data-analytics',
+    priceRow: 'bi-dashboards',
+    tags: ['Power BI', 'Looker', 'Executive'],
+    highlights: ['Revenue and pipeline', 'Cash and margin', 'Operations KPIs', 'Automated refresh'],
+    service: 'data-analytics',
+    accentHex: '#0EA5E9',
+  },
+  {
+    slug: 'marketing-attribution-dashboard',
+    name: 'Marketing Attribution Dashboard',
+    category: 'Dashboards and data',
+    summary: 'Spend to closed revenue, by channel and campaign.',
+    description:
+      'Joins ad platform spend with CRM outcomes so you can see cost per opportunity and cost per closed deal by channel, not just cost per click.',
+    priceService: 'data-analytics',
+    priceRow: 'bi-dashboards',
+    tags: ['Attribution', 'Ads', 'CRM'],
+    highlights: ['Google, Meta, LinkedIn and TikTok', 'CRM outcome join', 'Cost per closed deal', 'Weekly email digest'],
+    service: 'data-analytics',
+    accentHex: '#0EA5E9',
+  },
+  {
+    slug: 'fleet-operations-dashboard',
+    name: 'Fleet Operations Dashboard',
+    category: 'Dashboards and data',
+    summary: 'Revenue per mile, deadhead and detention by truck.',
+    description:
+      'Built for carriers: pulls loads, settlements and telematics into one view of revenue per mile, deadhead, detention recovered and utilisation by truck and lane.',
+    priceService: 'data-analytics',
+    priceRow: 'bi-dashboards',
+    tags: ['Trucking', 'Telematics', 'Fleet'],
+    highlights: ['Revenue per mile by lane', 'Deadhead and utilisation', 'Detention recovered', 'Motive and Samsara ready'],
+    service: 'data-analytics',
+    accentHex: '#FF7A1A',
+  },
+
+  /* ---------------- cloud and security kits ---------------- */
+  {
+    slug: 'aws-landing-zone',
+    name: 'AWS Landing Zone',
+    category: 'Cloud and security kits',
+    summary: 'A secure, multi-account AWS foundation as code.',
+    description:
+      'Accounts, networking, identity, logging, guardrails and budgets defined in Terraform, so every future workload lands somewhere secure and governed.',
+    priceService: 'cloud-devops',
+    priceRow: 'devops-setup',
+    tags: ['AWS', 'Terraform', 'Governance'],
+    highlights: ['Multi-account structure', 'Central logging and guardrails', 'SSO and least privilege', 'Budgets and alerts'],
+    service: 'cloud-devops',
+    accentHex: '#6366F1',
+  },
+  {
+    slug: 'soc2-starter-kit',
+    name: 'SOC 2 Starter Kit',
+    category: 'Cloud and security kits',
+    summary: 'Policies, controls and evidence to get audit-ready.',
+    description:
+      'The policy set, control mapping and evidence collection most startups need for a first SOC 2 report, tailored to your stack and handed over ready for the auditor.',
+    priceService: 'cybersecurity',
+    priceRow: 'compliance-readiness',
+    tags: ['SOC 2', 'Compliance', 'Startups'],
+    highlights: ['Full policy set', 'Control mapping', 'Evidence collection', 'Auditor coordination'],
+    service: 'cybersecurity',
+    accentHex: '#84CC16',
+  },
+  {
+    slug: 'security-quick-scan',
+    name: 'Security Quick Scan',
+    category: 'Cloud and security kits',
+    summary: 'A two-week look at where you are most exposed.',
+    description:
+      'Cloud configuration, identity, public attack surface and your main application, scanned and reviewed, with a short risk-ranked report and a call to walk through it.',
+    priceService: 'cybersecurity',
+    priceRow: 'security-assessment',
+    tags: ['Assessment', 'Cloud', 'Quick win'],
+    highlights: ['Cloud and identity review', 'External attack surface', 'Risk-ranked findings', 'Walkthrough call'],
+    service: 'cybersecurity',
+    accentHex: '#84CC16',
+  },
+
+  /* ---------------- add-ons ---------------- */
+  {
+    slug: 'verified-lead-list',
+    name: 'Verified Lead List',
+    category: 'Add-ons',
+    summary: 'Contacts matched to your ideal customer profile, verified.',
+    description:
+      'A list built against your written ideal customer profile, enriched, email-verified and deduplicated against your CRM, ready for your own outbound or ours.',
+    priceService: 'lead-generation',
+    priceRow: 'per-lead',
+    tags: ['Data', 'Outbound', 'Verified'],
+    highlights: ['Built to your ICP', 'Email verification', 'CRM deduplication', 'Suppression respected'],
+    service: 'lead-generation',
+    accentHex: '#22C55E',
+  },
+  {
+    slug: 'dedicated-developer-trial',
+    name: 'Dedicated Developer Trial',
+    category: 'Add-ons',
+    summary: 'One engineer for one month, no long commitment.',
+    description:
+      'Try the dedicated team model with a single engineer matched to your stack for one month. You interview them first, and you can scale up or stop at the end of the month.',
+    priceService: 'dedicated-teams',
+    priceRow: 'dev-middle',
+    tags: ['Dedicated teams', 'Trial', 'Flexible'],
+    highlights: ['You interview first', 'Starts within two weeks', 'Your tools and ceremonies', 'Stop or scale after a month'],
+    service: 'dedicated-teams',
+    accentHex: '#D946EF',
+  },
 ];
 
 export const MARKETPLACE_MAP: Record<string, MarketplaceItem> = MARKETPLACE_ITEMS.reduce(
@@ -390,6 +716,9 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
   'Landing pages',
   'Ad creative packs',
   'Engine listings',
+  'AI and automation',
+  'Dashboards and data',
+  'Cloud and security kits',
   'Add-ons',
   'Partner tools',
 ];

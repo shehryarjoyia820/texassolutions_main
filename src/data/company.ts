@@ -171,7 +171,7 @@ export const ENGAGEMENT_MODELS: EngagementModel[] = [
 /* ------------------------------------------------------------------ */
 
 export const PROOF_POINTS = [
-  { value: 7, suffix: '', label: 'Service lines under one contract', body: 'Dispatch, web, leads, ads, AdSense, QA and engines, with one account contact across all of them.' },
+  { value: 13, suffix: '', label: 'Service lines under one contract', body: 'Web, QA, leads and engines, enterprise IT from AI to cybersecurity, plus dispatch, ads and AdSense, with one account contact across all of them.' },
   { value: 5, suffix: '', label: 'Regions with their own price tables', body: 'US, UK, Canada, Australia and Europe, each with authored pricing rather than a live currency conversion.' },
   { value: 24, suffix: '/7', label: 'Dispatch desk coverage', body: 'Overnight and weekend cover for breakdowns, delivery issues and next-day booking.' },
   { value: 30, suffix: ' days', label: 'Notice period, never longer', body: 'No multi-year lock-in on any service. If we are not earning the fee you should be able to leave.' },
@@ -194,7 +194,7 @@ export const COMPARISON = {
   columns: ['Texas Solutions', 'Typical agency', 'In-house'],
   rows: [
     { label: 'Time to start', values: ['Days', '4-8 weeks', '3-6 months to hire'] },
-    { label: 'Services covered', values: ['All seven under one contract', 'One or two specialisms', 'Whatever you hire for'] },
+    { label: 'Services covered', values: ['All thirteen under one contract', 'One or two specialisms', 'Whatever you hire for'] },
     { label: 'Contract lock-in', values: ['30 days notice', '6-12 month minimum', 'Employment commitment'] },
     { label: 'Who owns the accounts', values: ['You, always', 'Often the agency', 'You'] },
     { label: 'Regional pricing', values: ['Five authored price tables', 'One currency, converted', 'Not applicable'] },
@@ -225,7 +225,7 @@ export const MILESTONES = [
   { year: '2023', title: 'QA practice and delivery centre', body: 'An engineering and QA delivery centre opens, adding test automation and staff augmentation to the offer.' },
   { year: '2024', title: 'Auto engines joins the group', body: 'Fleet clients ask for sourcing help during downtime, and engine supply and installation becomes the seventh service line.' },
   { year: '2025', title: 'Five regions, five price tables', body: 'UK, Canada, Australia and Europe get their own authored pricing rather than converted US figures.' },
-  { year: '2026', title: 'One platform, seven services', body: 'The group consolidates onto a single site, a single estimate calculator and one account contact per client.' },
+  { year: '2026', title: 'One platform, thirteen services', body: 'The group consolidates onto a single site, a single estimate calculator and one account contact per client.' },
 ];
 
 export const VALUES = [

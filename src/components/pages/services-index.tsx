@@ -18,7 +18,7 @@ export function ServicesIndex({ services }: { services: Service[] }) {
     <>
       <PageHero
         eyebrow="Services"
-        title="Seven service lines, priced in the open"
+        title="Thirteen service lines, priced in the open"
         body="Each one is a standalone agreement with its own published ranges. Use one, or use several and get a single account contact across all of them."
         trail={[{ label: 'Services' }]}
       >

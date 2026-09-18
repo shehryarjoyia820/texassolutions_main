@@ -10,7 +10,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Portfolio',
   description:
-    'Work from all seven service lines with before and after figures. Client names appear once we have written permission to publish them.',
+    'Work from all thirteen service lines with before and after figures. Client names appear once we have written permission to publish them.',
   path: '/portfolio',
 });
 
@@ -22,7 +22,7 @@ export default function PortfolioPage() {
       <PageHero
         eyebrow="Portfolio"
         title="Work, with the numbers attached"
-        body="Seven engagements, one per service line. Each carries the metric that mattered to that client rather than a screenshot of a homepage."
+        body="Thirteen engagements, one per service line. Each carries the metric that mattered to that client rather than a screenshot of a homepage."
         trail={[{ label: 'Portfolio' }]}
       />
 
@@ -83,7 +83,7 @@ export default function PortfolioPage() {
           </RevealGroup>
 
           <NoteBox className="mt-10">
-            Every figure here came from a real engagement. Logos, client names and testimonial attributions are
+            These are sample engagement profiles showing the kind of result each service targets. Replace them with client-approved case studies before launch. Logos, client names and testimonial attributions are
             published only with written permission, which is why this page describes profiles rather than
             brands.
           </NoteBox>

@@ -22,7 +22,7 @@ export default function InvestorsPage() {
       <PageHero
         eyebrow="Investors"
         title="A diversified services group, built from customer demand"
-        body="Seven service lines across freight, marketing and engineering, with most revenue recurring. This page carries the headline numbers and the route to a conversation."
+        body="Thirteen service lines across freight, marketing and engineering, with most revenue recurring. This page carries the headline numbers and the route to a conversation."
         trail={[{ label: 'Investors' }]}
       />
 
@@ -32,9 +32,9 @@ export default function InvestorsPage() {
             <div className="prose-ts">
               <h2 className="!mt-0">Company overview</h2>
               <p>
-                Texas Solutions operates seven service lines: truck dispatch, web and app development, lead
-                generation, ads optimization, AdSense revenue management, quality assurance testing and auto
-                engine supply. Each line carries its own agreements and pricing, and each was added because
+                Texas Solutions operates thirteen service lines: web and app development, quality assurance,
+                lead generation and auto engines; enterprise IT across AI, data, cloud, CRM and ERP,
+                cybersecurity and dedicated teams; and truck dispatch, ads and AdSense management. Each line carries its own agreements and pricing, and each was added because
                 existing clients asked for it.
               </p>
               <p>
@@ -163,7 +163,7 @@ export default function InvestorsPage() {
       {/* ---- Milestones ---- */}
       <Section>
         <Container>
-          <SectionHeading eyebrow="History" title="Seven years, seven lines" />
+          <SectionHeading eyebrow="History" title="Seven years, thirteen lines" />
           <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {MILESTONES.slice(-4).map((m) => (
               <li key={m.year} className="rounded-2xl border border-line bg-bg-soft p-6">

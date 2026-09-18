@@ -54,7 +54,7 @@ export function Hero() {
           </motion.div>
 
           <h1 className="text-display-xl">
-            <SplitText text="Seven service lines." />
+            <SplitText text="Thirteen service lines." />
             <br />
             <span className="text-accent">
               <SplitText text="One accountable partner." delay={0.22} />
@@ -67,8 +67,8 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="mt-7 max-w-2xl text-lg leading-relaxed text-fg-muted sm:text-xl"
           >
-            Truck dispatch, web and app builds, lead generation, paid ads, AdSense revenue, QA testing and
-            auto engines. Published pricing in your region, a named contact on every service, and thirty days
+            Web and app development, QA testing, lead generation and auto engines, plus AI, data, cloud, CRM
+            and ERP, cybersecurity, dedicated teams, truck dispatch, paid ads and AdSense. Published pricing in your region, a named contact on every service, and thirty days
             notice if it stops working for you.
           </motion.p>
 

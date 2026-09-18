@@ -43,7 +43,7 @@ export default function InsightsPage() {
             body="Guides and industry reports sit behind a three-field form. Everything else is open."
           />
           <div className="mt-10">
-            <FilterGrid items={items} categories={[...INSIGHT_KINDS]} />
+            <FilterGrid items={items} categories={[...INSIGHT_KINDS]} paramKey="kind" />
           </div>
         </Container>
       </Section>

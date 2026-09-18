@@ -1,4 +1,5 @@
 import type { RegionCode } from './regions';
+import { ENTERPRISE_ESTIMATE_CONFIG } from './estimate-config-enterprise';
 
 /**
  * CMS model: estimateQuestionSet
@@ -100,7 +101,7 @@ export type TimelineId = (typeof TIMELINE_MULTIPLIERS)[number]['id'];
 export const ESTIMATE_DISCLAIMER =
   'Rough estimate only. Final pricing is confirmed after a consultation.';
 
-export const ESTIMATE_CONFIG: EstimateServiceConfig[] = [
+const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
   {
     service: 'web-development',
     billing: 'one-time',
@@ -414,11 +415,11 @@ export const ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         id: 'weeklyGross',
         type: 'number',
         label: 'Average weekly linehaul per truck',
-        help: 'Use your three-month average, not your best week. Fuel surcharge is excluded.',
+        help: 'Typical on our desk: box truck or hotshot $7,000-$9,000, semi $8,000-$10,000. Use your three-month average. Fuel surcharge is excluded.',
         min: 1000,
         max: 20000,
         step: 100,
-        defaultValue: 5500,
+        defaultValue: 9000,
         currency: true,
         unit: 'per truck',
       },
@@ -543,6 +544,8 @@ export const ESTIMATE_CONFIG: EstimateServiceConfig[] = [
     ],
   },
 ];
+
+export const ESTIMATE_CONFIG: EstimateServiceConfig[] = [...BASE_ESTIMATE_CONFIG, ...ENTERPRISE_ESTIMATE_CONFIG];
 
 export const ESTIMATE_CONFIG_MAP: Record<string, EstimateServiceConfig> = ESTIMATE_CONFIG.reduce(
   (acc, c) => ({ ...acc, [c.service]: c }),

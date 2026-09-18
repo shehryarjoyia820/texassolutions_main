@@ -1,3 +1,5 @@
+import { ENTERPRISE_SERVICES } from './services-enterprise';
+
 /**
  * CMS models: service, subService, package, faq, caseStudy
  * Each service carries its own accent colour and icon set so pages feel
@@ -11,7 +13,9 @@ export type InteractiveKind =
   | 'revenue-estimator'
   | 'dispatch-fee'
   | 'coverage-builder'
-  | 'engine-finder';
+  | 'engine-finder'
+  | 'ballpark'
+  | 'team-builder';
 
 export interface SubService {
   slug: string;
@@ -78,7 +82,7 @@ export interface Service {
   timelines?: string;
 }
 
-export const SERVICES: Service[] = [
+const BASE_SERVICES: Service[] = [
   {
     slug: 'web-development',
     name: 'Web and App Development',
@@ -634,7 +638,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'truck-dispatch',
-    name: 'Call Center: Truck Dispatch',
+    name: 'Truck Dispatch',
     navLabel: 'Truck Dispatch',
     promise: 'Your trucks loaded, your paperwork done, your phone quiet.',
     summary: 'Box truck, hotshot and semi dispatch with load booking, rate negotiation, broker packets, invoicing support and after-hours coverage.',
@@ -940,6 +944,34 @@ export const SERVICES: Service[] = [
     ],
   },
 ];
+
+/**
+ * Display order across the site: menus, hubs, footer and the calculator.
+ * AdSense sits last by request.
+ */
+export const SERVICE_ORDER = [
+  'web-development',
+  'qa-testing',
+  'lead-generation',
+  'auto-engines',
+  'ai-machine-learning',
+  'data-analytics',
+  'cloud-devops',
+  'crm-erp',
+  'cybersecurity',
+  'dedicated-teams',
+  'truck-dispatch',
+  'ads-optimization',
+  'adsense-management',
+];
+
+const ALL_SERVICES = [...BASE_SERVICES, ...ENTERPRISE_SERVICES];
+
+export const SERVICES: Service[] = SERVICE_ORDER.map((slug) => {
+  const found = ALL_SERVICES.find((s) => s.slug === slug);
+  if (!found) throw new Error(`Unknown service in SERVICE_ORDER: ${slug}`);
+  return found;
+});
 
 export const SERVICE_MAP: Record<string, Service> = SERVICES.reduce(
   (acc, s) => ({ ...acc, [s.slug]: s }),

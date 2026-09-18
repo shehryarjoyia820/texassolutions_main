@@ -23,6 +23,7 @@ import {
   type Question,
 } from '@/data/estimate-config';
 import { SITE } from '@/data/site';
+import { DISPATCH_MODELS } from '@/data/pricing';
 import { computeEstimate, defaultAnswers, questionApplies, type Answers, type EstimateResult } from '@/lib/estimate';
 import { formatMoney, formatNumber, formatRange } from '@/lib/format';
 import { trackEstimateStep } from '@/lib/analytics';
@@ -76,6 +77,15 @@ export function EstimateWizard() {
     if (!config.subTypes.some((s) => s.id === subType)) setSubType(config.subTypes[0].id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serviceSlug]);
+
+  // Dispatch: start the gross at the typical figure for the chosen equipment.
+  useEffect(() => {
+    if (serviceSlug !== 'truck-dispatch') return;
+    const model = DISPATCH_MODELS.find((m) => m.id === subType);
+    if (!model) return;
+    const mid = Math.round((model.typicalGross[0] + model.typicalGross[1]) / 2);
+    setAnswers((a) => ({ ...a, weeklyGross: mid }));
+  }, [serviceSlug, subType]);
 
   // One analytics event per step, so drop-off is measurable.
   useEffect(() => {
@@ -195,7 +205,7 @@ export function EstimateWizard() {
                   duration={duration}
                   onDuration={setDuration}
                   durationOptions={config?.durationOptions}
-                  billing={config?.billing ?? 'one-time'}
+                  billing={config?.subTypes.find((st) => st.id === subType)?.billingOverride ?? config?.billing ?? 'one-time'}
                 />
               )}
 

@@ -1,4 +1,6 @@
 import type { RegionCode } from './regions';
+import { ENTERPRISE_PRICE_TABLES } from './pricing-enterprise';
+import { SERVICE_ORDER } from './services';
 
 /**
  * CMS model: priceTable (service x region)
@@ -37,7 +39,7 @@ export const UNIT_LABEL: Record<PriceRow['unit'], string> = {
   'per-unit': 'supplied and installed',
 };
 
-export const PRICE_TABLES: PriceTable[] = [
+const BASE_PRICE_TABLES: PriceTable[] = [
   {
     service: 'web-development',
     title: 'Web and app development',
@@ -290,6 +292,11 @@ export const PRICE_TABLES: PriceTable[] = [
   },
 ];
 
+/** Every table, in the same order as the services across the site. */
+export const PRICE_TABLES: PriceTable[] = SERVICE_ORDER.map((slug) =>
+  [...BASE_PRICE_TABLES, ...ENTERPRISE_PRICE_TABLES].find((t) => t.service === slug),
+).filter((t): t is PriceTable => Boolean(t));
+
 export const PRICE_TABLE_MAP: Record<string, PriceTable> = PRICE_TABLES.reduce(
   (acc, t) => ({ ...acc, [t.service]: t }),
   {} as Record<string, PriceTable>,
@@ -306,12 +313,15 @@ export const DISPATCH_MODELS = [
     label: 'Box truck, hotshot, sprinter or cargo van',
     percent: 0.1,
     flatWeekly: [350, 500] as Range,
+    /** Typical weekly linehaul gross for this equipment on our desk. */
+    typicalGross: [7000, 9000] as Range,
   },
   {
     id: 'semi',
     label: 'Semi: dry van, flatbed, reefer, step deck',
     percent: 0.07,
     flatWeekly: [250, 400] as Range,
+    typicalGross: [8000, 10000] as Range,
   },
 ] as const;
 

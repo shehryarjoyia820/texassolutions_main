@@ -410,8 +410,8 @@ export function ServiceDetail({ service }: { service: Service }) {
           </div>
 
           <NoteBox className="mt-8">
-            Client names and logos are published once we have written permission. The figures above are from a
-            real engagement.
+            Sample engagement profile showing the kind of result this service targets. It is replaced with a
+            client-approved case study, with names and logos, before launch.
           </NoteBox>
         </Container>
       </Section>

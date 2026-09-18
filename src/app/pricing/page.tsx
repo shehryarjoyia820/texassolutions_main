@@ -8,7 +8,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Pricing — every service, every region',
   description:
-    'Published price ranges for all seven service lines across the US, UK, Canada, Australia and Europe, with the sources behind each figure and the ones we derived rather than measured.',
+    'Published price ranges for all thirteen service lines across the US, UK, Canada, Australia and Europe, with the sources behind each figure and the ones we derived rather than measured.',
   path: '/pricing',
 });
 
@@ -20,7 +20,7 @@ export default function PricingPage() {
       <PageHero
         eyebrow="Pricing"
         title="Every number we publish, in one place"
-        body="Five regions, seven service lines, and the sources underneath. Where a figure is derived rather than measured, the page says so."
+        body="Five regions, thirteen service lines, and the sources underneath. Where a figure is derived rather than measured, the page says so."
         trail={[{ label: 'Pricing' }]}
       />
 

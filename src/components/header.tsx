@@ -15,7 +15,7 @@ import {
   Check,
 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { MEGA_MENUS, type MegaMenu } from '@/data/nav';
+import { HEADER_MENUS as MEGA_MENUS, type MegaMenu } from '@/data/nav';
 import { SITE } from '@/data/site';
 import { REGIONS, type RegionCode } from '@/data/regions';
 import { cn } from '@/lib/utils';
@@ -126,7 +126,7 @@ export function Header() {
           </Link>
 
           {/* ---- desktop nav ---- */}
-          <nav className="ml-2 hidden min-w-0 flex-1 2xl:block" aria-label="Main">
+          <nav className="ml-2 hidden min-w-0 flex-1 xl:block" aria-label="Main">
             <ul className="flex items-center">
               {MEGA_MENUS.map((menu) => (
                 <li
@@ -144,14 +144,13 @@ export function Header() {
                     aria-haspopup="true"
                     onClick={() => setOpenMenu(openMenu === menu.label ? null : menu.label)}
                     className={cn(
-                      'flex items-center gap-0.5 whitespace-nowrap rounded-md px-2 py-2 text-[0.8125rem] font-medium transition-colors 3xl:px-2.5 3xl:text-sm',
+                      'flex items-center gap-0.5 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors',
                       pathname.startsWith(menu.href) || openMenu === menu.label
                         ? 'text-accent'
                         : 'text-fg-muted hover:text-fg',
                     )}
                   >
-                    <span className="3xl:hidden">{menu.short ?? menu.label}</span>
-                    <span className="hidden 3xl:inline">{menu.label}</span>
+                    {menu.label}
                     <ChevronDown
                       className={cn(
                         'h-3.5 w-3.5 transition-transform duration-300',
@@ -166,7 +165,7 @@ export function Header() {
           </nav>
 
           {/* ---- right side ---- */}
-          <div className="ml-auto flex items-center gap-1.5 2xl:gap-2">
+          <div className="ml-auto flex items-center gap-1.5 xl:gap-2">
             <div className="relative hidden md:block">
               <button
                 onClick={() => setRegionOpen((v) => !v)}
@@ -175,8 +174,8 @@ export function Header() {
                 className="flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-2 text-xs font-medium text-fg-muted transition-colors hover:border-accent/50 hover:text-fg"
               >
                 <Globe className="h-3.5 w-3.5" aria-hidden />
-                <span className="3xl:hidden">{region.currency}</span>
-                <span className="hidden 3xl:inline">
+                <span className="2xl:hidden">{region.currency}</span>
+                <span className="hidden 2xl:inline">
                   {region.short} · {region.currency}
                 </span>
                 <ChevronDown className={cn('h-3 w-3 transition-transform', regionOpen && 'rotate-180')} aria-hidden />
@@ -231,7 +230,7 @@ export function Header() {
 
             <a
               href={SITE.phoneHref}
-              className="hidden items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs font-medium text-fg-muted transition-colors hover:border-accent/50 hover:text-fg 3xl:flex"
+              className="hidden items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs font-medium text-fg-muted transition-colors hover:border-accent/50 hover:text-fg 2xl:flex"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden />
               {SITE.phone}
@@ -245,14 +244,14 @@ export function Header() {
               trackLabel="Get a Rough Estimate"
               trackLocation="header"
             >
-              <span className="3xl:hidden">Get an Estimate</span>
-              <span className="hidden 3xl:inline">Get a Rough Estimate</span>
+              <span className="2xl:hidden">Get an Estimate</span>
+              <span className="hidden 2xl:inline">Get a Rough Estimate</span>
             </ButtonLink>
 
             <button
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
-              className="rounded-lg border border-line p-2 text-fg 2xl:hidden"
+              className="rounded-lg border border-line p-2 text-fg xl:hidden"
             >
               <Menu className="h-5 w-5" />
             </button>
@@ -269,7 +268,7 @@ export function Header() {
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={cancelClose}
               onMouseLeave={scheduleClose}
-              className="absolute inset-x-0 top-full hidden border-b border-line bg-bg-elev/[0.97] backdrop-blur-xl 2xl:block"
+              className="absolute inset-x-0 top-full hidden border-b border-line bg-bg-elev/[0.97] backdrop-blur-xl xl:block"
             >
               <MegaPanel menu={MEGA_MENUS.find((m) => m.label === openMenu)!} />
             </motion.div>
@@ -327,7 +326,7 @@ function MegaPanel({ menu }: { menu: MegaMenu }) {
                           {link.description}
                         </span>
                       )}
-                      {link.children && (
+                      {link.children && col.links.length <= 4 && (
                         <span className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1">
                           {link.children.slice(0, 4).map((child) => (
                             <span key={child.href} className="text-[0.6875rem] text-fg-subtle/80">
@@ -382,7 +381,7 @@ function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[70] bg-bg 2xl:hidden"
+          className="fixed inset-0 z-[70] bg-bg xl:hidden"
         >
           <div className="flex h-16 items-center justify-between border-b border-line px-5">
             <Link href="/" onClick={onClose} className="flex items-center gap-2.5">

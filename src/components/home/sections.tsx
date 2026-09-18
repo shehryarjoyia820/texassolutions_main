@@ -102,7 +102,7 @@ export function IndustrySwitcher() {
           <SectionHeading
             eyebrow="Built for your industry"
             title="Pick your world and watch the page change"
-            body="The same seven services get bought very differently depending on who you are. Choose an industry to see what we actually do for them."
+            body="The same thirteen services get bought very differently depending on who you are. Choose an industry to see what we actually do for them."
           />
           <Tabs
             tabs={featured.map((s) => ({ id: s.slug, label: s.navLabel }))}
@@ -513,7 +513,7 @@ export function CaseStudiesCarousel() {
           <SectionHeading
             eyebrow="Case studies"
             title="Before and after, with the numbers attached"
-            body="Every figure below came from a real engagement. Client names appear once we have written permission to use them."
+            body="Sample engagement profiles showing the result each service targets. Client-approved case studies replace them before launch."
           />
           <div className="flex shrink-0 gap-2">
             <button

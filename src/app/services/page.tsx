@@ -3,7 +3,7 @@ import { ServicesIndex } from '@/components/pages/services-index';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
-  title: 'Services — seven lines, published pricing',
+  title: 'Services — thirteen lines, published pricing',
   description:
     'Truck dispatch, web and app development, lead generation, ads optimization, AdSense revenue management, QA testing and auto engines. Ranges published per region.',
   path: '/services',

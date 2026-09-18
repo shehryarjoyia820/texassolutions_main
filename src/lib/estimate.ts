@@ -195,10 +195,49 @@ export function computeEstimate(input: {
   }
 
   let range: Range = [...base.range] as Range;
-  lineItems.push({ label: `${base.label} base range`, range: [...range] as Range, kind: 'base' });
+
+  // Add-ons are authored in US terms. Scale them by how this region's base
+  // row compares with the US row, so a CAD or GBP estimate stays coherent.
+  const usBase = baseRange(config, subType, 'US').range;
+  const regionScale =
+    usBase && usBase[0] + usBase[1] > 0 ? (range[0] + range[1]) / (usBase[0] + usBase[1]) : 1;
+  const scaled = ([lo, hi]: Range): Range => [lo * regionScale, hi * regionScale];
+
+  if (service === 'dedicated-teams') {
+    // Itransition-style team pricing: each role at its regional monthly rate.
+    const table = PRICE_TABLE_MAP['dedicated-teams'];
+    range = [0, 0];
+    let headcount = 0;
+    for (const q of config.questions) {
+      const count = num(answers, q.id, q.type === 'number' ? q.defaultValue : 0);
+      const row = table?.rows.find((r) => r.id === q.id);
+      const rate = row?.values[region];
+      if (!count || !rate) continue;
+      headcount += count;
+      const line: Range = [rate[0] * count, rate[1] * count];
+      range = add(range, line);
+      lineItems.push({ label: row!.label, detail: `${count} x monthly rate`, range: line, kind: 'addition' });
+    }
+    if (subType === 'full' && headcount > 0) {
+      const before = [...range] as Range;
+      range = scale(range, 1.12);
+      lineItems.push({
+        label: 'Full working-hours overlap',
+        range: [range[0] - before[0], range[1] - before[1]],
+        kind: 'multiplier',
+        multiplier: 1.12,
+      });
+    }
+    if (headcount >= 4) {
+      lineItems.push({ label: 'Delivery manager', detail: 'Included free on teams of four or more', range: [0, 0], kind: 'info' });
+    }
+    assumptions.push(`${headcount} full-time ${headcount === 1 ? 'person' : 'people'} on the team.`);
+  } else {
+    lineItems.push({ label: `${base.label} base range`, range: [...range] as Range, kind: 'base' });
+  }
 
   // ---- scope answers -------------------------------------------------
-  for (const q of config.questions) {
+  for (const q of service === 'dedicated-teams' ? [] : config.questions) {
     if (q.type === 'select') {
       const chosen = q.options.find((o) => o.value === str(answers, q.id, q.defaultValue));
       if (!chosen) continue;
@@ -213,8 +252,9 @@ export function computeEstimate(input: {
           multiplier: chosen.factor,
         });
       } else if (chosen.add) {
-        range = add(range, chosen.add);
-        lineItems.push({ label: q.label, detail: chosen.label, range: chosen.add, kind: 'addition' });
+        const addition = scaled(chosen.add);
+        range = add(range, addition);
+        lineItems.push({ label: q.label, detail: chosen.label, range: addition, kind: 'addition' });
       }
     }
 
@@ -226,8 +266,9 @@ export function computeEstimate(input: {
         const opt = q.options.find((o) => o.value === value);
         if (!opt) continue;
         if (opt.add) {
-          range = add(range, opt.add);
-          lineItems.push({ label: q.label, detail: opt.label, range: opt.add, kind: 'addition' });
+          const addition = scaled(opt.add);
+          range = add(range, addition);
+          lineItems.push({ label: q.label, detail: opt.label, range: addition, kind: 'addition' });
         } else if (opt.factor && opt.factor !== 1) {
           const before = [...range] as Range;
           range = scale(range, opt.factor);
@@ -247,7 +288,7 @@ export function computeEstimate(input: {
       const free = q.freeUnits ?? 0;
       const extra = Math.max(0, value - free);
       if (extra > 0) {
-        const addition: Range = [q.perUnit[0] * extra, q.perUnit[1] * extra];
+        const addition: Range = scaled([q.perUnit[0] * extra, q.perUnit[1] * extra]);
         range = add(range, addition);
         lineItems.push({
           label: q.label,

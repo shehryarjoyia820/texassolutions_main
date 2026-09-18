@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Search } from 'lucide-react';
 import { SplitText, Reveal } from './motion';
@@ -64,6 +64,8 @@ export interface GridItem {
   badge?: string;
   accentHex?: string;
   tags?: string[];
+  /** Optional visual shown at the top of the card, such as a template preview. */
+  thumbnail?: ReactNode;
 }
 
 export function FilterGrid({
@@ -73,7 +75,10 @@ export function FilterGrid({
   searchable = true,
   emptyMessage = 'Nothing matches that filter yet.',
   columns = 3,
+  paramKey,
 }: {
+  /** Pre-select a category from this URL parameter, e.g. ?category=Add-ons. */
+  paramKey?: string;
   items: GridItem[];
   categories: string[];
   initialCategory?: string;
@@ -83,6 +88,12 @@ export function FilterGrid({
 }) {
   const [category, setCategory] = useState(initialCategory);
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    if (!paramKey) return;
+    const wanted = new URLSearchParams(window.location.search).get(paramKey);
+    if (wanted && categories.includes(wanted)) setCategory(wanted);
+  }, [paramKey, categories]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -168,6 +179,11 @@ export function FilterGrid({
                   href={item.href}
                   className="group flex h-full flex-col rounded-2xl border border-line bg-bg-elev p-6 transition-[border-color,transform,box-shadow] duration-400 hover:-translate-y-1 hover:border-svc/50 hover:shadow-lift"
                 >
+                  {item.thumbnail && (
+                    <div className="-mx-2 -mt-2 mb-5 overflow-hidden rounded-xl transition-transform duration-500 group-hover:scale-[1.02]">
+                      {item.thumbnail}
+                    </div>
+                  )}
                   <div className="flex items-start justify-between gap-3">
                     <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-fg-subtle">
                       {item.category}

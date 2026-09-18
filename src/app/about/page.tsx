@@ -9,7 +9,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'About us',
   description:
-    'Texas Solutions started as a two-person truck dispatch desk in Houston in 2019 and now runs seven service lines across five offices.',
+    'Texas Solutions started as a two-person truck dispatch desk in Houston in 2019 and now runs thirteen service lines across five offices.',
   path: '/about',
 });
 
@@ -59,7 +59,7 @@ export default function AboutPage() {
                 <dl className="mt-5 space-y-4">
                   {[
                     ['Founded', `${SITE.founded}, Houston, Texas`],
-                    ['Service lines', 'Seven, each with its own agreement'],
+                    ['Service lines', 'Thirteen, each with its own agreement'],
                     ['Offices', 'Houston, London, Toronto, Sydney, Lahore'],
                     ['Dispatch coverage', '24/7 across two time zones'],
                     ['Regions priced', 'US, UK, Canada, Australia, Europe'],
@@ -80,7 +80,7 @@ export default function AboutPage() {
       {/* ---- Timeline ---- */}
       <Section tone="soft" id="timeline">
         <Container>
-          <SectionHeading eyebrow="Timeline" title="How seven service lines came together" />
+          <SectionHeading eyebrow="Timeline" title="How thirteen service lines came together" />
           <ol className="relative mt-12 border-l border-line pl-8 sm:pl-10">
             {MILESTONES.map((m, i) => (
               <Reveal key={m.year} delay={i * 0.04} as="li" className="relative pb-10 last:pb-0">

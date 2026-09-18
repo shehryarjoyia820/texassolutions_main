@@ -4,7 +4,12 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, GripVertical, Search, TrendingUp } from 'lucide-react';
-import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP } from '@/data/pricing';
+import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP, UNIT_LABEL } from '@/data/pricing';
+import { TEAM_ROLES } from '@/data/pricing-enterprise';
+import { SERVICE_MAP } from '@/data/services';
+import { MARKETPLACE_ITEMS } from '@/data/catalog';
+import { TemplatePreview } from './template-preview';
+import { Minus, Plus } from 'lucide-react';
 import type { InteractiveKind } from '@/data/services';
 import { useRegion } from './providers';
 import { formatMoney, formatNumber, formatRange } from '@/lib/format';
@@ -27,6 +32,10 @@ export function ServiceInteractive({ kind, slug }: { kind: InteractiveKind; slug
       return <CoverageBuilder />;
     case 'engine-finder':
       return <EngineFinder />;
+    case 'ballpark':
+      return <BallparkPicker slug={slug} />;
+    case 'team-builder':
+      return <TeamBuilder />;
     default:
       return (
         <ButtonLink href={`/estimate?service=${slug}`} icon={ArrowRight}>
@@ -40,88 +49,69 @@ export function ServiceInteractive({ kind, slug }: { kind: InteractiveKind; slug
 /*  1. Template and niche gallery                                      */
 /* ================================================================== */
 
-const TEMPLATES = [
-  { id: 'carrier', name: 'Carrier', niche: 'Trucking', accent: '#FF7A1A', blocks: ['Driver recruiting', 'Lane map', 'Shipper quote'], slug: 'carrier-website-template' },
-  { id: 'clinic', name: 'Clinic', niche: 'Healthcare', accent: '#22C55E', blocks: ['Staged intake', 'Practitioners', 'Booking'], slug: 'clinic-website-template' },
-  { id: 'store', name: 'Store', niche: 'E-commerce', accent: '#4F8CFF', blocks: ['Catalogue', 'Checkout', 'Cart recovery'], slug: 'store-launch-template' },
-  { id: 'campaign', name: 'Campaign', niche: 'Paid media', accent: '#A855F7', blocks: ['Single offer', 'A/B variant', 'CRM handoff'], slug: 'campaign-landing-pack' },
-];
+const TEMPLATES = MARKETPLACE_ITEMS.filter((m) => m.preview);
 
 function TemplateGallery() {
-  const [active, setActive] = useState(TEMPLATES[0].id);
-  const template = TEMPLATES.find((t) => t.id === active)!;
+  const { code } = useRegion();
+  const [active, setActive] = useState(TEMPLATES[0].slug);
+  const template = TEMPLATES.find((t) => t.slug === active)!;
+  const row =
+    template.priceService && template.priceRow
+      ? PRICE_TABLE_MAP[template.priceService]?.rows.find((r) => r.id === template.priceRow)
+      : undefined;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[auto_1fr] lg:gap-8">
-      <div className="flex gap-2 overflow-x-auto no-scrollbar lg:w-48 lg:flex-col lg:overflow-visible">
+    <div className="grid gap-6 lg:grid-cols-[15rem_1fr] lg:gap-8">
+      <div className="no-scrollbar flex gap-2 overflow-x-auto lg:max-h-[34rem] lg:flex-col lg:overflow-y-auto lg:pr-1">
         {TEMPLATES.map((t) => (
           <button
-            key={t.id}
-            onClick={() => setActive(t.id)}
-            aria-pressed={t.id === active}
+            key={t.slug}
+            onClick={() => setActive(t.slug)}
+            aria-pressed={t.slug === active}
             className={cn(
-              'shrink-0 rounded-xl border px-4 py-3 text-left transition-colors lg:w-full',
-              t.id === active ? 'border-svc bg-svc/10' : 'border-line hover:border-svc/40',
+              'flex shrink-0 items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-colors lg:w-full',
+              t.slug === active ? 'border-svc bg-svc/10' : 'border-line hover:border-svc/40',
             )}
           >
-            <span className="block text-sm font-medium">{t.name}</span>
-            <span className="block text-xs text-fg-subtle">{t.niche}</span>
+            <span className="h-8 w-8 shrink-0 rounded-lg" style={{ background: t.accentHex }} aria-hidden />
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-medium">{t.name.replace(/ Template| Landing Page/g, '')}</span>
+              <span className="block truncate text-xs text-fg-subtle">{t.tags[0]}</span>
+            </span>
           </button>
         ))}
       </div>
 
       <motion.div
-        key={template.id}
+        key={template.slug}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="overflow-hidden rounded-2xl border border-line bg-bg-soft"
       >
-        {/* browser chrome */}
-        <div className="flex items-center gap-2 border-b border-line bg-bg-elev px-4 py-2.5">
-          <span className="flex gap-1.5" aria-hidden>
-            <span className="h-2.5 w-2.5 rounded-full bg-danger/60" />
-            <span className="h-2.5 w-2.5 rounded-full bg-warn/60" />
-            <span className="h-2.5 w-2.5 rounded-full bg-success/60" />
-          </span>
-          <span className="ml-2 flex-1 truncate rounded-md bg-bg px-3 py-1 text-[0.6875rem] text-fg-subtle">
-            {template.id}.texassolutions.co
-          </span>
-        </div>
+        <TemplatePreview config={template.preview!} accent={template.accentHex} className="shadow-lift" />
 
-        {/* wireframe preview */}
-        <div className="p-5" style={{ ['--tpl' as string]: template.accent }}>
-          <div className="h-10 rounded-lg" style={{ background: `${template.accent}22` }} />
-          <div className="mt-3 grid gap-3 sm:grid-cols-[1.4fr_1fr]">
-            <div className="space-y-2">
-              <div className="h-5 w-3/4 rounded bg-fg/15" />
-              <div className="h-3 w-full rounded bg-fg/10" />
-              <div className="h-3 w-5/6 rounded bg-fg/10" />
-              <div className="mt-3 h-8 w-32 rounded-lg" style={{ background: template.accent }} />
-            </div>
-            <div className="h-28 rounded-lg border border-line bg-bg" />
+        <div className="mt-5 flex flex-wrap items-start justify-between gap-4">
+          <div className="max-w-md">
+            <p className="font-display text-lg font-semibold">{template.name}</p>
+            <p className="mt-1 text-sm leading-relaxed text-fg-muted">{template.summary}</p>
+            {template.pages && (
+              <p className="mt-2 text-xs text-fg-subtle">{template.pages.length} pages · {template.pages.slice(0, 4).join(', ')}…</p>
+            )}
           </div>
-          <div className="mt-4 grid gap-2 sm:grid-cols-3">
-            {template.blocks.map((b) => (
-              <div key={b} className="rounded-lg border border-line bg-bg p-3">
-                <div className="h-1.5 w-8 rounded" style={{ background: template.accent }} />
-                <p className="mt-2 text-xs font-medium">{b}</p>
-              </div>
-            ))}
+          <div className="text-right">
+            {row?.values[code] && (
+              <p className="font-display text-lg font-semibold text-svc">
+                {formatRange(row.values[code], code, { compact: true })}
+              </p>
+            )}
+            <Link
+              href={`/marketplace/${template.slug}`}
+              className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-svc hover:underline"
+            >
+              View this template
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
           </div>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-bg-elev px-5 py-4">
-          <p className="text-xs text-fg-subtle">
-            Wireframe preview. Live demos are shared on request during discovery.
-          </p>
-          <Link
-            href={`/marketplace/${template.slug}`}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-svc hover:underline"
-          >
-            View this template
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
         </div>
       </motion.div>
     </div>
@@ -373,7 +363,8 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
   const { code } = useRegion();
   const [equipment, setEquipment] = useState<'boxTruckOrHotshot' | 'semi'>('semi');
   const [trucks, setTrucks] = useState(1);
-  const [gross, setGross] = useState(5500);
+  const [gross, setGross] = useState(9000);
+  const typical = DISPATCH_MODELS.find((m) => m.id === equipment)!.typicalGross;
 
   const model = DISPATCH_MODELS.find((m) => m.id === equipment)!;
   const percentWeekly = gross * model.percent * trucks;
@@ -391,7 +382,10 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
             {DISPATCH_MODELS.map((m) => (
               <button
                 key={m.id}
-                onClick={() => setEquipment(m.id)}
+                onClick={() => {
+                  setEquipment(m.id);
+                  setGross(Math.round((m.typicalGross[0] + m.typicalGross[1]) / 2));
+                }}
                 aria-pressed={equipment === m.id}
                 className={cn(
                   'rounded-xl border p-3.5 text-left text-sm transition-colors',
@@ -411,11 +405,15 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
           label="Average weekly linehaul per truck"
           value={gross}
           min={1000}
-          max={15000}
+          max={20000}
           step={100}
           onChange={setGross}
           display={formatMoney(gross, code)}
         />
+        <p className="-mt-3 text-xs text-fg-subtle">
+          Typical for {equipment === 'semi' ? 'a semi' : 'a box truck or hotshot'}:{' '}
+          {formatRange(typical, code)} per week.
+        </p>
       </div>
 
       <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
@@ -693,6 +691,201 @@ function EngineFinder() {
             </p>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  8. Project ballpark (enterprise services)                          */
+/* ================================================================== */
+
+function BallparkPicker({ slug }: { slug: string }) {
+  const { code, region } = useRegion();
+  const table = PRICE_TABLE_MAP[slug];
+  const service = SERVICE_MAP[slug];
+  const [rowId, setRowId] = useState(table?.rows[0]?.id ?? '');
+  if (!table) return null;
+  const row = table.rows.find((r) => r.id === rowId) ?? table.rows[0];
+  const value = row.values[code];
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+      <div className="grid gap-2 sm:grid-cols-2">
+        {table.rows.map((r) => (
+          <button
+            key={r.id}
+            onClick={() => setRowId(r.id)}
+            aria-pressed={r.id === row.id}
+            className={cn(
+              'rounded-xl border p-4 text-left transition-colors',
+              r.id === row.id ? 'border-svc bg-svc/10' : 'border-line bg-bg-soft hover:border-svc/40',
+            )}
+          >
+            <span className="block text-sm font-medium">{r.label}</span>
+            {r.note && <span className="mt-0.5 block text-xs text-fg-subtle">{r.note}</span>}
+          </button>
+        ))}
+      </div>
+
+      <motion.div
+        key={row.id + code}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="rounded-2xl border border-svc/25 bg-svc/5 p-6"
+      >
+        <p className="text-xs uppercase tracking-wider text-fg-subtle">
+          {row.label} · {region.label}
+        </p>
+        <p className="mt-2 font-display text-3xl font-semibold text-svc">
+          {formatRange(value, code, { plus: row.plus?.[code], compact: true })}
+        </p>
+        <p className="mt-1 text-sm text-fg-muted">{UNIT_LABEL[row.unit]}</p>
+        {service?.timelines && (
+          <p className="mt-5 border-t border-svc/20 pt-4 text-xs leading-relaxed text-fg-subtle">
+            Typical timelines: {service.timelines}
+          </p>
+        )}
+        <p className="mt-4 text-xs leading-relaxed text-fg-subtle">
+          Ballpark only. Scope, integrations, data readiness and compliance move the figure, and the full
+          calculator asks about each of them.
+        </p>
+        <ButtonLink href={`/estimate?service=${slug}`} variant="service" icon={ArrowRight} className="mt-6 w-full">
+          Get a detailed estimate
+        </ButtonLink>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  9. Team builder (dedicated teams)                                  */
+/* ================================================================== */
+
+function TeamBuilder() {
+  const { code, region } = useRegion();
+  const table = PRICE_TABLE_MAP['dedicated-teams'];
+  const [counts, setCounts] = useState<Record<string, number>>({
+    'dev-middle': 2,
+    'dev-senior': 1,
+    'team-qa': 1,
+  });
+  const [fullOverlap, setFullOverlap] = useState(false);
+  const [months, setMonths] = useState(6);
+
+  const headcount = Object.values(counts).reduce((a, b) => a + b, 0);
+  const monthly = useMemo<[number, number]>(() => {
+    let lo = 0;
+    let hi = 0;
+    for (const role of TEAM_ROLES) {
+      if (role.id === 'team-pm' && headcount >= 4) continue; // included free
+      const n = counts[role.id] ?? 0;
+      const rate = table?.rows.find((r) => r.id === role.id)?.values[code];
+      if (!n || !rate) continue;
+      lo += rate[0] * n;
+      hi += rate[1] * n;
+    }
+    const f = fullOverlap ? 1.12 : 1;
+    return [Math.round(lo * f), Math.round(hi * f)];
+  }, [counts, code, fullOverlap, headcount, table]);
+
+  const bump = (id: string, d: number) =>
+    setCounts((c) => ({ ...c, [id]: Math.max(0, Math.min(20, (c[id] ?? 0) + d)) }));
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1.3fr_1fr]">
+      <div className="rounded-2xl border border-line bg-bg-soft p-6">
+        <ul className="divide-y divide-line">
+          {TEAM_ROLES.map((role) => {
+            const rate = table?.rows.find((r) => r.id === role.id)?.values[code];
+            const n = counts[role.id] ?? 0;
+            return (
+              <li key={role.id} className="flex items-center justify-between gap-4 py-3">
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium">{role.label}</span>
+                  <span className="block text-xs text-fg-subtle">
+                    {rate ? `${formatRange(rate, code, { compact: true })} per month` : '—'}
+                    {role.id === 'team-pm' && ' · free on teams of 4+'}
+                  </span>
+                </span>
+                <span className="flex shrink-0 items-center gap-2">
+                  <button
+                    onClick={() => bump(role.id, -1)}
+                    aria-label={`Remove one ${role.label}`}
+                    className="grid h-8 w-8 place-items-center rounded-lg border border-line hover:border-svc/50"
+                  >
+                    <Minus className="h-3.5 w-3.5" />
+                  </button>
+                  <span className="w-6 text-center font-display font-semibold" aria-live="polite">
+                    {n}
+                  </span>
+                  <button
+                    onClick={() => bump(role.id, 1)}
+                    aria-label={`Add one ${role.label}`}
+                    className="grid h-8 w-8 place-items-center rounded-lg border border-line hover:border-svc/50"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                  </button>
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+
+        <label className="mt-5 flex cursor-pointer items-center gap-3 rounded-lg border border-line p-3 text-sm">
+          <input
+            type="checkbox"
+            checked={fullOverlap}
+            onChange={(e) => setFullOverlap(e.target.checked)}
+            className="h-4 w-4 accent-[rgb(var(--svc))]"
+          />
+          Full working-hours overlap with the US, UK or EU (about 12% more)
+        </label>
+
+        <div className="mt-5">
+          <Slider
+            id="team-months"
+            label="Engagement length"
+            value={months}
+            min={1}
+            max={24}
+            step={1}
+            onChange={setMonths}
+            display={`${months} months`}
+          />
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
+        <p className="text-xs uppercase tracking-wider text-fg-subtle">
+          {headcount} {headcount === 1 ? 'person' : 'people'} · {region.label}
+        </p>
+        <p className="mt-2 font-display text-3xl font-semibold text-svc">
+          {headcount ? formatRange(monthly, code, { compact: true }) : 'Add a role'}
+        </p>
+        <p className="text-sm text-fg-muted">per month for the whole team</p>
+
+        {headcount > 0 && (
+          <p className="mt-5 border-t border-svc/20 pt-4 text-sm text-fg-muted">
+            Across {months} months:{' '}
+            <span className="font-display font-semibold text-fg">
+              {formatRange([monthly[0] * months, monthly[1] * months], code, { compact: true })}
+            </span>
+          </p>
+        )}
+        {headcount >= 4 && (
+          <p className="mt-3 flex items-center gap-2 text-xs text-success">
+            <Check className="h-3.5 w-3.5" aria-hidden /> Delivery manager included free
+          </p>
+        )}
+        <ul className="mt-5 space-y-1.5 text-xs text-fg-subtle">
+          <li>You interview and approve every engineer.</li>
+          <li>First engineers start in one to two weeks.</li>
+          <li>Resize with 30 days notice.</li>
+        </ul>
+        <ButtonLink href="/estimate?service=dedicated-teams" variant="service" icon={ArrowRight} className="mt-6 w-full">
+          Get a detailed estimate
+        </ButtonLink>
       </div>
     </div>
   );

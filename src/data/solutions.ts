@@ -29,7 +29,7 @@ export const SOLUTIONS: Solution[] = [
       'Carriers lose margin in two places: empty miles and unbilled time. We run the dispatch desk, file the claims and build the carrier-facing marketing that recruits drivers and wins direct shippers.',
     icon: 'Truck',
     accentHex: '#FF7A1A',
-    services: ['truck-dispatch', 'web-development', 'lead-generation', 'auto-engines'],
+    services: ['truck-dispatch', 'web-development', 'lead-generation', 'auto-engines', 'crm-erp', 'data-analytics'],
     painPoints: [
       'Owners on load boards until midnight',
       'Detention and layover never claimed',
@@ -72,7 +72,7 @@ export const SOLUTIONS: Solution[] = [
       'Most stores have a traffic problem and a measurement problem at the same time, and fixing acquisition before measurement wastes the budget. We rebuild the tracking, then the store, then scale the spend.',
     icon: 'ShoppingCart',
     accentHex: '#4F8CFF',
-    services: ['web-development', 'ads-optimization', 'qa-testing', 'lead-generation'],
+    services: ['web-development', 'ads-optimization', 'qa-testing', 'lead-generation', 'data-analytics', 'crm-erp', 'cloud-devops'],
     painPoints: [
       'Checkout abandonment nobody has diagnosed',
       'Attribution broken since the last browser update',
@@ -115,7 +115,7 @@ export const SOLUTIONS: Solution[] = [
       'Healthcare marketing lives inside rules that most agencies learn the hard way. We build intake flows that handle patient data properly and run acquisition inside platform health policy.',
     icon: 'HeartPulse',
     accentHex: '#22C55E',
-    services: ['web-development', 'ads-optimization', 'lead-generation', 'qa-testing'],
+    services: ['web-development', 'cybersecurity', 'data-analytics', 'ai-machine-learning', 'ads-optimization', 'lead-generation', 'qa-testing'],
     painPoints: [
       'Intake forms emailing patient data in the clear',
       'Ad accounts flagged under health advertising policy',
@@ -158,7 +158,7 @@ export const SOLUTIONS: Solution[] = [
       'In real estate the first responder usually wins. We build the listing experience, capture the enquiry properly and automate the follow-up so leads are worked in minutes rather than days.',
     icon: 'Building2',
     accentHex: '#A855F7',
-    services: ['web-development', 'lead-generation', 'ads-optimization'],
+    services: ['web-development', 'lead-generation', 'crm-erp', 'ai-machine-learning', 'ads-optimization'],
     painPoints: [
       'Enquiries sitting unworked for a day or more',
       'Listing pages that load slowly on mobile',
@@ -201,7 +201,7 @@ export const SOLUTIONS: Solution[] = [
       'Publisher revenue is a layout problem as much as a demand problem. We instrument every unit, tune density against session depth, and keep Core Web Vitals healthy so traffic does not fall while revenue rises.',
     icon: 'Newspaper',
     accentHex: '#F59E0B',
-    services: ['adsense-management', 'web-development', 'ads-optimization'],
+    services: ['web-development', 'data-analytics', 'ads-optimization', 'adsense-management'],
     painPoints: [
       'Session RPM flat while traffic grows',
       'Layout shift from ad units hurting Core Web Vitals',
@@ -244,7 +244,7 @@ export const SOLUTIONS: Solution[] = [
       'For repair shops and fleets we handle the hard sourcing and the customer acquisition at once: verified engines delivered and installed, and a booking flow that turns a search into an appointment.',
     icon: 'Wrench',
     accentHex: '#EF4444',
-    services: ['auto-engines', 'web-development', 'lead-generation', 'ads-optimization'],
+    services: ['auto-engines', 'web-development', 'lead-generation', 'crm-erp', 'ads-optimization'],
     painPoints: [
       'Wrong casting numbers arriving and jobs stalling',
       'Core charges surfacing weeks after the work',
@@ -287,7 +287,7 @@ export const SOLUTIONS: Solution[] = [
       'Early teams need three things at once and can usually only afford two. We cover the build, the release confidence and the outbound motion, sized so a seed-stage budget can carry it.',
     icon: 'Rocket',
     accentHex: '#06B6D4',
-    services: ['web-development', 'qa-testing', 'lead-generation', 'ads-optimization'],
+    services: ['web-development', 'qa-testing', 'dedicated-teams', 'cloud-devops', 'ai-machine-learning', 'cybersecurity', 'lead-generation'],
     painPoints: [
       'Every release needing a held breath',
       'Founder-led sales that does not scale past the founder',

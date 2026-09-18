@@ -11,7 +11,8 @@ import { formatRange } from '@/lib/format';
 import { PageHero, CtaSection } from '@/components/page-shell';
 import { ArrowLink, Badge, ButtonLink, Container, Section, NoteBox } from '@/components/ui';
 import { EnquiryForm } from '@/components/forms';
-import { RevealGroup, RevealItem } from '@/components/motion';
+import { RevealGroup, RevealItem, TiltCard } from '@/components/motion';
+import { TemplatePreview } from '@/components/template-preview';
 
 export function MarketplaceDetail({ item }: { item: MarketplaceItem }) {
   const { code, region } = useRegion();
@@ -48,7 +49,25 @@ export function MarketplaceDetail({ item }: { item: MarketplaceItem }) {
         <Container>
           <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr]">
             <div>
+              {item.preview && (
+                <TiltCard className="mb-10" max={4}>
+                  <TemplatePreview config={item.preview} accent={item.accentHex} className="shadow-lift" />
+                </TiltCard>
+              )}
               <p className="text-lg leading-relaxed text-fg">{item.description}</p>
+
+              {item.pages && (
+                <>
+                  <h2 className="mt-10 text-display-sm">Pages and screens included</h2>
+                  <ul className="mt-5 flex flex-wrap gap-2">
+                    {item.pages.map((pg) => (
+                      <li key={pg} className="rounded-full border border-svc/30 bg-svc/5 px-3 py-1.5 text-sm text-fg-muted">
+                        {pg}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
 
               <h2 className="mt-12 text-display-sm">What is included</h2>
               <RevealGroup className="mt-6 grid gap-3 sm:grid-cols-2">

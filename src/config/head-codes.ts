@@ -11,6 +11,10 @@
  *    The site rebuilds and goes live automatically in about two minutes.
  *  - Locally: edit, save, then `git commit` and `git push`.
  *
+ *  Only change the values between the quotes '...' or backticks `...`.
+ *  Do not edit anything else in this file: a typo outside the quotes stops
+ *  the whole site from building.
+ *
  *  Leave a field as '' (empty) to switch that code off.
  *
  *  Privacy: Google Analytics, Tag Manager, Meta Pixel and Microsoft Clarity
@@ -58,6 +62,7 @@ export const HEAD_CODES = {
    * The matching ads.txt line is added automatically (see adsTxt below).
    * ---------------------------------------------------------------------- */
   adsenseClientId: 'ca-pub-4507418978047945',
+
   /* ------------------------------------------------------------------------
    * 6. META (FACEBOOK) PIXEL — the numeric Pixel ID, e.g. '123456789012345'.
    * ---------------------------------------------------------------------- */
@@ -105,9 +110,3 @@ export const HEAD_CODES = {
 # example-adnetwork.com, 12345, DIRECT, abc123def456
 `,
 };
-
-/** Converts 'ca-pub-4507418978047945' to the 'ca-pub-4507418978047945' form ads.txt expects. */
-export function adsensePublisherId(ca-pub-4507418978047945): string {
-  const id = HEAD_CODES.adsenseClientId.trim();
-  return id ? id.replace(/^ca-/, '') : '';
-}

@@ -1,4 +1,10 @@
-import { HEAD_CODES, adsensePublisherId } from '@/config/head-codes';
+import { HEAD_CODES } from '@/config/head-codes';
+
+/** 'ca-pub-123' becomes 'pub-123', the form ads.txt expects. */
+function adsensePublisherId(): string {
+  const id = HEAD_CODES.adsenseClientId.trim();
+  return id ? id.replace(/^ca-/, '') : '';
+}
 
 export const dynamic = 'force-static';
 

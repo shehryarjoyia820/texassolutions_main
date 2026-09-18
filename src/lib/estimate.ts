@@ -22,13 +22,12 @@ export interface LineItem {
 }
 
 export interface DispatchComparison {
-  percentRate: number;
+  /** Percentage of weekly gross, low and high (e.g. 0.05-0.06). */
+  percentRate: Range;
   percentWeekly: Range;
-  flatWeekly: Range;
-  breakEvenWeeklyGross: number;
+  percentMonthly: Range;
   trucks: number;
   weeklyGrossPerTruck: number;
-  cheaperModel: 'percent' | 'flat' | 'equal';
 }
 
 export interface AdSenseProjection {
@@ -341,15 +340,14 @@ export function computeEstimate(input: {
     result.dispatch = dispatchComparison(subType, answers);
     // The headline range is the weekly fee for the whole fleet, not the base row.
     const d = result.dispatch;
-    const low = Math.min(d.percentWeekly[0], d.flatWeekly[0]);
-    const high = Math.max(d.percentWeekly[1], d.flatWeekly[1]);
+    const [low, high] = d.percentWeekly;
     result.low = Math.round(low);
     result.high = Math.round(high);
     result.likely = Math.round((low + high) / 2);
     assumptions.push(
-      `${d.trucks} truck${d.trucks === 1 ? '' : 's'} at ${d.weeklyGrossPerTruck.toLocaleString()} average weekly linehaul each.`,
+      `${d.trucks} truck${d.trucks === 1 ? '' : 's'} at ${d.weeklyGrossPerTruck.toLocaleString()} average weekly gross each.`,
     );
-    assumptions.push('Fee applies to linehaul only, not fuel surcharge or detention.');
+    assumptions.push('OTR operations only. No flat rate. Final percentage is discussed with each carrier.');
   }
 
   if (service === 'adsense-management') {
@@ -397,43 +395,21 @@ export function computeEstimate(input: {
   return result;
 }
 
-/** Percentage versus flat weekly, with the break-even gross. Spec section 7. */
+/** Percentage-of-gross dispatch fee (OTR, no flat rate). */
 export function dispatchComparison(subTypeId: string, answers: Answers): DispatchComparison {
   const model = DISPATCH_MODELS.find((m) => m.id === subTypeId) ?? DISPATCH_MODELS[1];
   const trucks = Math.max(1, num(answers, 'trucks', 1));
-  const weeklyGrossPerTruck = Math.max(0, num(answers, 'weeklyGross', 5500));
-
-  const percentPerTruck = weeklyGrossPerTruck * model.percent;
-  const percentWeekly: Range = [percentPerTruck * trucks, percentPerTruck * trucks];
-
-  let flatLow = model.flatWeekly[0] * trucks;
-  let flatHigh = model.flatWeekly[1] * trucks;
-
-  const afterHours = str(answers, 'afterHours', 'no');
-  if (afterHours === 'evenings') {
-    flatLow += 60 * trucks;
-    flatHigh += 110 * trucks;
-  } else if (afterHours === 'full') {
-    flatLow += 120 * trucks;
-    flatHigh += 220 * trucks;
-  }
-
-  // Break-even uses the midpoint of the flat range, per truck.
-  const flatMidPerTruck = (model.flatWeekly[0] + model.flatWeekly[1]) / 2;
-  const breakEvenWeeklyGross = Math.round(flatMidPerTruck / model.percent);
-
-  const flatMidTotal = (flatLow + flatHigh) / 2;
-  const percentTotal = percentWeekly[0];
-
+  const weeklyGrossPerTruck = Math.max(0, num(answers, 'weeklyGross', 9000));
+  const weekly: Range = [
+    Math.round(weeklyGrossPerTruck * model.percent[0] * trucks),
+    Math.round(weeklyGrossPerTruck * model.percent[1] * trucks),
+  ];
   return {
     percentRate: model.percent,
-    percentWeekly: [Math.round(percentWeekly[0]), Math.round(percentWeekly[1])],
-    flatWeekly: [Math.round(flatLow), Math.round(flatHigh)],
-    breakEvenWeeklyGross,
+    percentWeekly: weekly,
+    percentMonthly: [Math.round((weekly[0] * 52) / 12), Math.round((weekly[1] * 52) / 12)],
     trucks,
     weeklyGrossPerTruck,
-    cheaperModel:
-      Math.abs(percentTotal - flatMidTotal) < 1 ? 'equal' : percentTotal < flatMidTotal ? 'percent' : 'flat',
   };
 }
 

@@ -8,10 +8,12 @@ export const SITE = {
   dispatchUrl: 'https://dispatch.texassolutions.co',
   phone: '(838) 910-3147',
   phoneHref: 'tel:+18389103147',
-  email: 'hello@texassolutions.co',
-  salesEmail: 'sales@texassolutions.co',
-  supportEmail: 'support@texassolutions.co',
-  contactName: 'Peter',
+  email: 'info@texassolutions.co',
+  salesEmail: 'info@texassolutions.co',
+  supportEmail: 'info@texassolutions.co',
+  contactName: 'Shehryar Joyia',
+  /** Owner and CEO. */
+  ceo: 'Shehryar Joyia',
   hours: 'Dispatch desk 24/7 · Offices Mon–Fri, 8am–7pm CT',
   founded: 2019,
   /** Swap these for the real handles before launch. */

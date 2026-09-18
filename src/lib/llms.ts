@@ -22,6 +22,7 @@ export function llmsTxt(): string {
     `> ${SITE.tagline}. ${SITE.name} is a software development and technology services company headquartered in Houston, Texas, serving the United States, United Kingdom, Canada, Australia, Europe, the Gulf (UAE, Saudi Arabia, Qatar) and Asia (Singapore, Japan, Hong Kong). Core services: custom software and app development, AI and machine learning, QA and software testing, dedicated development teams, and truck dispatch for US carriers.`,
     '',
     `Contact: ${SITE.phone} · ${SITE.email}`,
+    `Owner and CEO: ${SITE.ceo}`,
     '',
     '## Services',
     ...SERVICES.map((s) => `- [${s.name}](${u(`/services/${s.slug}`)}): ${s.summary}`),

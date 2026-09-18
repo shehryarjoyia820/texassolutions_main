@@ -133,6 +133,7 @@ export function organizationSchema() {
     foundingDate: String(SITE.founded),
     telephone: SITE.phone,
     email: SITE.email,
+    founder: { '@type': 'Person', name: SITE.ceo, jobTitle: 'Owner and CEO' },
     sameAs: SITE.social.map((s) => s.href),
     address: OFFICES.map((o) => ({
       '@type': 'PostalAddress',

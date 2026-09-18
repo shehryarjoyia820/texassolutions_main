@@ -10,7 +10,7 @@ import { NextResponse } from 'next/server';
  * Configure any of these and they are used; leave them unset and submissions
  * are logged and accepted so the site still works before integrations land.
  *   RESEND_API_KEY        send notification and auto-reply email
- *   NOTIFY_EMAIL          internal recipient, defaults to sales@texassolutions.co
+ *   NOTIFY_EMAIL          internal recipient, defaults to info@texassolutions.co
  *   FROM_EMAIL            verified sender address
  *   CRM_WEBHOOK_URL       HubSpot, Zoho or GoHighLevel inbound webhook
  *   TURNSTILE_SECRET_KEY  Cloudflare Turnstile verification
@@ -52,7 +52,7 @@ export async function OPTIONS(request: Request) {
 export const dynamic = 'force-dynamic';
 
 const HONEYPOT_FIELD = 'company_website';
-const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'sales@texassolutions.co';
+const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'info@texassolutions.co';
 const FROM_EMAIL = process.env.FROM_EMAIL || 'Texas Solutions <noreply@texassolutions.co>';
 
 /** Simple in-memory rate limit. Swap for Upstash or KV for multi-instance deploys. */

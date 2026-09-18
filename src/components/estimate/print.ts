@@ -2,6 +2,7 @@ import type { RegionCode } from '@/data/regions';
 import { getRegion } from '@/data/regions';
 import { SITE } from '@/data/site';
 import { ESTIMATE_DISCLAIMER } from '@/data/estimate-config';
+import { dispatchPercentLabel } from '@/data/pricing';
 import type { Answers, EstimateResult } from '@/lib/estimate';
 import { formatMoney, formatRange } from '@/lib/format';
 
@@ -64,19 +65,16 @@ export function buildEstimateDocument({
     .join('');
 
   const dispatchBlock = result.dispatch
-    ? `<h2>Both fee models</h2>
+    ? `<h2>Dispatch fee</h2>
        <table>
-         <tr><td>${(result.dispatch.percentRate * 100).toFixed(0)}% of linehaul</td><td class="num">${escapeHtml(
-           formatMoney(result.dispatch.percentWeekly[0], region),
+         <tr><td>${escapeHtml(dispatchPercentLabel(result.dispatch.percentRate))} of weekly gross</td><td class="num">${escapeHtml(
+           formatRange(result.dispatch.percentWeekly, region),
          )} per week</td></tr>
-         <tr><td>Flat weekly</td><td class="num">${escapeHtml(
-           formatRange(result.dispatch.flatWeekly, region),
-         )} per week</td></tr>
-         <tr><td><strong>Break-even weekly gross, per truck</strong></td><td class="num"><strong>${escapeHtml(
-           formatMoney(result.dispatch.breakEvenWeeklyGross, region),
-         )}</strong></td></tr>
+         <tr><td>Monthly (average)</td><td class="num">${escapeHtml(
+           formatRange(result.dispatch.percentMonthly, region),
+         )} per month</td></tr>
        </table>
-       <p class="note">Fee applies to linehaul only, not fuel surcharge or detention. Below the break-even figure the percentage costs less; above it the flat weekly fee costs less.</p>`
+       <p class="note">OTR operations only. No flat rate, no setup fee. Final percentage is discussed with each carrier. Gross and earnings are not guaranteed.</p>`
     : '';
 
   const totalBlock =

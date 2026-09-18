@@ -23,7 +23,7 @@ import {
   type Question,
 } from '@/data/estimate-config';
 import { SITE } from '@/data/site';
-import { DISPATCH_MODELS } from '@/data/pricing';
+import { DISPATCH_MODELS, dispatchPercentLabel } from '@/data/pricing';
 import { computeEstimate, defaultAnswers, questionApplies, type Answers, type EstimateResult } from '@/lib/estimate';
 import { formatMoney, formatNumber, formatRange } from '@/lib/format';
 import { trackEstimateStep } from '@/lib/analytics';
@@ -838,34 +838,29 @@ function StepResult({
         )}
       </div>
 
-      {/* Dispatch: both fee models side by side */}
+      {/* Dispatch: percentage-of-gross fee */}
       {result.dispatch && (
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-line bg-bg-soft p-5">
-            <p className="text-xs uppercase tracking-wider text-fg-subtle">
-              {(result.dispatch.percentRate * 100).toFixed(0)}% of linehaul
-            </p>
-            <p className="mt-1.5 font-display text-2xl font-semibold">
-              {formatMoney(result.dispatch.percentWeekly[0], region)}
-            </p>
-            <p className="text-xs text-fg-subtle">per week, {result.dispatch.trucks} truck(s)</p>
-          </div>
-          <div className="rounded-xl border border-line bg-bg-soft p-5">
-            <p className="text-xs uppercase tracking-wider text-fg-subtle">Flat weekly</p>
-            <p className="mt-1.5 font-display text-2xl font-semibold">
-              {formatRange(result.dispatch.flatWeekly, region)}
-            </p>
-            <p className="text-xs text-fg-subtle">per week, {result.dispatch.trucks} truck(s)</p>
-          </div>
           <div className="rounded-xl border border-svc/30 bg-svc/10 p-5">
-            <p className="text-xs uppercase tracking-wider text-fg-subtle">Break-even gross</p>
+            <p className="text-xs uppercase tracking-wider text-fg-subtle">
+              {dispatchPercentLabel(result.dispatch.percentRate)} of weekly gross
+            </p>
             <p className="mt-1.5 font-display text-2xl font-semibold text-svc">
-              {formatMoney(result.dispatch.breakEvenWeeklyGross, region)}
+              {formatRange(result.dispatch.percentWeekly, region)}
             </p>
-            <p className="text-xs text-fg-subtle">
-              per truck, per week. {result.dispatch.cheaperModel === 'percent' ? 'Percentage' : 'Flat'} is cheaper
-              for you today.
+            <p className="text-xs text-fg-subtle">per week, {result.dispatch.trucks} truck(s)</p>
+          </div>
+          <div className="rounded-xl border border-line bg-bg-soft p-5">
+            <p className="text-xs uppercase tracking-wider text-fg-subtle">Monthly (average)</p>
+            <p className="mt-1.5 font-display text-2xl font-semibold">
+              {formatRange(result.dispatch.percentMonthly, region)}
             </p>
+            <p className="text-xs text-fg-subtle">per month, {result.dispatch.trucks} truck(s)</p>
+          </div>
+          <div className="rounded-xl border border-line bg-bg-soft p-5">
+            <p className="text-xs uppercase tracking-wider text-fg-subtle">Pricing basis</p>
+            <p className="mt-1.5 font-display text-2xl font-semibold">OTR, no flat rate</p>
+            <p className="text-xs text-fg-subtle">Final percentage is discussed with each carrier.</p>
           </div>
         </div>
       )}

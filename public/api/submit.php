@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 $config = [
     // Internal recipient for every submission.
-    'notify_email'    => 'sales@texassolutions.co',
+    'notify_email'    => 'info@texassolutions.co',
     // Must be an address on your own domain or DreamHost will reject the send.
     'from_email'      => 'noreply@texassolutions.co',
     'from_name'       => 'Texas Solutions Website',

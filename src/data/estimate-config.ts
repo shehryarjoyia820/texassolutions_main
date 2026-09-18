@@ -397,8 +397,8 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
     regions: ['US', 'CA'],
     subTypeLabel: 'What are you running?',
     subTypes: [
-      { id: 'boxTruckOrHotshot', label: 'Box truck, hotshot, sprinter or cargo van', description: '10% of linehaul, or flat weekly', priceRow: 'box-truck-flat' },
-      { id: 'semi', label: 'Semi: dry van, flatbed, reefer or step deck', description: '7% of linehaul, or flat weekly', priceRow: 'semi-flat' },
+      { id: 'boxTruckOrHotshot', label: 'Small truck: box truck, straight truck or hotshot', description: '8-10% of weekly gross, OTR', priceRow: 'box-truck' },
+      { id: 'semi', label: 'Semi truck: dry van, reefer, flatbed, step deck or power only', description: '5-6% of weekly gross, OTR', priceRow: 'semi' },
     ],
     questions: [
       {
@@ -414,8 +414,8 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
       {
         id: 'weeklyGross',
         type: 'number',
-        label: 'Average weekly linehaul per truck',
-        help: 'Typical on our desk: box truck or hotshot $7,000-$9,000, semi $8,000-$10,000. Use your three-month average. Fuel surcharge is excluded.',
+        label: 'Average weekly gross per truck',
+        help: 'Typical OTR weekly gross on our desk: box truck or hotshot $7,000-$9,000, semi $8,000-$10,000. Use your three-month average.',
         min: 1000,
         max: 20000,
         step: 100,
@@ -423,22 +423,11 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         currency: true,
         unit: 'per truck',
       },
-      {
-        id: 'afterHours',
-        type: 'select',
-        label: 'Do you need after-hours cover?',
-        defaultValue: 'no',
-        options: [
-          { value: 'no', label: 'Weekdays are fine', factor: 1 },
-          { value: 'evenings', label: 'Evenings and Saturdays', add: [60, 110] },
-          { value: 'full', label: 'Full 24/7 desk', add: [120, 220] },
-        ],
-      },
     ],
-    disclaimer: 'Fee applies to linehaul only, not fuel surcharge or detention. No long-term contract, 30 days notice.',
+    disclaimer: 'OTR operations only. No flat rate, no setup fee, no long-term contract. Final percentage is discussed with each carrier.',
     outputNotes: [
-      'Both fee models are shown side by side with your break-even weekly gross.',
-      'Broker packets, invoicing and paperwork are included in either model.',
+      'Fee shown as a weekly and monthly range for your whole fleet.',
+      'Load search, rate negotiation, broker packets and paperwork are included.',
     ],
   },
 

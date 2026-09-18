@@ -261,25 +261,25 @@ const BASE_PRICE_TABLES: AuthoredTable[] = [
     service: 'truck-dispatch',
     title: 'Truck dispatch',
     intro:
-      'Two ways to pay, side by side. The percentage applies to linehaul only, never to fuel surcharge or detention. No long-term contract, 30 days notice.',
+      'A percentage of weekly gross, for carriers running OTR. No flat rate, no setup fee, no monthly subscription and no long-term contract. Your final percentage is discussed with each carrier before service begins.',
     rows: [
       {
-        id: 'box-truck-flat',
-        label: 'Box truck, hotshot, sprinter or cargo van, flat weekly',
-        note: 'Alternative to 10% of gross',
+        id: 'box-truck',
+        label: 'Small trucks: box truck, straight truck or hotshot, 8-10% of weekly gross',
+        note: 'Typical weekly gross USD 7,000-9,000, OTR',
         unit: 'weekly',
-        values: { US: [350, 500], UK: [350, 500], CA: [350, 500], AU: [350, 500], EU: [350, 500] },
+        values: { US: [560, 900], UK: [560, 900], CA: [560, 900], AU: [560, 900], EU: [560, 900] },
       },
       {
-        id: 'semi-flat',
-        label: 'Semi: dry van, flatbed, reefer, step deck, flat weekly',
-        note: 'Alternative to 7% of gross',
+        id: 'semi',
+        label: 'Semi trucks: dry van, reefer, flatbed, step deck, power only, 5-6% of weekly gross',
+        note: 'Typical weekly gross USD 8,000-10,000, OTR',
         unit: 'weekly',
-        values: { US: [250, 400], UK: [250, 400], CA: [250, 400], AU: [250, 400], EU: [250, 400] },
+        values: { US: [400, 600], UK: [400, 600], CA: [400, 600], AU: [400, 600], EU: [400, 600] },
       },
     ],
     disclaimer:
-      'Flat weekly rates are quoted in USD per truck for every region. The US market sits at 3-10% of gross with 5-7% typical; our 10% box-truck rate buys full back-office service, not load-finding alone.',
+      'Weekly figures are the percentage applied to typical OTR weekly gross, in USD per truck. Local and regional work is quoted separately. Final percentage is discussed with each carrier. Gross and earnings are not guaranteed.',
   },
   {
     service: 'qa-testing',
@@ -354,26 +354,31 @@ export function getPriceRow(service: string, rowId: string): PriceRow | undefine
   return PRICE_TABLE_MAP[service]?.rows.find((r) => r.id === rowId);
 }
 
-/** Dispatch percentage models, used by the service page and the calculator. */
+/** Dispatch percentage models (OTR, no flat rate), used by the service page and the calculators. */
 export const DISPATCH_MODELS = [
   {
     id: 'boxTruckOrHotshot',
-    label: 'Box truck, hotshot, sprinter or cargo van',
-    percent: 0.1,
-    flatWeekly: [350, 500] as Range,
-    /** Typical weekly linehaul gross for this equipment on our desk. */
+    label: 'Small truck: box truck, straight truck or hotshot',
+    /** Percentage of weekly gross, low and high. */
+    percent: [0.08, 0.1] as Range,
+    /** Typical OTR weekly gross for this equipment on our desk. */
     typicalGross: [7000, 9000] as Range,
   },
   {
     id: 'semi',
-    label: 'Semi: dry van, flatbed, reefer, step deck',
-    percent: 0.07,
-    flatWeekly: [250, 400] as Range,
+    label: 'Semi truck: dry van, reefer, flatbed, step deck, power only',
+    percent: [0.05, 0.06] as Range,
     typicalGross: [8000, 10000] as Range,
   },
 ] as const;
 
-export const DISPATCH_DISCLAIMER = 'Fee applies to linehaul only, not fuel surcharge or detention.';
+/** "5-6%" */
+export function dispatchPercentLabel(p: Range): string {
+  return `${Math.round(p[0] * 100)}-${Math.round(p[1] * 100)}%`;
+}
+
+export const DISPATCH_DISCLAIMER =
+  'OTR operations only. No flat rate, no setup fee. Final percentage is discussed with each carrier; gross and earnings are not guaranteed.';
 
 /**
  * Regions whose figures were scaled from US and UK benchmarks rather than

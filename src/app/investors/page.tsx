@@ -49,7 +49,7 @@ export default function InvestorsPage() {
               </p>
               <h2>How we charge</h2>
               <p>
-                Dispatch is a percentage of carrier linehaul or a flat weekly fee per truck. Marketing and QA
+                Dispatch is a percentage of carrier weekly gross: 5-6% for semis and 8-10% for small trucks. Marketing and QA
                 run on monthly retainers. Development is project-based. Engine supply is transactional. The
                 blend produces the recurring share shown below.
               </p>

@@ -67,7 +67,7 @@ All optional. The site builds and runs without any of them; forms are logged rat
 | --- | --- |
 | `RESEND_API_KEY` | Sends the internal notification and the visitor auto-reply |
 | `FROM_EMAIL` | Verified sender, e.g. `Texas Solutions <noreply@texassolutions.co>` |
-| `NOTIFY_EMAIL` | Internal recipient, defaults to `sales@texassolutions.co` |
+| `NOTIFY_EMAIL` | Internal recipient, defaults to `info@texassolutions.co` |
 | `CRM_WEBHOOK_URL` | HubSpot, Zoho or GoHighLevel inbound webhook |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile server-side verification |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Turnstile widget key |
@@ -126,7 +126,7 @@ Create `api/config.php` on the server:
 ```php
 <?php
 return [
-    'notify_email'     => 'sales@texassolutions.co',
+    'notify_email'     => 'info@texassolutions.co',
     'from_email'       => 'noreply@texassolutions.co',
     'crm_webhook_url'  => '',
     'turnstile_secret' => '',

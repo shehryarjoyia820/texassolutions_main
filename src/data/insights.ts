@@ -208,7 +208,7 @@ export const INSIGHTS: Insight[] = [
       ] },
       { t: 'h2', text: 'The number to hold on to' },
       { t: 'p', text: 'Work out your average weekly linehaul over the last three months, not your best week. Compare both models at that number. Then ask what happens to the fee in a slow week, because a flat fee does not care that the market softened and a percentage does.' },
-      { t: 'p', text: 'Our own rates are 7 percent for semis and 10 percent for box truck and hotshot, with flat alternatives at 250 to 400 and 350 to 500 dollars per truck per week. The calculator on the dispatch page shows both against your actual gross, including the break-even figure.' },
+      { t: 'p', text: 'We do not offer a flat rate. Our own dispatch fee is a percentage of weekly gross for OTR carriers: 5 to 6 percent for semi trucks and 8 to 10 percent for box trucks, straight trucks and hotshots, with the final percentage discussed with each carrier. The calculator on the dispatch page shows the fee against your actual gross.' },
     ],
   },
   {

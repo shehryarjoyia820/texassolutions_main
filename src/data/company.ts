@@ -247,7 +247,7 @@ export interface TeamRole {
 }
 
 export const LEADERSHIP: TeamRole[] = [
-  { role: 'Founder and Managing Director', name: 'Peter', focus: 'Dispatch operations and client relationships', region: 'Houston', needsClientContent: false },
+  { role: 'Owner and CEO', name: 'Shehryar Joyia', focus: 'Company strategy, dispatch operations and client relationships', region: 'Houston', needsClientContent: false },
   { role: 'Head of Dispatch Operations', focus: 'Desk performance, broker relationships, claims', region: 'Houston', needsClientContent: true },
   { role: 'Director of Engineering', focus: 'Web, app and platform delivery', region: 'Lahore', needsClientContent: true },
   { role: 'Head of Performance Marketing', focus: 'Paid media, creative and attribution', region: 'London', needsClientContent: true },

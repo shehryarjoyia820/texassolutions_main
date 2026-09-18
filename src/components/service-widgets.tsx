@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, GripVertical, Search, TrendingUp } from 'lucide-react';
-import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP, UNIT_LABEL } from '@/data/pricing';
+import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP, UNIT_LABEL, dispatchPercentLabel } from '@/data/pricing';
 import { TEAM_ROLES } from '@/data/pricing-enterprise';
 import { SERVICE_MAP } from '@/data/services';
 import { MARKETPLACE_ITEMS } from '@/data/catalog';
@@ -356,7 +356,7 @@ function RevenueEstimator() {
 }
 
 /* ================================================================== */
-/*  5. Dispatch fee comparison                                         */
+/*  5. Dispatch fee calculator                                         */
 /* ================================================================== */
 
 export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }) {
@@ -364,14 +364,11 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
   const [equipment, setEquipment] = useState<'boxTruckOrHotshot' | 'semi'>('semi');
   const [trucks, setTrucks] = useState(1);
   const [gross, setGross] = useState(9000);
-  const typical = DISPATCH_MODELS.find((m) => m.id === equipment)!.typicalGross;
-
   const model = DISPATCH_MODELS.find((m) => m.id === equipment)!;
-  const percentWeekly = gross * model.percent * trucks;
-  const flatWeekly: [number, number] = [model.flatWeekly[0] * trucks, model.flatWeekly[1] * trucks];
-  const flatMid = (flatWeekly[0] + flatWeekly[1]) / 2;
-  const breakEven = Math.round((model.flatWeekly[0] + model.flatWeekly[1]) / 2 / model.percent);
-  const cheaper = percentWeekly < flatMid ? 'percent' : percentWeekly > flatMid ? 'flat' : 'equal';
+  const typical = model.typicalGross;
+  const weekly: [number, number] = [gross * model.percent[0] * trucks, gross * model.percent[1] * trucks];
+  const monthly: [number, number] = [(weekly[0] * 52) / 12, (weekly[1] * 52) / 12];
+  const keep: [number, number] = [gross * trucks - weekly[1], gross * trucks - weekly[0]];
 
   return (
     <div className={cn('grid gap-6', compact ? '' : 'lg:grid-cols-[1fr_1fr]')}>
@@ -392,8 +389,8 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
                   equipment === m.id ? 'border-svc bg-svc/10' : 'border-line hover:border-svc/40',
                 )}
               >
-                <span className="block font-medium">{m.id === 'semi' ? 'Semi' : 'Box truck / hotshot'}</span>
-                <span className="block text-xs text-fg-subtle">{(m.percent * 100).toFixed(0)}% of linehaul</span>
+                <span className="block font-medium">{m.id === 'semi' ? 'Semi truck' : 'Box truck / hotshot'}</span>
+                <span className="block text-xs text-fg-subtle">{dispatchPercentLabel(m.percent)} of weekly gross</span>
               </button>
             ))}
           </div>
@@ -402,7 +399,7 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
         <Slider id="disp-trucks" label="Trucks" value={trucks} min={1} max={30} step={1} onChange={setTrucks} display={String(trucks)} />
         <Slider
           id="disp-gross"
-          label="Average weekly linehaul per truck"
+          label="Average weekly gross per truck"
           value={gross}
           min={1000}
           max={20000}
@@ -411,67 +408,40 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
           display={formatMoney(gross, code)}
         />
         <p className="-mt-3 text-xs text-fg-subtle">
-          Typical for {equipment === 'semi' ? 'a semi' : 'a box truck or hotshot'}:{' '}
+          Typical OTR gross for {equipment === 'semi' ? 'a semi' : 'a box truck or hotshot'}:{' '}
           {formatRange(typical, code)} per week.
         </p>
       </div>
 
       <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
         <div className="grid gap-3 sm:grid-cols-2">
-          <div
-            className={cn(
-              'rounded-xl border p-4',
-              cheaper === 'percent' ? 'border-success/45 bg-success/10' : 'border-line bg-bg',
-            )}
-          >
+          <div className="rounded-xl border border-success/45 bg-success/10 p-4">
             <p className="text-xs uppercase tracking-wider text-fg-subtle">
-              {(model.percent * 100).toFixed(0)}% of gross
+              {dispatchPercentLabel(model.percent)} of gross
             </p>
-            <p className="mt-1.5 font-display text-2xl font-semibold">{formatMoney(percentWeekly, code)}</p>
+            <p className="mt-1.5 font-display text-2xl font-semibold">{formatRange(weekly, code)}</p>
             <p className="text-xs text-fg-subtle">per week, all trucks</p>
-            {cheaper === 'percent' && (
-              <p className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-success">
-                <Check className="h-3.5 w-3.5" aria-hidden /> Cheaper for you
-              </p>
-            )}
           </div>
-
-          <div
-            className={cn(
-              'rounded-xl border p-4',
-              cheaper === 'flat' ? 'border-success/45 bg-success/10' : 'border-line bg-bg',
-            )}
-          >
-            <p className="text-xs uppercase tracking-wider text-fg-subtle">Flat weekly</p>
-            <p className="mt-1.5 font-display text-2xl font-semibold">
-              {formatRange(flatWeekly, code)}
-            </p>
-            <p className="text-xs text-fg-subtle">per week, all trucks</p>
-            {cheaper === 'flat' && (
-              <p className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-success">
-                <Check className="h-3.5 w-3.5" aria-hidden /> Cheaper for you
-              </p>
-            )}
+          <div className="rounded-xl border border-line bg-bg p-4">
+            <p className="text-xs uppercase tracking-wider text-fg-subtle">Monthly (average)</p>
+            <p className="mt-1.5 font-display text-2xl font-semibold">{formatRange(monthly, code)}</p>
+            <p className="text-xs text-fg-subtle">per month, all trucks</p>
           </div>
         </div>
 
         <div className="mt-5 rounded-xl border border-line bg-bg p-4">
           <p className="flex items-center gap-2 text-xs uppercase tracking-wider text-fg-subtle">
             <TrendingUp className="h-3.5 w-3.5" aria-hidden />
-            Break-even weekly gross, per truck
+            You keep of weekly gross
           </p>
-          <p className="mt-1.5 font-display text-2xl font-semibold text-svc">
-            {formatMoney(breakEven, code)}
-          </p>
-          <p className="mt-1.5 text-xs leading-relaxed text-fg-muted">
-            Below this the percentage costs less. Above it the flat weekly fee costs less. You are currently at{' '}
-            {formatMoney(gross, code)} per truck.
+          <p className="mt-1.5 font-display text-2xl font-semibold text-svc">{formatRange(keep, code)}</p>
+          <p className="mt-1.5 inline-flex items-center gap-1 text-xs leading-relaxed text-fg-muted">
+            <Check className="h-3.5 w-3.5" aria-hidden /> No flat rate, no setup fee, no monthly subscription.
           </p>
         </div>
 
         <NoteBox tone="warn" className="mt-4 text-xs">
-          {DISPATCH_DISCLAIMER} No long-term contract, 30 days notice. Broker packets, invoicing and paperwork
-          are included in both models.
+          {DISPATCH_DISCLAIMER} Load search, rate negotiation, broker packets and paperwork are included.
         </NoteBox>
 
         {!compact && (

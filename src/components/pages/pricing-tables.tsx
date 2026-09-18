@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, Globe2, Table2 } from 'lucide-react';
 import type { PriceTable } from '@/data/pricing';
-import { DISPATCH_MODELS } from '@/data/pricing';
+import { DISPATCH_MODELS, dispatchPercentLabel } from '@/data/pricing';
 import type { Service } from '@/data/services';
 import { REGIONS, type RegionCode } from '@/data/regions';
 import { useRegion } from '@/components/providers';
@@ -106,13 +106,11 @@ export function PricingTables({ tables, services }: { tables: PriceTable[]; serv
                         <div key={m.id} className="rounded-xl border border-svc/25 bg-svc/5 p-5">
                           <p className="text-sm font-medium">{m.label}</p>
                           <p className="mt-2 font-display text-2xl font-semibold text-svc">
-                            {(m.percent * 100).toFixed(0)}% of linehaul
+                            {dispatchPercentLabel(m.percent)} of weekly gross
                           </p>
                           <p className="mt-1 text-xs text-fg-subtle">
-                            or USD {m.flatWeekly[0]}–{m.flatWeekly[1]} flat, per truck per week. Break-even at
-                            roughly USD{' '}
-                            {Math.round((m.flatWeekly[0] + m.flatWeekly[1]) / 2 / m.percent).toLocaleString()}{' '}
-                            weekly gross.
+                            OTR only, no flat rate. Typical weekly gross USD {m.typicalGross[0].toLocaleString()}–
+                            {m.typicalGross[1].toLocaleString()} per truck.
                           </p>
                         </div>
                       ))}

@@ -256,7 +256,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'truck-dispatch',
     metaTitle: 'Truck Dispatch Service | Box Truck, Hotshot & Semi Dispatch for Owner-Operators',
     metaDescription:
-      'Truck dispatch service for owner-operators and small fleets: box truck, hotshot and semi dispatch (dry van, flatbed, reefer). Load booking, rate negotiation, broker packets and invoicing. 7% to 10% of linehaul or flat weekly.',
+      'Truck dispatch service for owner-operators and small fleets: semi trucks 5-6% and box trucks & hotshots 8-10% of weekly gross, OTR. No flat rate, no setup fee. Load booking, rate negotiation and broker packets.',
     keywords: [
       'truck dispatch service',
       'truck dispatching company',
@@ -272,7 +272,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'independent truck dispatcher',
     ],
     quickAnswer:
-      'Texas Solutions is a truck dispatch service for owner-operators and small fleets in the United States. Dispatchers book and negotiate loads, complete broker packets, invoice the day of delivery and file detention claims. Semi dispatch costs 7% of linehaul or US$250 to US$400 per truck per week; box truck and hotshot dispatch costs 10% or US$350 to US$500 a week.',
+      'Texas Solutions is a truck dispatch service for owner-operators and small fleets in the United States. Dispatchers book and negotiate loads, complete broker packets and handle paperwork. Semi dispatch (dry van, reefer, flatbed, step deck, power only) costs 5-6% of weekly gross and box truck, straight truck and hotshot dispatch costs 8-10%, for OTR operations, with no flat rate. The final percentage is discussed with each carrier.',
     guideTitle: 'Truck dispatch services explained for owner-operators',
     guide: [
       {
@@ -292,14 +292,14 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does a truck dispatcher cost?',
         paragraphs: [
-          'US truck dispatch fees range from 3% to 10% of gross, with 5% to 7% typical for semi freight. We charge 7% of linehaul for semis (dry van, flatbed, reefer, step deck) and 10% for box trucks, hotshots, sprinters and cargo vans, or a flat US$250 to US$400 and US$350 to US$500 per truck per week respectively.',
-          'The percentage applies to linehaul only, never to fuel surcharge or detention. There is no long-term contract and thirty days notice either way.',
+          'US truck dispatch fees range from 3% to 10% of gross. We charge 5-6% of weekly gross for OTR semi trucks (dry van, reefer, flatbed, step deck, power only) and 8-10% for OTR box trucks, straight trucks and hotshots. On a semi grossing US$8,000 to US$10,000 a week, that is about US$400 to US$600 a week.',
+          'There is no flat rate, no setup fee and no long-term contract. Local and regional work is quoted separately, and the final percentage is discussed with each carrier before service begins.',
         ],
       },
       {
-        heading: 'Percentage or flat weekly: which dispatch fee is cheaper?',
+        heading: 'What do loads pay per mile?',
         paragraphs: [
-          'Divide the flat weekly fee by the percentage to find your break-even weekly gross. For a semi at 7% against a US$325 flat fee, break-even is about US$4,643 a week. Most semis on our desk gross US$8,000 to US$10,000 a week and most box trucks US$7,000 to US$9,000, where the flat weekly fee usually costs less. The calculator on this page works it out for your own numbers.',
+          'As a rough guide, flatbed and step deck loads often pay US$5 to US$7 a mile, reefer US$4 to US$6, hotshot US$4 to US$5, dry van and power only US$3 to US$5 depending on local or OTR lanes, and box trucks US$1.80 to US$3.20. Rates move with lane, season and market and are not guaranteed.',
         ],
       },
       {

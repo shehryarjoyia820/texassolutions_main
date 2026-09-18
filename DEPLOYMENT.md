@@ -1,11 +1,49 @@
 # Deployment
 
-Two targets are supported from the same codebase.
+Three targets are supported from the same codebase.
 
 | Target | Build | What you get |
 | --- | --- | --- |
+| GitHub Pages (texassolutions.co) | GitHub Actions, on every push | Static site; forms post to the Vercel endpoint |
 | Vercel | `npm run build` | Full Next.js, working `/api/submit` route, image optimisation |
 | DreamHost shared | `npm run build:static` | Static HTML in `./out`, forms via `api/submit.php` |
+
+---
+
+## 0. GitHub Pages — the public site at texassolutions.co
+
+`.github/workflows/deploy-pages.yml` builds the static export and publishes it on every push to
+`main`. `public/CNAME` pins the custom domain, and `public/.nojekyll` stops GitHub from hiding the
+`_next` folder.
+
+### One-time settings
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.** The workflow cannot publish
+   while the source is "Deploy from a branch".
+2. **Custom domain:** `texassolutions.co`, then tick **Enforce HTTPS** once the certificate is issued
+   (this can take up to an hour after DNS resolves).
+
+### DNS
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A | `@` | 185.199.108.153 |
+| A | `@` | 185.199.109.153 |
+| A | `@` | 185.199.110.153 |
+| A | `@` | 185.199.111.153 |
+| CNAME | `www` | shehryarjoyia820.github.io |
+
+### Forms
+
+GitHub Pages cannot run server code. The workflow sets `NEXT_PUBLIC_FORM_ENDPOINT` to
+`https://texassolutions-main.vercel.app/api/submit`, and that route allows cross-origin posts from
+`texassolutions.co`. Keep the Vercel project running for forms, and put email and CRM keys in its
+environment variables.
+
+### Redeploying
+
+Push to `main`. Progress shows under the repository's **Actions** tab. A run can also be started by
+hand from **Actions → Deploy to GitHub Pages → Run workflow**.
 
 ---
 

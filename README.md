@@ -3,7 +3,7 @@
 The Texas Solutions corporate website: seven service lines, per-region pricing and an interactive
 Rough Estimate calculator. Built from the v2 developer specification.
 
-**Live targets:** Vercel (full Next.js) and DreamHost shared hosting (static export).
+**Live targets:** GitHub Pages at texassolutions.co (static, deployed by GitHub Actions), Vercel (full Next.js, also serves the form endpoint) and DreamHost shared hosting (static export).
 
 ---
 

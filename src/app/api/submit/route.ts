@@ -17,6 +17,38 @@ import { NextResponse } from 'next/server';
  */
 
 export const runtime = 'nodejs';
+
+/**
+ * The public site is served from GitHub Pages at texassolutions.co, which
+ * cannot run server code, so its forms post here cross-origin. Only these
+ * origins may do that.
+ */
+const ALLOWED_ORIGINS = [
+  'https://texassolutions.co',
+  'https://www.texassolutions.co',
+  'https://shehryarjoyia820.github.io',
+  'http://localhost:3000',
+  'http://localhost:3100',
+];
+
+function corsHeaders(request: Request): Record<string, string> {
+  const origin = request.headers.get('origin') ?? '';
+  const allowed = ALLOWED_ORIGINS.includes(origin) || origin.endsWith('.vercel.app');
+  return allowed
+    ? {
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Max-Age': '86400',
+        Vary: 'Origin',
+      }
+    : { Vary: 'Origin' };
+}
+
+/** CORS preflight for cross-origin form posts. */
+export async function OPTIONS(request: Request) {
+  return new NextResponse(null, { status: 204, headers: corsHeaders(request) });
+}
 export const dynamic = 'force-dynamic';
 
 const HONEYPOT_FIELD = 'company_website';
@@ -48,6 +80,12 @@ interface Payload {
 }
 
 export async function POST(request: Request) {
+  const response = await handleSubmit(request);
+  for (const [k, v] of Object.entries(corsHeaders(request))) response.headers.set(k, v);
+  return response;
+}
+
+async function handleSubmit(request: Request): Promise<NextResponse> {
   const ip =
     request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
     request.headers.get('x-real-ip') ||

@@ -21,6 +21,9 @@ import { REGIONS, type RegionCode } from '@/data/regions';
 import { cn } from '@/lib/utils';
 import { useRegion, useTheme } from './providers';
 import { ButtonLink } from './ui';
+import { Logo } from './brand';
+
+export { Logo };
 
 export function Header() {
   const pathname = usePathname();
@@ -114,19 +117,14 @@ export function Header() {
         <div ref={navRef} className="container-x flex h-full items-center gap-3">
           <Link
             href="/"
-            className="group flex shrink-0 items-center gap-2.5"
+            className="flex shrink-0 items-center rounded-lg transition-opacity hover:opacity-90"
             aria-label={`${SITE.name} home`}
           >
-            <Logo />
-            <span className="hidden font-display text-[0.9375rem] font-semibold leading-tight tracking-tight sm:block">
-              Texas
-              <br />
-              Solutions
-            </span>
+            <Logo size="md" wordmarkClassName="hidden min-[520px]:flex" />
           </Link>
 
           {/* ---- desktop nav ---- */}
-          <nav className="ml-2 hidden min-w-0 flex-1 xl:block" aria-label="Main">
+          <nav className="ml-6 hidden min-w-0 flex-1 xl:block 2xl:ml-10" aria-label="Main">
             <ul className="flex items-center">
               {MEGA_MENUS.map((menu) => (
                 <li
@@ -165,7 +163,7 @@ export function Header() {
           </nav>
 
           {/* ---- right side ---- */}
-          <div className="ml-auto flex items-center gap-1.5 xl:gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-1.5 xl:gap-2">
             <div className="relative hidden md:block">
               <button
                 onClick={() => setRegionOpen((v) => !v)}
@@ -223,7 +221,7 @@ export function Header() {
             <button
               onClick={toggle}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              className="rounded-lg border border-line p-2 text-fg-muted transition-colors hover:border-accent/50 hover:text-fg"
+              className="shrink-0 rounded-lg border border-line p-2 text-fg-muted transition-colors hover:border-accent/50 hover:text-fg"
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
@@ -240,7 +238,7 @@ export function Header() {
               href="/estimate"
               size="sm"
               icon={ArrowRight}
-              className="px-3 sm:px-4"
+              className="shrink-0 px-3 sm:px-4"
               trackLabel="Get a Rough Estimate"
               trackLocation="header"
             >
@@ -252,7 +250,7 @@ export function Header() {
             <button
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
-              className="rounded-lg border border-line p-2 text-fg xl:hidden"
+              className="shrink-0 rounded-lg border border-line p-2 text-fg xl:hidden"
             >
               <Menu className="h-5 w-5" />
             </button>
@@ -385,9 +383,8 @@ function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
           className="fixed inset-0 z-[70] bg-bg xl:hidden"
         >
           <div className="flex h-16 items-center justify-between border-b border-line px-5">
-            <Link href="/" onClick={onClose} className="flex items-center gap-2.5">
-              <Logo />
-              <span className="font-display text-sm font-semibold">Texas Solutions</span>
+            <Link href="/" onClick={onClose} className="flex items-center" aria-label="Texas Solutions home">
+              <Logo size="sm" />
             </Link>
             <button onClick={onClose} aria-label="Close menu" className="rounded-lg border border-line p-2">
               <X className="h-5 w-5" />
@@ -488,28 +485,6 @@ function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
 }
 
 /* ------------------------------------------------------------------ */
-
-export function Logo({ className }: { className?: string }) {
-  return (
-    <span
-      className={cn(
-        'relative grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-lg bg-accent',
-        className,
-      )}
-      aria-hidden
-    >
-      <svg viewBox="0 0 32 32" className="h-5 w-5" fill="none">
-        <path
-          d="M16 3 L28 9.5 V22.5 L16 29 L4 22.5 V9.5 Z"
-          stroke="rgb(var(--accent-ink))"
-          strokeWidth="2.2"
-          strokeLinejoin="round"
-        />
-        <path d="M11 13 H21 M16 13 V22" stroke="rgb(var(--accent-ink))" strokeWidth="2.6" strokeLinecap="round" />
-      </svg>
-    </span>
-  );
-}
 
 function slug(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, '-');

@@ -19,7 +19,7 @@ export function pageMeta({
   noIndex?: boolean;
 }): Metadata {
   const url = `${SITE.url}${path === '/' ? '' : path}`;
-  const ogImage = image ?? `/og/default.svg`;
+  const ogImage = image ?? `/og/default.png`;
 
   return {
     title,
@@ -84,7 +84,7 @@ export function localBusinessSchema() {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: SITE.name,
-    image: `${SITE.url}/og/default.svg`,
+    image: `${SITE.url}/og/default.png`,
     url: SITE.url,
     telephone: SITE.phone,
     priceRange: '$$-$$$$',

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { SITE, OFFICES, CERTIFICATIONS } from '@/data/site';
 import { FOOTER_COLUMNS, FOOTER_MENUS } from '@/data/nav';
 import { submitForm } from '@/lib/forms';
-import { Logo } from './header';
+import { Logo } from './brand';
 import { Button } from './ui';
 
 export function Footer() {
@@ -32,9 +32,8 @@ export function Footer() {
         {/* ---- link columns ---- */}
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
           <div className="col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5" aria-label={`${SITE.name} home`}>
-              <Logo />
-              <span className="font-display text-base font-semibold leading-tight">Texas Solutions</span>
+            <Link href="/" className="inline-flex items-center" aria-label={`${SITE.name} home`}>
+              <Logo size="lg" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-fg-muted">{SITE.tagline}</p>
             <div className="mt-5 space-y-2 text-sm">

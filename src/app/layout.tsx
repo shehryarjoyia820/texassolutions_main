@@ -47,10 +47,16 @@ export const metadata: Metadata = {
     url: SITE.url,
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
-    images: [{ url: '/og/default.svg', width: 1200, height: 630, alt: SITE.name }],
+    images: [{ url: '/og/default.png', width: 1200, height: 630, alt: SITE.name }],
   },
   twitter: { card: 'summary_large_image' },
-  icons: { icon: '/favicon.svg', apple: '/favicon.svg' },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   robots: { index: true, follow: true },
 };
 

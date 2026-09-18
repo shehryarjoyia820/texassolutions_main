@@ -53,11 +53,11 @@ export function Hero() {
             </span>
           </motion.div>
 
-          <h1 className="text-display-xl">
-            <SplitText text="Thirteen service lines." />
+          <h1 className="text-[clamp(2.4rem,6.2vw,5rem)] font-semibold leading-[1] tracking-[-0.03em]">
+            <SplitText text="Custom Web Platforms & Software" />
             <br />
             <span className="text-accent">
-              <SplitText text="One accountable partner." delay={0.22} />
+              <SplitText text="Built for Modern Enterprises" delay={0.22} />
             </span>
           </h1>
 
@@ -67,8 +67,9 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="mt-7 max-w-2xl text-lg leading-relaxed text-fg-muted sm:text-xl"
           >
-            Web and app development, QA testing, lead generation and auto engines, plus AI, data, cloud, CRM
-            and ERP, cybersecurity, dedicated teams, truck dispatch, paid ads and AdSense. Published pricing in your region, a named contact on every service, and thirty days
+            Thirteen service lines under one accountable partner: web and app development, QA, AI, data,
+            cloud, CRM and ERP, cybersecurity and dedicated teams, plus lead generation, auto engines, truck
+            dispatch, ads and AdSense. Published pricing in your region, a named contact on every service, and thirty days
             notice if it stops working for you.
           </motion.p>
 

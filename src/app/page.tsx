@@ -15,7 +15,7 @@ import { SITE_FAQS } from '@/data/company';
 import { JsonLd, faqSchema, pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
-  title: 'Texas Solutions — Truck dispatch, web builds, leads, ads and QA',
+  title: 'Texas Solutions — Custom Web Platforms & Software Built for Modern Enterprises',
   description:
     'Thirteen service lines under one accountable partner: truck dispatch, web and app development, lead generation, ads, AdSense revenue management, QA testing and auto engines. Published pricing across the US, UK, Canada, Australia and Europe.',
   path: '/',

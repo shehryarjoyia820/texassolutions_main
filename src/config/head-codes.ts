@@ -57,8 +57,9 @@ export const HEAD_CODES = {
    * Paste ONLY the client value, e.g. 'ca-pub-1234567890123456'.
    * The matching ads.txt line is added automatically (see adsTxt below).
    * ---------------------------------------------------------------------- */
-  adsenseClientId: '',
-
+  adsenseClientId: 'ca-pub-4507418978047945',
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4507418978047945"
+     crossorigin="anonymous"></script>
   /* ------------------------------------------------------------------------
    * 6. META (FACEBOOK) PIXEL — the numeric Pixel ID, e.g. '123456789012345'.
    * ---------------------------------------------------------------------- */

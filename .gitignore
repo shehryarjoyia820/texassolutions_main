@@ -17,3 +17,5 @@ yarn-error.log*
 # Local editor/agent config
 .claude/
 dev.cmd
+
+.vercel

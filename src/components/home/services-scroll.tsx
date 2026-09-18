@@ -84,7 +84,9 @@ export function ServicesScroll() {
           <div
             ref={trackRef}
             className={cn(
-              'flex flex-col gap-5 px-5 sm:px-6',
+              // Phones: a swipeable row with snap points. Desktop: pinned horizontal scroll.
+              'no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:px-6',
+              'md:snap-none md:overflow-visible md:pb-0',
               'md:w-max md:flex-row md:gap-6 md:pl-[max(1.25rem,calc((100vw-1440px)/2+2.5rem))] md:pr-24',
             )}
           >
@@ -93,7 +95,7 @@ export function ServicesScroll() {
             ))}
             <Link
               href="/services"
-              className="group flex shrink-0 flex-col justify-between rounded-2xl border border-dashed border-accent/40 bg-accent/5 p-7 transition-colors hover:bg-accent/10 md:w-[22rem]"
+              className="group flex w-[82vw] max-w-[22rem] shrink-0 snap-start flex-col justify-between rounded-2xl border border-dashed border-accent/40 bg-accent/5 p-7 transition-colors hover:bg-accent/10 md:w-[22rem]"
             >
               <div>
                 <p className="eyebrow mb-3">All services</p>
@@ -111,8 +113,9 @@ export function ServicesScroll() {
         </div>
 
         <Container>
-          <p className="mt-8 hidden text-xs text-fg-subtle md:block">
-            Scroll to move through the service lines.
+          <p className="mt-6 text-xs text-fg-subtle md:mt-8">
+            <span className="md:hidden">Swipe to see all thirteen service lines.</span>
+            <span className="hidden md:inline">Scroll to move through the service lines.</span>
           </p>
         </Container>
       </div>
@@ -137,7 +140,7 @@ function ServiceCard({
   return (
     <Link
       href={`/services/${service.slug}`}
-      className="group relative flex shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-bg-elev p-7 transition-[transform,border-color,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:shadow-lift md:w-[22rem]"
+      className="group relative flex w-[82vw] max-w-[22rem] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-line bg-bg-elev p-6 transition-[transform,border-color,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:shadow-lift sm:p-7 md:w-[22rem]"
       style={{ ['--svc' as string]: service.accent }}
     >
       <div

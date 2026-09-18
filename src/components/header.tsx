@@ -240,11 +240,12 @@ export function Header() {
               href="/estimate"
               size="sm"
               icon={ArrowRight}
-              className="hidden sm:inline-flex"
+              className="px-3 sm:px-4"
               trackLabel="Get a Rough Estimate"
               trackLocation="header"
             >
-              <span className="2xl:hidden">Get an Estimate</span>
+              <span className="sm:hidden">Estimate</span>
+              <span className="hidden sm:inline 2xl:hidden">Get an Estimate</span>
               <span className="hidden 2xl:inline">Get a Rough Estimate</span>
             </ButtonLink>
 

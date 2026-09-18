@@ -104,6 +104,21 @@
   ::-webkit-scrollbar-thumb:hover { background: rgb(var(--fg-subtle)); }
 
   input, select, textarea, button { font: inherit; }
+
+  /* Grid children default to min-width:auto, which lets one long
+     word or a wide child push the page sideways on phones. */
+  .grid > * {
+    min-width: 0;
+  }
+
+  img, svg, video, canvas, table {
+    max-width: 100%;
+  }
+
+  /* Long words, URLs and email addresses wrap instead of overflowing. */
+  p, li, dd, dt, td, th, h1, h2, h3, h4, a, address {
+    overflow-wrap: break-word;
+  }
 }
 
 @layer components {

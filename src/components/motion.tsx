@@ -62,8 +62,10 @@ type RevealDirection = 'up' | 'down' | 'left' | 'right' | 'none';
 const offsets: Record<RevealDirection, { x: number; y: number }> = {
   up: { x: 0, y: 22 },
   down: { x: 0, y: -22 },
-  left: { x: 26, y: 0 },
-  right: { x: -26, y: 0 },
+  // Sideways slides push content past the screen edge on phones, and the
+  // start position is fixed at first render, so these rise and fade instead.
+  left: { x: 0, y: 22 },
+  right: { x: 0, y: 22 },
   none: { x: 0, y: 0 },
 };
 
@@ -397,7 +399,7 @@ export function Marquee({
   reverse?: boolean;
 }) {
   return (
-    <div className={cn('mask-fade-x relative flex overflow-hidden', className)}>
+    <div className={cn('mask-fade-x relative flex w-full min-w-0 max-w-full overflow-hidden', className)}>
       <div
         className={cn(
           'flex shrink-0 items-center gap-10 pr-10',

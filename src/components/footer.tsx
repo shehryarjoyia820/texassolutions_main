@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { SITE, OFFICES, CERTIFICATIONS } from '@/data/site';
@@ -10,6 +11,9 @@ import { Logo } from './header';
 import { Button } from './ui';
 
 export function Footer() {
+  // Offices are shown in the footer on the home page only.
+  const showOffices = usePathname() === '/';
+
   return (
     <footer className="relative border-t border-line bg-bg-soft">
       <div className="container-x py-section-sm">
@@ -26,8 +30,8 @@ export function Footer() {
         </div>
 
         {/* ---- link columns ---- */}
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
+          <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5" aria-label={`${SITE.name} home`}>
               <Logo />
               <span className="font-display text-base font-semibold leading-tight">Texas Solutions</span>
@@ -85,7 +89,7 @@ export function Footer() {
         </div>
 
         {/* ---- company menus, moved here from the header ---- */}
-        <div className="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-line pt-10 lg:grid-cols-4">
           {FOOTER_MENUS.map((menu) => (
             <div key={menu.title}>
               <Link
@@ -108,12 +112,13 @@ export function Footer() {
           ))}
         </div>
 
-        {/* ---- offices ---- */}
+        {/* ---- offices (home page only) ---- */}
+        {showOffices && (
         <div className="mt-14 border-t border-line pt-10">
           <p className="mb-5 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle">
             Offices
           </p>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-6 lg:grid-cols-5">
             {OFFICES.map((office) => (
               <div key={office.city}>
                 <p className="font-display text-sm font-semibold">
@@ -132,6 +137,7 @@ export function Footer() {
             ))}
           </div>
         </div>
+        )}
 
         {/* ---- certifications ---- */}
         <div className="mt-10 border-t border-line pt-8">

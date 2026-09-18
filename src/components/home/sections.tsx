@@ -59,7 +59,7 @@ export function TrustBar() {
             ))}
           </div>
 
-          <div className="lg:w-72">
+          <div className="min-w-0 lg:w-72">
             <p className="mb-3 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle">
               Working across
             </p>
@@ -573,7 +573,7 @@ export function CaseStudiesCarousel() {
               {current.study.results.map((r) => (
                 <div key={r.label} className="rounded-xl border border-line bg-bg-soft p-5">
                   <p className="text-xs text-fg-subtle">{r.label}</p>
-                  <div className="mt-2 flex items-baseline gap-2">
+                  <div className="mt-2 flex flex-wrap items-baseline gap-2">
                     <span className="text-sm text-fg-subtle line-through">{r.before}</span>
                     <ArrowRight className="h-3.5 w-3.5 text-fg-subtle" aria-hidden />
                     <span className="font-display text-xl font-semibold text-svc">{r.after}</span>

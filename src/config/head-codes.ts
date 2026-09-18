@@ -106,8 +106,8 @@ export const HEAD_CODES = {
 `,
 };
 
-/** Converts 'ca-pub-123' to the 'pub-123' form ads.txt expects. */
-export function adsensePublisherId(): string {
+/** Converts 'ca-pub-4507418978047945' to the 'ca-pub-4507418978047945' form ads.txt expects. */
+export function adsensePublisherId(ca-pub-4507418978047945): string {
   const id = HEAD_CODES.adsenseClientId.trim();
   return id ? id.replace(/^ca-/, '') : '';
 }

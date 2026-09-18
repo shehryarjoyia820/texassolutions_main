@@ -8,6 +8,15 @@ import { Footer } from '@/components/footer';
 import { CookieBanner } from '@/components/cookie-banner';
 import { SITE } from '@/data/site';
 import { JsonLd, organizationSchema, localBusinessSchema } from '@/lib/seo';
+import { HeadCodes } from '@/components/head-codes';
+import { HEAD_CODES } from '@/config/head-codes';
+
+/** Verification meta tags from src/config/head-codes.ts. */
+const verificationOther: Record<string, string> = {};
+if (HEAD_CODES.bingSiteVerification.trim()) verificationOther['msvalidate.01'] = HEAD_CODES.bingSiteVerification.trim();
+for (const tag of HEAD_CODES.extraMetaTags) {
+  if (tag.name.trim() && tag.content.trim()) verificationOther[tag.name.trim()] = tag.content.trim();
+}
 
 const display = Space_Grotesk({
   subsets: ['latin'],
@@ -65,6 +74,10 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   robots: { index: true, follow: true },
+  verification: {
+    ...(HEAD_CODES.googleSiteVerification.trim() ? { google: HEAD_CODES.googleSiteVerification.trim() } : {}),
+    ...(Object.keys(verificationOther).length ? { other: verificationOther } : {}),
+  },
 };
 
 export const viewport: Viewport = {
@@ -88,6 +101,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
         <JsonLd data={[organizationSchema(), localBusinessSchema()]} />
+        {/* Tracking, AdSense and custom codes: edit src/config/head-codes.ts */}
+        <HeadCodes />
       </head>
       <body>
         <Providers>

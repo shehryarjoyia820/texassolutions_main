@@ -145,6 +145,18 @@ the code rather than faked. See `CONTENT_TODO` in `src/data/company.ts`:
 
 ---
 
+## Header codes and ads.txt
+
+Everything that goes in the page `<head>`, plus `/ads.txt`, is pasted into one file:
+**`src/config/head-codes.ts`**. It has labelled fields for Google Search Console, Bing, Google
+Analytics 4, Google Tag Manager, AdSense, Meta Pixel, Microsoft Clarity, other verification meta tags,
+free-form snippets and extra ads.txt lines. Edit it on GitHub and the site redeploys on its own.
+
+Analytics, Tag Manager, Meta Pixel, Clarity and custom snippets wait for cookie consent (Google Consent
+Mode v2). AdSense and verification tags always load.
+
+---
+
 ## Deployment
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for Vercel and DreamHost instructions.

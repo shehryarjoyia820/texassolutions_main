@@ -80,9 +80,8 @@ export default function TermsPage() {
             </p>
             <h3>Dispatch fees specifically</h3>
             <p>
-              Where a dispatch fee is charged as a percentage, it applies to linehaul revenue only. It does not
-              apply to fuel surcharge, detention, layover, truck-order-not-used payments, lumper reimbursement
-              or any other accessorial. Dispatch percentages are discussed with each carrier.
+              Dispatch fees are a percentage of the truck's weekly gross, meaning the total the truck earns
+              hauling loads in that week. Dispatch percentages are discussed with each carrier.
             </p>
             <h3>Project work</h3>
             <p>

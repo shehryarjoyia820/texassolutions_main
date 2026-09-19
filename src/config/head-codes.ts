@@ -31,7 +31,7 @@ export const HEAD_CODES = {
    *   <meta name="google-site-verification" content="abc123XYZ..." />
    * Paste ONLY the content value, e.g. 'abc123XYZ...'
    * ---------------------------------------------------------------------- */
-  googleSiteVerification: '',
+  googleSiteVerification: 'qJuZAjTulY3w8KsFfLVsR_z3-KL-9p5sn3bSA-eXJpA',
 
   /* ------------------------------------------------------------------------
    * 2. BING WEBMASTER TOOLS (also feeds ChatGPT search)
@@ -45,7 +45,7 @@ export const HEAD_CODES = {
    * Analytics → Admin → Data streams → your stream → Measurement ID.
    * Looks like 'G-XXXXXXXXXX'.
    * ---------------------------------------------------------------------- */
-  googleAnalyticsId: '',
+  googleAnalyticsId: 'G-Y7HEQD0832',
 
   /* ------------------------------------------------------------------------
    * 4. GOOGLE TAG MANAGER (optional; use this OR GA4 above, not both

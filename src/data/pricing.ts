@@ -264,18 +264,25 @@ const BASE_PRICE_TABLES: AuthoredTable[] = [
       'A percentage of weekly gross, for carriers running OTR. No flat rate, no setup fee, no monthly subscription and no long-term contract. Your final percentage is discussed with each carrier before service begins.',
     rows: [
       {
-        id: 'box-truck',
-        label: 'Small trucks: box truck, straight truck or hotshot, 8-10% of weekly gross',
-        note: 'Typical weekly gross USD 7,000-9,000, OTR',
-        unit: 'weekly',
-        values: { US: [560, 900], UK: [560, 900], CA: [560, 900], AU: [560, 900], EU: [560, 900] },
-      },
-      {
         id: 'semi',
-        label: 'Semi trucks: dry van, reefer, flatbed, step deck, power only, 5-6% of weekly gross',
+        label: 'Semi trucks: dry van, reefer, flatbed, step deck, power only, 5% of weekly gross',
         note: 'Typical weekly gross USD 8,000-10,000, OTR',
         unit: 'weekly',
-        values: { US: [400, 600], UK: [400, 600], CA: [400, 600], AU: [400, 600], EU: [400, 600] },
+        values: { US: [400, 500], UK: [400, 500], CA: [400, 500], AU: [400, 500], EU: [400, 500] },
+      },
+      {
+        id: 'hotshot',
+        label: 'Hotshot trucks, 8% of weekly gross',
+        note: 'Typical weekly gross USD 7,000-9,000, OTR',
+        unit: 'weekly',
+        values: { US: [560, 720], UK: [560, 720], CA: [560, 720], AU: [560, 720], EU: [560, 720] },
+      },
+      {
+        id: 'box-truck',
+        label: 'Box trucks and straight trucks, 10% of weekly gross',
+        note: 'Typical weekly gross USD 7,000-9,000, OTR',
+        unit: 'weekly',
+        values: { US: [700, 900], UK: [700, 900], CA: [700, 900], AU: [700, 900], EU: [700, 900] },
       },
     ],
     disclaimer:
@@ -357,24 +364,35 @@ export function getPriceRow(service: string, rowId: string): PriceRow | undefine
 /** Dispatch percentage models (OTR, no flat rate), used by the service page and the calculators. */
 export const DISPATCH_MODELS = [
   {
-    id: 'boxTruckOrHotshot',
-    label: 'Small truck: box truck, straight truck or hotshot',
-    /** Percentage of weekly gross, low and high. */
-    percent: [0.08, 0.1] as Range,
+    id: 'semi',
+    label: 'Semi truck: dry van, reefer, flatbed, step deck, power only',
+    short: 'Semi truck',
+    /** Percentage of weekly gross, low and high (equal when the rate is fixed). */
+    percent: [0.05, 0.05] as Range,
     /** Typical OTR weekly gross for this equipment on our desk. */
+    typicalGross: [8000, 10000] as Range,
+  },
+  {
+    id: 'hotshot',
+    label: 'Hotshot truck',
+    short: 'Hotshot',
+    percent: [0.08, 0.08] as Range,
     typicalGross: [7000, 9000] as Range,
   },
   {
-    id: 'semi',
-    label: 'Semi truck: dry van, reefer, flatbed, step deck, power only',
-    percent: [0.05, 0.06] as Range,
-    typicalGross: [8000, 10000] as Range,
+    id: 'boxTruckOrHotshot',
+    label: 'Box truck or straight truck',
+    short: 'Box truck',
+    percent: [0.1, 0.1] as Range,
+    typicalGross: [7000, 9000] as Range,
   },
 ] as const;
 
-/** "5-6%" */
+/** "5%" or "8-10%" */
 export function dispatchPercentLabel(p: Range): string {
-  return `${Math.round(p[0] * 100)}-${Math.round(p[1] * 100)}%`;
+  const lo = Math.round(p[0] * 100);
+  const hi = Math.round(p[1] * 100);
+  return lo === hi ? `${lo}%` : `${lo}-${hi}%`;
 }
 
 export const DISPATCH_DISCLAIMER =

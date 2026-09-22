@@ -208,7 +208,7 @@ export const INSIGHTS: Insight[] = [
       ] },
       { t: 'h2', text: 'The number to hold on to' },
       { t: 'p', text: 'Work out your average weekly gross over the last three months, not your best week. Compare both models at that number. Then ask what happens to the fee in a slow week, because a flat fee does not care that the market softened and a percentage does.' },
-      { t: 'p', text: 'We do not offer a flat rate. Our own dispatch fee is a percentage of weekly gross for OTR carriers: 5 to 6 percent for semi trucks and 8 to 10 percent for box trucks, straight trucks and hotshots, with the final percentage discussed with each carrier. The calculator on the dispatch page shows the fee against your actual gross.' },
+      { t: 'p', text: 'We do not offer a flat rate. Our own dispatch fee is a percentage of weekly gross for OTR carriers: 5 percent for semi trucks, 8 percent for hotshots and 10 percent for box trucks and straight trucks, with the final percentage discussed with each carrier. The calculator on the dispatch page shows the fee against your actual gross.' },
     ],
   },
   {

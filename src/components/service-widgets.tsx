@@ -361,7 +361,7 @@ function RevenueEstimator() {
 
 export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }) {
   const { code } = useRegion();
-  const [equipment, setEquipment] = useState<'boxTruckOrHotshot' | 'semi'>('semi');
+  const [equipment, setEquipment] = useState<(typeof DISPATCH_MODELS)[number]['id']>('semi');
   const [trucks, setTrucks] = useState(1);
   const [gross, setGross] = useState(9000);
   const model = DISPATCH_MODELS.find((m) => m.id === equipment)!;
@@ -375,7 +375,7 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
       <div className="space-y-6 rounded-2xl border border-line bg-bg-soft p-6">
         <div>
           <span className="mb-2.5 block text-sm font-medium">Equipment</span>
-          <div className="grid gap-2 sm:grid-cols-2">
+          <div className="grid gap-2 sm:grid-cols-3">
             {DISPATCH_MODELS.map((m) => (
               <button
                 key={m.id}
@@ -389,7 +389,7 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
                   equipment === m.id ? 'border-svc bg-svc/10' : 'border-line hover:border-svc/40',
                 )}
               >
-                <span className="block font-medium">{m.id === 'semi' ? 'Semi truck' : 'Box truck / hotshot'}</span>
+                <span className="block font-medium">{m.short}</span>
                 <span className="block text-xs text-fg-subtle">{dispatchPercentLabel(m.percent)} of weekly gross</span>
               </button>
             ))}
@@ -408,7 +408,7 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
           display={formatMoney(gross, code)}
         />
         <p className="-mt-3 text-xs text-fg-subtle">
-          Typical OTR gross for {equipment === 'semi' ? 'a semi' : 'a box truck or hotshot'}:{' '}
+          Typical OTR gross for a {model.short.toLowerCase()}:{' '}
           {formatRange(typical, code)} per week.
         </p>
       </div>

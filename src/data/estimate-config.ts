@@ -397,8 +397,9 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
     regions: ['US', 'CA'],
     subTypeLabel: 'What are you running?',
     subTypes: [
-      { id: 'boxTruckOrHotshot', label: 'Small truck: box truck, straight truck or hotshot', description: '8-10% of weekly gross, OTR', priceRow: 'box-truck' },
-      { id: 'semi', label: 'Semi truck: dry van, reefer, flatbed, step deck or power only', description: '5-6% of weekly gross, OTR', priceRow: 'semi' },
+      { id: 'semi', label: 'Semi truck: dry van, reefer, flatbed, step deck or power only', description: '5% of weekly gross, OTR', priceRow: 'semi' },
+      { id: 'hotshot', label: 'Hotshot truck', description: '8% of weekly gross, OTR', priceRow: 'hotshot' },
+      { id: 'boxTruckOrHotshot', label: 'Box truck or straight truck', description: '10% of weekly gross, OTR', priceRow: 'box-truck' },
     ],
     questions: [
       {

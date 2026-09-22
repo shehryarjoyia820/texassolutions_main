@@ -57,7 +57,7 @@ export const SOLUTIONS: Solution[] = [
       ],
     },
     faqs: [
-      { q: 'Do you dispatch box trucks as well as semis?', a: 'Yes. Box trucks, straight trucks and hotshots run at 8-10% of weekly gross; semis run at 5-6%. Both apply to OTR operations, with no flat rate.' },
+      { q: 'Do you dispatch box trucks as well as semis?', a: 'Yes. Hotshots run at 8% of weekly gross, box trucks and straight trucks at 10%; semis run at 5%. Both apply to OTR operations, with no flat rate.' },
       { q: 'Can you help us win direct shippers?', a: 'That is the lead generation side. We build the carrier-facing site and run outbound to shippers in your lanes so broker freight stops being the only option.' },
     ],
     keyword: 'trucking and logistics back office solutions',

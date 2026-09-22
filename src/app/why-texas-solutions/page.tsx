@@ -188,7 +188,7 @@ export default function WhyPage() {
                   ['Ranges, not single numbers', 'A single figure before scope is known is a guess dressed as a quote. We publish the range and narrow it with you.'],
                   ['Five authored tables', 'Each region has its own figures. We do not convert currency live, because conversion implies a precision we do not have.'],
                   ['Derived figures are flagged', 'Canadian and European numbers are scaled from US and UK benchmarks. The pricing page says so on the page, not in a footnote.'],
-                  ['The fee base is stated', 'Dispatch is a stated percentage of weekly gross with no flat rate: 5-6% for semis, 8-10% for small trucks. AdSense uplift is measured against an agreed baseline. Ads fees are the lower of flat or percentage.'],
+                  ['The fee base is stated', 'Dispatch is a stated percentage of weekly gross with no flat rate: 5% for semis, 8% for hotshots, 10% for box trucks. AdSense uplift is measured against an agreed baseline. Ads fees are the lower of flat or percentage.'],
                 ].map(([title, body]) => (
                   <li key={title} className="rounded-xl border border-line bg-bg-soft p-5">
                     <p className="font-display text-base font-semibold">{title}</p>

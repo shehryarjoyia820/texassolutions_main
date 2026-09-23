@@ -106,6 +106,8 @@ export const HEAD_CODES = {
    * Lines starting with # are comments.
    * ---------------------------------------------------------------------- */
   adsTxt: `
+# Subdomains that publish their own ads.txt:
+SUBDOMAIN=dispatch.texassolutions.co
 # Add other authorised ad sellers below, one per line, for example:
 # example-adnetwork.com, 12345, DIRECT, abc123def456
 `,

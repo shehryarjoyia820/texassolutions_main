@@ -3,37 +3,9 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------ */
-/*  Design tokens — dark is the default theme, light is remembered.     */
+/*  Design tokens: one light theme (dark mode was removed).             */
 /* ------------------------------------------------------------------ */
-:root,
-:root.dark {
-  --bg: 7 11 24;
-  --bg-soft: 11 17 34;
-  --bg-elev: 17 24 45;
-  --fg: 240 244 255;
-  --fg-muted: 165 176 204;
-  --fg-subtle: 120 132 163;
-  --line: 34 45 74;
-
-  --accent: 255 122 26;
-  --accent-soft: 255 168 92;
-  --accent-ink: 12 8 3;
-  --gold: 255 197 61;
-
-  --success: 45 196 126;
-  --warn: 245 178 11;
-  --danger: 239 83 80;
-
-  --svc: 255 122 26;
-
-  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
-
-  --header-h: 76px;
-  color-scheme: dark;
-}
-
-:root.light {
+:root {
   --bg: 255 255 255;
   --bg-soft: 246 247 251;
   --bg-elev: 255 255 255;
@@ -47,6 +19,16 @@
   --accent-ink: 255 255 255;
   --gold: 189 130 6;
 
+  --success: 45 196 126;
+  --warn: 245 178 11;
+  --danger: 239 83 80;
+
+  --svc: 255 122 26;
+
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --header-h: 76px;
   color-scheme: light;
 }
 

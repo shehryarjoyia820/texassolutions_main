@@ -7,9 +7,7 @@ import {
   ChevronDown,
   Globe,
   Menu,
-  Moon,
   Phone,
-  Sun,
   X,
   ArrowRight,
   Check,
@@ -19,7 +17,7 @@ import { HEADER_MENUS as MEGA_MENUS, type MegaMenu } from '@/data/nav';
 import { SITE } from '@/data/site';
 import { REGIONS, type RegionCode } from '@/data/regions';
 import { cn } from '@/lib/utils';
-import { useRegion, useTheme } from './providers';
+import { useRegion } from './providers';
 import { ButtonLink } from './ui';
 import { Logo } from './brand';
 
@@ -34,7 +32,6 @@ export function Header() {
   const navRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const { theme, toggle } = useTheme();
   const { region, setRegion } = useRegion();
 
   // Shrink on scroll.
@@ -217,14 +214,6 @@ export function Header() {
                 )}
               </AnimatePresence>
             </div>
-
-            <button
-              onClick={toggle}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              className="shrink-0 rounded-lg border border-line p-2 text-fg-muted transition-colors hover:border-accent/50 hover:text-fg"
-            >
-              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
 
             <a
               href={SITE.phoneHref}

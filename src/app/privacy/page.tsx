@@ -61,7 +61,7 @@ export default function PrivacyPage() {
             </ul>
             <p>
               Analytics cookies are not set until you accept them in the cookie banner. If you decline, only
-              cookies strictly necessary for the site to function are used, and your theme and region
+              cookies strictly necessary for the site to function are used, and your region
               preferences are stored in your browser rather than sent to us.
             </p>
 
@@ -95,7 +95,7 @@ export default function PrivacyPage() {
             <h2>Cookies and similar technologies</h2>
             <ul>
               <li><strong>Strictly necessary.</strong> Keep the site working, remember your cookie choice, and protect forms from abuse. These cannot be switched off.</li>
-              <li><strong>Preference.</strong> Your theme and region, stored locally in your browser and never transmitted to us.</li>
+              <li><strong>Preference.</strong> Your region, stored locally in your browser and never transmitted to us.</li>
               <li><strong>Analytics.</strong> Google Analytics 4 and Microsoft Clarity, used to understand which pages produce enquiries. Set only after you accept.</li>
               <li><strong>Advertising.</strong> Google Ads and Meta Pixel, used to measure campaign performance. Set only after you accept.</li>
             </ul>

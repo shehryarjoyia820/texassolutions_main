@@ -13,20 +13,11 @@ import { DEFAULT_REGION, REGION_CODES, getRegion, guessRegionFromLocale, type Re
 import { trackRegionChange } from '@/lib/analytics';
 
 /* ------------------------------------------------------------------ */
-/*  Theme                                                              */
+/*  Theme (light only)                                                 */
 /* ------------------------------------------------------------------ */
 
-type Theme = 'dark' | 'light';
-
-interface ThemeCtx {
-  theme: Theme;
-  toggle: () => void;
-  setTheme: (t: Theme) => void;
-}
-
-const ThemeContext = createContext<ThemeCtx>({ theme: 'dark', toggle: () => {}, setTheme: () => {} });
-export const useTheme = () => useContext(ThemeContext);
-
+// The site has a single light theme. THEME_KEY is only used to clear a preference
+// stored by the old dark/light toggle.
 const THEME_KEY = 'ts-theme';
 
 /* ------------------------------------------------------------------ */
@@ -54,33 +45,20 @@ const REGION_KEY = 'ts-region';
 /* ------------------------------------------------------------------ */
 
 export function Providers({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
   const [code, setCode] = useState<RegionCode>(DEFAULT_REGION);
   const [ready, setReady] = useState(false);
 
-  // Theme: restore the remembered choice, else follow the system.
-  useEffect(() => {
-    let stored: string | null = null;
-    try {
-      stored = window.localStorage.getItem(THEME_KEY);
-    } catch {
-      /* private mode */
-    }
-    // Dark is the brand default. Light is available and remembered once chosen.
-    const initial: Theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
-    setThemeState(initial);
-  }, []);
-
+  // Light is the only theme. Remove any dark/light choice remembered by the old toggle.
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.remove('dark', 'light');
-    root.classList.add(theme);
+    root.classList.remove('dark');
+    root.classList.add('light');
     try {
-      window.localStorage.setItem(THEME_KEY, theme);
+      window.localStorage.removeItem(THEME_KEY);
     } catch {
       /* ignore */
     }
-  }, [theme]);
+  }, []);
 
   // Region: stored choice wins, then a URL parameter, then the browser locale.
   useEffect(() => {
@@ -107,34 +85,26 @@ export function Providers({ children }: { children: ReactNode }) {
     trackRegionChange(next);
   }, []);
 
-  const setTheme = useCallback((t: Theme) => setThemeState(t), []);
-  const toggle = useCallback(() => setThemeState((t) => (t === 'dark' ? 'light' : 'dark')), []);
-
-  const themeValue = useMemo(() => ({ theme, toggle, setTheme }), [theme, toggle, setTheme]);
   const regionValue = useMemo(
     () => ({ code, region: getRegion(code), setRegion, ready }),
     [code, setRegion, ready],
   );
 
   return (
-    <ThemeContext.Provider value={themeValue}>
-      <RegionContext.Provider value={regionValue}>{children}</RegionContext.Provider>
-    </ThemeContext.Provider>
+    <RegionContext.Provider value={regionValue}>{children}</RegionContext.Provider>
   );
 }
 
 /**
- * Applies the stored theme before first paint so the page never flashes the
- * wrong colours. Injected as an inline script in the root layout.
+ * Marks the page as light before first paint and clears any old dark preference.
+ * Injected as an inline script in the root layout.
  */
 export const themeScript = `
 (function(){
   try {
-    var t = localStorage.getItem('${THEME_KEY}');
-    if (t !== 'light' && t !== 'dark') t = 'dark';
-    document.documentElement.classList.add(t);
-  } catch (e) {
-    document.documentElement.classList.add('dark');
-  }
+    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light');
+    localStorage.removeItem('${THEME_KEY}');
+  } catch (e) {}
 })();
 `;

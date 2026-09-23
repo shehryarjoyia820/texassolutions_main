@@ -81,17 +81,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#070B18' },
-    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
-  ],
+  themeColor: '#FFFFFF',
   width: 'device-width',
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${display.variable} ${body.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`light ${display.variable} ${body.variable}`}>
       <head>
         {/* Applied before paint so the theme never flashes. */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

@@ -21,10 +21,10 @@ const TIMEZONES = [
   { id: 'America/Chicago', label: 'Central Time, Houston', offset: -5 },
   { id: 'America/New_York', label: 'Eastern Time, Toronto', offset: -4 },
   { id: 'America/Los_Angeles', label: 'Pacific Time', offset: -7 },
-  { id: 'Europe/London', label: 'UK, London', offset: 1 },
-  { id: 'Europe/Berlin', label: 'Central Europe', offset: 2 },
-  { id: 'Asia/Karachi', label: 'Pakistan, Lahore', offset: 5 },
-  { id: 'Australia/Sydney', label: 'Australia, Sydney', offset: 10 },
+  { id: 'Europe/London', label: 'London time', offset: 1 },
+  { id: 'Europe/Berlin', label: 'Central European Time', offset: 2 },
+  { id: 'Asia/Karachi', label: 'Lahore time', offset: 5 },
+  { id: 'Australia/Sydney', label: 'Sydney time', offset: 10 },
 ];
 
 /** Consultation slots offered, in Central Time, as 24h hours. */

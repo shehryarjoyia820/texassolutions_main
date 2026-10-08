@@ -6,9 +6,9 @@ import { Container, Section, SectionHeading, NoteBox } from '@/components/ui';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
-  title: 'Pricing — every service, every region',
+  title: 'Pricing — every service, in US dollars',
   description:
-    'Published price ranges for all thirteen service lines across the US, UK, Canada, Australia and Europe, with the sources behind each figure and the ones we derived rather than measured.',
+    'Published US-dollar price ranges for all thirteen service lines, with the sources behind each figure and the ones we derived rather than measured.',
   path: '/pricing',
 });
 
@@ -20,7 +20,7 @@ export default function PricingPage() {
       <PageHero
         eyebrow="Pricing"
         title="Every number we publish, in one place"
-        body="Five regions, thirteen service lines, and the sources underneath. Where a figure is derived rather than measured, the page says so."
+        body="One US-dollar price list, thirteen service lines, and the sources underneath. Where a figure is derived rather than measured, the page says so."
         trail={[{ label: 'Pricing' }]}
       />
 
@@ -50,16 +50,15 @@ export default function PricingPage() {
           </ul>
 
           <NoteBox tone="warn" className="mt-8">
-            Two honest caveats. The AdSense management row is our own rate card, not a market benchmark, because
-            no public pricing survey exists for that service. Canadian and European figures are scaled from US
-            and UK benchmarks rather than measured locally, and should be treated as indicative.
+            One honest caveat. The AdSense management row is our own rate card, not a market benchmark, because
+            no public pricing survey exists for that service, and should be treated as indicative.
           </NoteBox>
         </Container>
       </Section>
 
       <CtaSection
         title="Turn a table into your number"
-        body="The calculator reads these exact tables and narrows the range once it knows your scope, timeline and region."
+        body="The calculator reads these exact tables and narrows the range once it knows your scope and timeline."
         primary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
         secondary={{ href: '/contact', label: 'Ask about a figure' }}
       />

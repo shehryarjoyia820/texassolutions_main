@@ -3,7 +3,7 @@ export const SITE = {
   legalName: 'Texas Solutions LLC',
   tagline: 'Custom Web Platforms & Software Built for Modern Enterprises',
   description:
-    'Texas Solutions is a custom software development company: web and mobile app development, SaaS, AI and machine learning, QA and software testing, and dedicated development teams for enterprises in the US, UK, Europe, Canada, Australia, the UAE, Saudi Arabia and Singapore, plus truck dispatch for US carriers.',
+    'Texas Solutions is a custom software development company: web and mobile app development, SaaS, AI and machine learning, QA and software testing, and dedicated development teams for growing businesses and enterprises, plus truck dispatch for US carriers.',
   url: 'https://texassolutions.co',
   dispatchUrl: 'https://dispatch.texassolutions.co',
   phone: '(838) 910-3147',
@@ -52,7 +52,7 @@ export const OFFICES: Office[] = [
     region: 'UK',
     address: ['Texas Solutions UK', '86-90 Paul Street', 'London EC2A 4NE'],
     timezone: 'Europe/London',
-    focus: 'EMEA accounts · ads and lead generation',
+    focus: 'Client accounts · ads and lead generation',
   },
   {
     city: 'Toronto',
@@ -60,7 +60,7 @@ export const OFFICES: Office[] = [
     region: 'CA',
     address: ['Texas Solutions Canada', '120 Adelaide Street West', 'Toronto, ON M5H 1T1'],
     timezone: 'America/Toronto',
-    focus: 'Carrier accounts · cross-border freight',
+    focus: 'Client services · carrier accounts',
   },
   {
     city: 'Sydney',
@@ -68,7 +68,7 @@ export const OFFICES: Office[] = [
     region: 'AU',
     address: ['Texas Solutions AU', '1 Sussex Street', 'Sydney NSW 2000'],
     timezone: 'Australia/Sydney',
-    focus: 'APAC web and QA delivery',
+    focus: 'Web and QA delivery',
   },
   {
     city: 'Lahore',

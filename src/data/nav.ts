@@ -1,7 +1,6 @@
 import { SERVICES } from './services';
 import { SOLUTIONS } from './solutions';
 import { PRODUCTS, MARKETPLACE_CATEGORIES } from './catalog';
-import { MARKETS } from './markets';
 
 export interface NavLink {
   label: string;
@@ -101,7 +100,7 @@ export const MEGA_MENUS: MegaMenu[] = [
     featured: {
       eyebrow: 'Not sure where to start',
       title: 'Get a rough estimate',
-      body: 'Seven steps, a real range in your currency and a breakdown of how we got there. No call required first.',
+      body: 'Seven steps, a real range in US dollars and a breakdown of how we got there. No call required first.',
       href: '/estimate',
       cta: 'Start an estimate',
     },
@@ -127,14 +126,6 @@ export const MEGA_MENUS: MegaMenu[] = [
           description: s.summary,
         })),
       },
-      {
-        title: 'By market',
-        links: MARKETS.map((m) => ({
-          label: `${m.flag} ${m.name}`,
-          href: `/markets/${m.slug}`,
-          description: m.cities.slice(0, 3).join(', '),
-        })),
-      },
     ],
   },
   {
@@ -157,20 +148,20 @@ export const MEGA_MENUS: MegaMenu[] = [
     ],
   },
   {
-    label: 'Insights',
-    href: '/insights',
-    overviewLabel: 'Insights hub',
+    label: 'Blog',
+    href: '/blog',
+    overviewLabel: 'All blog posts',
     overviewDescription: 'What we have learned, written down.',
     columns: [
       {
         links: [
-          { label: 'Blog', href: '/insights?kind=Blog', description: 'Practical notes from the desks doing the work.' },
-          { label: 'Case studies', href: '/insights?kind=Case+study', description: 'Before and after, with the numbers.' },
-          { label: 'Guides and whitepapers', href: '/insights?kind=Guide', description: 'Longer operational playbooks.' },
-          { label: 'Industry reports', href: '/insights?kind=Industry+report', description: 'What we see across our own book.' },
-          { label: 'Events', href: '/insights?kind=Event', description: 'Open sessions and live desk walkthroughs.' },
+          { label: 'Blog', href: '/blog?kind=Blog', description: 'Practical notes from the desks doing the work.' },
+          { label: 'Case studies', href: '/blog?kind=Case+study', description: 'Before and after, with the numbers.' },
+          { label: 'Guides and whitepapers', href: '/blog?kind=Guide', description: 'Longer operational playbooks.' },
+          { label: 'Industry reports', href: '/blog?kind=Industry+report', description: 'What we see across our own book.' },
+          { label: 'Events', href: '/blog?kind=Event', description: 'Open sessions and live desk walkthroughs.' },
           { label: 'Answers', href: '/answers', description: 'Every question we get asked, answered.' },
-          { label: 'Newsletter', href: '/insights#newsletter', description: 'One email, every other week.' },
+          { label: 'Newsletter', href: '/blog#newsletter', description: 'One email, every other week.' },
         ],
       },
     ],
@@ -293,7 +284,7 @@ function marketplaceBlurb(category: string): string {
 }
 
 /** Menus moved out of the header into the footer, with their related links. */
-export const FOOTER_MENU_LABELS = ['Why Texas Solutions', 'Insights', 'Look Inside', 'About Us'];
+export const FOOTER_MENU_LABELS = ['Why Texas Solutions', 'Look Inside', 'About Us'];
 
 export const HEADER_MENUS = MEGA_MENUS.filter((m) => !FOOTER_MENU_LABELS.includes(m.label));
 
@@ -329,7 +320,7 @@ export const FOOTER_COLUMNS = [
       { label: 'Pricing', href: '/pricing' },
       { label: 'Rough estimate', href: '/estimate' },
       { label: 'Answers', href: '/answers' },
-      { label: 'Markets we serve', href: '/markets' },
+      { label: 'Blog', href: '/blog' },
       { label: 'Portfolio', href: '/portfolio' },
       { label: 'Investors', href: '/investors' },
       { label: 'Advertise with us', href: '/advertise' },

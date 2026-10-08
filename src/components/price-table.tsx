@@ -28,13 +28,13 @@ export function ServicePriceTable({
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-fg-muted">{table.intro}</p>
         <span className="shrink-0 rounded-full border border-line px-3 py-1.5 text-xs text-fg-subtle">
-          {region.flag} {region.label} · {region.currency}
+          Prices in {region.currency}
         </span>
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-line">
         <table className="w-full border-collapse text-left">
-          <caption className="sr-only">{table.title} pricing for {region.label}</caption>
+          <caption className="sr-only">{table.title} pricing</caption>
           <thead>
             <tr className="border-b border-line bg-bg-soft">
               <th scope="col" className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-fg-subtle">
@@ -106,7 +106,7 @@ export function ServicePriceTable({
   );
 }
 
-/** All five regions side by side, used on the pricing page. */
+/** Legacy multi-column view; the site now shows the US dollar table only. */
 export function FullPriceTable({ table }: { table: PriceTable }) {
   const { code } = useRegion();
 

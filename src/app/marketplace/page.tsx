@@ -48,7 +48,7 @@ export default function MarketplacePage() {
 
           <NoteBox tone="warn" className="mt-10">
             There is no checkout in this release. Every item is enquiry-only: you tell us what you need, we
-            confirm availability and price for your region, then we invoice. A transactional marketplace is a
+            confirm availability and price, then we invoice. A transactional marketplace is a
             decision for a later phase.
           </NoteBox>
         </Container>
@@ -57,7 +57,7 @@ export default function MarketplacePage() {
       <ProofBlock
         eyebrow="How pricing works here"
         title="Same tables, no marketplace markup"
-        body="A template priced from the business-site row costs what that row says for your region. We do not run a separate marketplace price list, because two prices for the same work is how trust goes missing."
+        body="A template priced from the business-site row costs what that row says. We do not run a separate marketplace price list, because two prices for the same work is how trust goes missing."
         metrics={[
           { label: 'Regions priced', value: '5' },
           { label: 'Categories', value: String(MARKETPLACE_CATEGORIES.length) },

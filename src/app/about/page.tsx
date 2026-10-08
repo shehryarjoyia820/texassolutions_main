@@ -62,7 +62,7 @@ export default function AboutPage() {
                     ['Service lines', 'Thirteen, each with its own agreement'],
                     ['Offices', 'Houston, London, Toronto, Sydney, Lahore'],
                     ['Dispatch coverage', '24/7 across two time zones'],
-                    ['Regions priced', 'US, UK, Canada, Australia, Europe'],
+                    ['Pricing', 'One published US dollar price list'],
                     ['Notice period', '30 days, every service'],
                   ].map(([k, v]) => (
                     <div key={k} className="flex items-baseline justify-between gap-4 border-b border-accent/15 pb-3 last:border-0">

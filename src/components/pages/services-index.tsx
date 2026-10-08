@@ -36,8 +36,8 @@ export function ServicesIndex({ services }: { services: Service[] }) {
         <Container>
           <SectionHeading
             eyebrow={`Prices shown in ${region.currency}`}
-            title={`What each line costs in ${region.label}`}
-            body="Starting figures come from the same tables the calculator reads. Change your region in the header and every number on this page changes with it."
+            title="What each line costs"
+            body="Starting figures in US dollars, from the same tables the calculator reads."
           />
 
           <RevealGroup className="mt-12 grid gap-5 lg:grid-cols-2">

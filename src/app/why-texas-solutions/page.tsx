@@ -14,7 +14,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Why Texas Solutions',
   description:
-    'Thirteen service lines under one contract, published pricing in five regions, thirty days notice and accounts that stay in your name. Guarantees, SLAs and a straight comparison against agencies and in-house.',
+    'Thirteen service lines under one contract, published pricing in US dollars, thirty days notice and accounts that stay in your name. Guarantees, SLAs and a straight comparison against agencies and in-house.',
   path: '/why-texas-solutions',
 });
 
@@ -180,14 +180,13 @@ export default function WhyPage() {
             <SectionHeading
               eyebrow="Pricing philosophy"
               title="Why the numbers are on the website"
-              body="Pricing that only appears after a discovery call usually appears higher. Ours is published, per region, and the calculator reads the same tables."
+              body="Pricing that only appears after a discovery call usually appears higher. Ours is published in US dollars, and the calculator reads the same tables."
             />
             <Reveal>
               <ul className="space-y-4">
                 {[
                   ['Ranges, not single numbers', 'A single figure before scope is known is a guess dressed as a quote. We publish the range and narrow it with you.'],
-                  ['Five authored tables', 'Each region has its own figures. We do not convert currency live, because conversion implies a precision we do not have.'],
-                  ['Derived figures are flagged', 'Canadian and European numbers are scaled from US and UK benchmarks. The pricing page says so on the page, not in a footnote.'],
+                  ['One price list', 'Every client sees the same published US dollar ranges. No pricing by location, no hidden markups.'],
                   ['The fee base is stated', 'Dispatch is a stated percentage of weekly gross with no flat rate: 5% for semis, 8% for hotshots, 10% for box trucks. AdSense uplift is measured against an agreed baseline. Ads fees are the lower of flat or percentage.'],
                 ].map(([title, body]) => (
                   <li key={title} className="rounded-xl border border-line bg-bg-soft p-5">

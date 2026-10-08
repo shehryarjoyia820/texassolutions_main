@@ -24,18 +24,16 @@ import { ServicePriceTable } from './price-table';
 import { ServiceInteractive } from './service-widgets';
 import { cn } from '@/lib/utils';
 import type { ServiceSeo } from '@/data/seo-content';
-import { QuickAnswer, SeoGuide, MarketLinks } from './seo-blocks';
+import { QuickAnswer, SeoGuide } from './seo-blocks';
 
 export function ServiceDetail({
   service,
   seo,
-  markets = [],
 }: {
   service: Service;
   seo?: ServiceSeo;
-  markets?: { slug: string; name: string; flag: string }[];
 }) {
-  const { code, region } = useRegion();
+  const { code } = useRegion();
   const Icon = (Icons[service.icon as keyof typeof Icons] ?? Icons.Circle) as LucideIcon;
 
   const table = PRICE_TABLE_MAP[service.slug];
@@ -95,7 +93,7 @@ export function ServiceDetail({
             <Reveal direction="left">
               <div className="rounded-2xl border border-svc/25 bg-svc/5 p-7">
                 <p className="text-xs uppercase tracking-wider text-fg-subtle">
-                  Starting price · {region.label}
+                  Starting price · US dollars
                 </p>
                 <p className="mt-2 font-display text-[clamp(2rem,4.5vw,2.75rem)] font-semibold leading-none text-svc">
                   {startValue ? formatMoney(startValue[0], code, { compact: true }) : 'Per job'}
@@ -243,7 +241,7 @@ export function ServiceDetail({
           <SectionHeading
             eyebrow="Packages"
             title="Three ways to start"
-            body={`Prices shown for ${region.label} in ${region.currency}. Change your region in the header to see another market.`}
+            body="All prices in US dollars. Ranges are indicative; your scope sets the final figure."
             align="center"
           />
 
@@ -321,7 +319,7 @@ export function ServiceDetail({
           </div>
 
           <div className="mt-12">
-            <h3 className="mb-5 font-display text-lg font-semibold">Full price table for {region.label}</h3>
+            <h3 className="mb-5 font-display text-lg font-semibold">Full price table</h3>
             <ServicePriceTable service={service.slug} accent="svc" />
           </div>
         </Container>
@@ -444,23 +442,6 @@ export function ServiceDetail({
         </Section>
       )}
 
-      {/* ---------- Markets ---------- */}
-      {markets.length > 0 && (
-        <section className="border-y border-line bg-bg-soft py-12">
-          <Container>
-            <h2 className="font-display text-xl font-semibold">
-              {service.navLabel} for clients in the US, UK, Europe, the Gulf and Asia
-            </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-fg-muted">
-              Pricing is published for each region, and engineering hours overlap with your working day.
-            </p>
-            <div className="mt-6">
-              <MarketLinks markets={markets} />
-            </div>
-          </Container>
-        </section>
-      )}
-
       {/* ---------- 9. FAQ ---------- */}
       <Section tone="soft" id="faq">
         <Container>
@@ -482,7 +463,7 @@ export function ServiceDetail({
             <h2 className="text-display-md">Put a number on it</h2>
             <p className="mt-5 text-lg leading-relaxed text-fg-muted">
               The calculator opens on {service.navLabel.toLowerCase()} already selected. Seven questions and you
-              have a range in {region.currency}.
+              have a range in US dollars.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <ButtonLink
@@ -519,7 +500,7 @@ export function SubServiceDetail({
   service: Service;
   sub: Service['subServices'][number];
 }) {
-  const { code, region } = useRegion();
+  const { code } = useRegion();
   const table = PRICE_TABLE_MAP[service.slug];
   const startRow = table?.rows.find((r) => r.id === service.startingPriceRow);
   const startValue = startRow?.values[code];
@@ -563,7 +544,7 @@ export function SubServiceDetail({
 
             <div className="rounded-2xl border border-svc/25 bg-svc/5 p-7">
               <p className="text-xs uppercase tracking-wider text-fg-subtle">
-                {service.navLabel} from · {region.label}
+                {service.navLabel} from · US dollars
               </p>
               <p className="mt-2 font-display text-3xl font-semibold text-svc">
                 {startValue ? formatMoney(startValue[0], code, { compact: true }) : 'Per job'}

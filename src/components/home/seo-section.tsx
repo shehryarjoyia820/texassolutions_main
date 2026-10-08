@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { MARKETS } from '@/data/markets';
 import { Container, Section, SectionHeading } from '@/components/ui';
 import { QuickAnswer, MarketLinks } from '@/components/seo-blocks';
 
@@ -38,7 +37,7 @@ const FOCUS = [
   {
     href: '/services/truck-dispatch',
     title: 'Truck dispatch',
-    body: 'Box truck, hotshot and semi dispatch for US and Canadian owner-operators and fleets: load booking, rate negotiation, broker packets, invoicing and detention claims.',
+    body: 'Box truck, hotshot and semi dispatch for US owner-operators and fleets: load booking, rate negotiation, broker packets, invoicing and detention claims.',
     links: [
       { label: 'Box truck dispatch', href: '/services/truck-dispatch/box-truck-hotshot' },
       { label: 'Semi dispatch', href: '/services/truck-dispatch/semi-dispatch' },
@@ -48,7 +47,7 @@ const FOCUS = [
 ];
 
 const ANSWER =
-  'Texas Solutions is a custom software development company that builds web and mobile applications, SaaS platforms and enterprise software, develops AI and machine learning solutions, and provides QA and software testing and dedicated development teams. It serves enterprises in the United States, United Kingdom, Europe, Canada, Australia, the UAE, Saudi Arabia, Qatar, Singapore and Japan, and runs truck dispatch for US carriers.';
+  'Texas Solutions is a custom software development company that builds web and mobile applications, SaaS platforms and enterprise software, develops AI and machine learning solutions, and provides QA and software testing and dedicated development teams for growing businesses and enterprises. It also runs truck dispatch for US carriers.';
 
 export function HomeSeoSection() {
   return (
@@ -58,7 +57,7 @@ export function HomeSeoSection() {
 
         <SectionHeading
           eyebrow="Software, AI, QA and dispatch"
-          title="Software development, AI and QA for enterprises worldwide"
+          title="Software development, AI and QA for enterprises"
           body="Four practices carry most of our work. Each has its own engineers, its own published pricing and its own named lead."
         />
 
@@ -91,16 +90,6 @@ export function HomeSeoSection() {
           ))}
         </div>
 
-        <div className="mt-14 rounded-2xl border border-line bg-bg-soft p-7">
-          <h3 className="font-display text-lg font-semibold">Serving Tier 1 markets, the Gulf and Asia</h3>
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-fg-muted">
-            Clients in the United States, United Kingdom, Canada, Australia, Germany, the Netherlands, the UAE,
-            Saudi Arabia, Qatar, Singapore and Japan work with us in their own time zone and currency.
-          </p>
-          <div className="mt-5">
-            <MarketLinks markets={MARKETS.map((m) => ({ slug: m.slug, name: m.name, flag: m.flag }))} />
-          </div>
-        </div>
       </Container>
     </Section>
   );

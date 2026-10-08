@@ -182,11 +182,7 @@ export function RouteScene({ className }: { className?: string }) {
         ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
         ctx.fill();
 
-        if (node.hub && width > 640) {
-          ctx.fillStyle = `rgb(${fg} / 0.85)`;
-          ctx.font = '500 10px ui-sans-serif, system-ui, sans-serif';
-          ctx.fillText(node.label, p.x + 8, p.y + 3);
-        }
+        // Nodes are drawn unlabelled: an abstract network, not a map of locations.
       }
 
       if (running && !reduced) frame = requestAnimationFrame(draw);

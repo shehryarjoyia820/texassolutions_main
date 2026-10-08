@@ -1,69 +1,23 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { Eye, Globe2, Table2 } from 'lucide-react';
 import type { PriceTable } from '@/data/pricing';
 import { DISPATCH_MODELS, dispatchPercentLabel } from '@/data/pricing';
 import type { Service } from '@/data/services';
-import { REGIONS, type RegionCode } from '@/data/regions';
-import { useRegion } from '@/components/providers';
 import { FullPriceTable, ServicePriceTable } from '@/components/price-table';
-import { Container, Section, SectionHeading, Tabs, NoteBox, ArrowLink } from '@/components/ui';
+import { Container, Section, SectionHeading, NoteBox, ArrowLink } from '@/components/ui';
 import { Reveal } from '@/components/motion';
 import { cn } from '@/lib/utils';
 
 export function PricingTables({ tables, services }: { tables: PriceTable[]; services: Service[] }) {
-  const { code, setRegion, region } = useRegion();
-  const [view, setView] = useState<'mine' | 'all'>('mine');
+  const view = 'mine' as 'mine' | 'all';
 
   return (
     <Section>
       <Container>
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p className="eyebrow mb-3">
-              <Globe2 className="h-3.5 w-3.5" aria-hidden />
-              Currently showing {region.label}
-            </p>
-            <h2 className="text-display-sm">Choose how you want to read it</h2>
-          </div>
-
-          <Tabs
-            tabs={[
-              { id: 'mine', label: 'My region only', icon: Eye },
-              { id: 'all', label: 'Compare all regions', icon: Table2 },
-            ]}
-            active={view}
-            onChange={(v) => setView(v as 'mine' | 'all')}
-          />
-        </div>
-
-        {/* region switcher */}
-        <div className="mt-6 flex flex-wrap gap-2">
-          {REGIONS.map((r) => (
-            <button
-              key={r.code}
-              onClick={() => setRegion(r.code as RegionCode)}
-              aria-pressed={r.code === code}
-              className={cn(
-                'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
-                r.code === code
-                  ? 'border-accent bg-accent/10 text-accent'
-                  : 'border-line text-fg-muted hover:border-accent/40 hover:text-fg',
-              )}
-            >
-              <span aria-hidden className="mr-1.5">
-                {r.flag}
-              </span>
-              {r.label} · {r.currency}
-            </button>
-          ))}
-        </div>
-
-        <NoteBox className="mt-6">
-          Switching region changes which authored table is read. Currency is never converted live, because a
-          converted figure would imply a precision these ranges do not have.
+        <NoteBox>
+          All prices are in US dollars. Ranges are indicative: your scope sets the final figure, and every
+          quote is confirmed in writing before work starts.
         </NoteBox>
 
         {/* tables */}

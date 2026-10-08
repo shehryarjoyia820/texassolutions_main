@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!found) return {};
   return pageMeta({
     title: `${found.sub.name} Services | ${found.service.navLabel} Company`,
-    description: `${found.sub.summary} ${found.sub.name} for companies in the US, UK, Europe, the UAE, Saudi Arabia and Singapore, with published pricing.`,
+    description: `${found.sub.summary} ${found.sub.name} for growing businesses and enterprises, with published pricing.`,
     path: `/services/${slug}/${sub}`,
     keywords: [found.sub.keyword, `${found.sub.name.toLowerCase()} company`, `${found.sub.name.toLowerCase()} services`],
   });

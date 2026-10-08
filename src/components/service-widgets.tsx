@@ -170,7 +170,7 @@ function CplCalculator() {
           Build a full estimate
         </ButtonLink>
         <p className="mt-3 text-[0.6875rem] leading-relaxed text-fg-subtle">
-          Uses the published per-lead range for your region. Your close rate and deal value are your own figures.
+          Uses the published per-lead range. Your close rate and deal value are your own figures.
         </p>
       </div>
     </div>
@@ -654,7 +654,7 @@ function EngineFinder() {
           <div className="flex h-full flex-col justify-center text-center">
             <Search className="mx-auto h-8 w-8 text-svc/40" aria-hidden />
             <p className="mt-4 text-sm text-fg-muted">
-              Enter the year, make and model to see the range for your region.
+              Enter the year, make and model to see the price range.
             </p>
             <p className="mt-2 text-xs text-fg-subtle">
               We match by VIN before anything is ordered, so the range here is a guide rather than a quote.
@@ -705,7 +705,7 @@ function BallparkPicker({ slug }: { slug: string }) {
         className="rounded-2xl border border-svc/25 bg-svc/5 p-6"
       >
         <p className="text-xs uppercase tracking-wider text-fg-subtle">
-          {row.label} · {region.label}
+          {row.label} · {region.currency}
         </p>
         <p className="mt-2 font-display text-3xl font-semibold text-svc">
           {formatRange(value, code, { plus: row.plus?.[code], compact: true })}
@@ -809,7 +809,7 @@ function TeamBuilder() {
             onChange={(e) => setFullOverlap(e.target.checked)}
             className="h-4 w-4 accent-[rgb(var(--svc))]"
           />
-          Full working-hours overlap with the US, UK or EU (about 12% more)
+          Full overlap with your working hours (about 12% more)
         </label>
 
         <div className="mt-5">
@@ -828,7 +828,7 @@ function TeamBuilder() {
 
       <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
         <p className="text-xs uppercase tracking-wider text-fg-subtle">
-          {headcount} {headcount === 1 ? 'person' : 'people'} · {region.label}
+          {headcount} {headcount === 1 ? 'person' : 'people'} · {region.currency}
         </p>
         <p className="mt-2 font-display text-3xl font-semibold text-svc">
           {headcount ? formatRange(monthly, code, { compact: true }) : 'Add a role'}

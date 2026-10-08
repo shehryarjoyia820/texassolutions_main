@@ -1,16 +1,7 @@
 'use client';
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
-import { DEFAULT_REGION, REGION_CODES, getRegion, guessRegionFromLocale, type Region, type RegionCode } from '@/data/regions';
-import { trackRegionChange } from '@/lib/analytics';
+import { createContext, useContext, useEffect, type ReactNode } from 'react';
+import { DEFAULT_REGION, getRegion, type Region, type RegionCode } from '@/data/regions';
 
 /* ------------------------------------------------------------------ */
 /*  Theme (light only)                                                 */
@@ -21,78 +12,43 @@ import { trackRegionChange } from '@/lib/analytics';
 const THEME_KEY = 'ts-theme';
 
 /* ------------------------------------------------------------------ */
-/*  Region                                                             */
+/*  Pricing market                                                     */
 /* ------------------------------------------------------------------ */
 
+// The site quotes one market only: US dollars. There is no country or region
+// switching; useRegion() always returns the US table so components that read
+// prices keep working unchanged.
 interface RegionCtx {
   code: RegionCode;
   region: Region;
   setRegion: (code: RegionCode) => void;
-  /** False until the stored or detected preference has loaded. */
   ready: boolean;
 }
 
-const RegionContext = createContext<RegionCtx>({
-  code: DEFAULT_REGION,
-  region: getRegion(DEFAULT_REGION),
-  setRegion: () => {},
-  ready: false,
-});
+const US_CTX: RegionCtx = { code: DEFAULT_REGION, region: getRegion(DEFAULT_REGION), setRegion: () => {}, ready: true };
+const RegionContext = createContext<RegionCtx>(US_CTX);
 export const useRegion = () => useContext(RegionContext);
 
+// Key used by the old region switcher; cleared so nobody keeps a stale choice.
 const REGION_KEY = 'ts-region';
 
 /* ------------------------------------------------------------------ */
 
 export function Providers({ children }: { children: ReactNode }) {
-  const [code, setCode] = useState<RegionCode>(DEFAULT_REGION);
-  const [ready, setReady] = useState(false);
-
-  // Light is the only theme. Remove any dark/light choice remembered by the old toggle.
+  // Light is the only theme. Remove any old theme or region choice from storage.
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove('dark');
     root.classList.add('light');
     try {
       window.localStorage.removeItem(THEME_KEY);
+      window.localStorage.removeItem(REGION_KEY);
     } catch {
       /* ignore */
     }
   }, []);
 
-  // Region: stored choice wins, then a URL parameter, then the browser locale.
-  useEffect(() => {
-    let stored: string | null = null;
-    try {
-      stored = window.localStorage.getItem(REGION_KEY);
-    } catch {
-      /* ignore */
-    }
-    const fromUrl = new URLSearchParams(window.location.search).get('region');
-    const candidate = (fromUrl || stored || '').toUpperCase();
-    const valid = (REGION_CODES as string[]).includes(candidate);
-    setCode(valid ? (candidate as RegionCode) : guessRegionFromLocale(navigator.language));
-    setReady(true);
-  }, []);
-
-  const setRegion = useCallback((next: RegionCode) => {
-    setCode(next);
-    try {
-      window.localStorage.setItem(REGION_KEY, next);
-    } catch {
-      /* ignore */
-    }
-    trackRegionChange(next);
-  }, []);
-
-  const regionValue = useMemo(
-    () => ({ code, region: getRegion(code), setRegion, ready }),
-    [code, setRegion, ready],
-  );
-
-  return (
-    <RegionContext.Provider value={regionValue}>{children}</RegionContext.Provider>
-  );
+  return <RegionContext.Provider value={US_CTX}>{children}</RegionContext.Provider>;
 }
 
 /**

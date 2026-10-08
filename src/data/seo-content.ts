@@ -7,10 +7,6 @@
  * - guide sections use question-style headings, which is how people phrase
  *   queries to Google, ChatGPT, Perplexity and Gemini.
  * - faqs add to the service's own FAQs and feed FAQPage schema.
- *
- * Target markets: Tier 1 (US, UK, Canada, Australia, New Zealand, Western
- * Europe), the Gulf (UAE, Saudi Arabia, Qatar, Kuwait, Bahrain, Oman) and
- * Asia (Singapore, Japan, Hong Kong, South Korea, Malaysia).
  */
 
 export interface GuideSection {
@@ -30,16 +26,13 @@ export interface ServiceSeo {
   faqs: { q: string; a: string }[];
 }
 
-export const TARGET_MARKETS_LINE =
-  'the United States, United Kingdom, Canada, Australia, New Zealand, Germany, the Netherlands, the Nordics, the UAE, Saudi Arabia, Qatar, Singapore, Japan and Hong Kong';
-
 export const SERVICE_SEO: Record<string, ServiceSeo> = {
   /* ================================================================ */
   'web-development': {
     slug: 'web-development',
     metaTitle: 'Custom Software Development Company | Web, SaaS & Mobile App Development',
     metaDescription:
-      'Custom software development, web application, SaaS and mobile app development for enterprises in the US, UK, Europe, UAE, Saudi Arabia and Singapore. Transparent pricing, senior engineers, code you own.',
+      'Custom software development, web application, SaaS and mobile app development for growing businesses and enterprises. Transparent pricing, senior engineers, code you own.',
     keywords: [
       'custom software development company',
       'software development services',
@@ -52,11 +45,9 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'software outsourcing company',
       'Next.js development agency',
       'React development company',
-      'software development company in Dubai',
-      'software development company in Singapore',
     ],
     quickAnswer:
-      'Texas Solutions is a custom software development company that designs and builds web applications, SaaS platforms, enterprise portals and iOS and Android apps. Projects start at around US$3,000 for a business website, US$25,000 for a mobile app MVP and US$30,000 for a web application, with senior engineers, fixed-scope pricing and full ownership of the source code.',
+      'Texas Solutions is a custom software development company that designs and builds web applications, SaaS platforms, enterprise portals and iOS and Android apps. Projects start at around US$2,000 for a business website, US$15,000 for a mobile app MVP and US$15,000 for a web application, with senior engineers, fixed-scope pricing and full ownership of the source code.',
     guideTitle: 'Custom software development: a practical guide for enterprise buyers',
     guide: [
       {
@@ -83,8 +74,8 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does custom software development cost in 2026?',
         paragraphs: [
-          'Published market ranges put a small business website at US$3,000 to US$10,000, a web application or portal at US$30,000 to US$150,000, a mobile app MVP at US$25,000 to US$60,000 and a mid-complexity app at US$60,000 to US$150,000. Enterprise and AI-enabled platforms usually start above US$150,000.',
-          'Cost is driven by scope, number of integrations, compliance requirements, design complexity and how quickly you need it. Our Rough Estimate calculator applies those factors to the price table for your region, including the UK, Europe, the Gulf and Asia, and returns a low, likely and high range in minutes.',
+          'Published market ranges put a small business website at US$2,000 to US$5,000, a web application or portal at US$15,000 to US$75,000, a mobile app MVP at US$15,000 to US$35,000 and a mid-complexity app at US$35,000 to US$80,000. Enterprise and AI-enabled platforms usually start around US$80,000.',
+          'Cost is driven by scope, number of integrations, compliance requirements, design complexity and how quickly you need it. Our Rough Estimate calculator applies those factors to our published US-dollar price list and returns a low, likely and high range in minutes.',
         ],
       },
       {
@@ -97,13 +88,13 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
         heading: 'Why outsource software development to Texas Solutions?',
         paragraphs: [
           'Offshore and nearshore software development lowers cost, but only if quality, communication and ownership hold up. We work in your time zone for the core of the day, publish our pricing, assign a named delivery lead, and put the code, cloud accounts and design files in your name from day one.',
-          `We deliver software projects for clients across ${'the United States, United Kingdom, Europe, the UAE, Saudi Arabia, Qatar, Singapore and Australia'}, with engineering and QA centred in our Lahore delivery centre and client teams in Houston, London, Toronto and Sydney.`,
+          'Engineering and QA are centred in our Lahore delivery centre, with client teams in Houston, London, Toronto and Sydney.',
         ],
         bullets: [
           'Senior engineers who have shipped production systems, not trainees learning on your budget.',
           'Lighthouse 90+ performance and WCAG 2.1 AA accessibility as acceptance criteria.',
           'Automated testing in CI from the first sprint, run by our own QA practice.',
-          'GDPR, UK GDPR, UAE and Saudi PDPL, and Singapore PDPA considered at design time.',
+          'GDPR, HIPAA and other data protection requirements considered at design time.',
         ],
       },
     ],
@@ -111,7 +102,6 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       { q: 'What is the difference between custom software and off-the-shelf software?', a: 'Off-the-shelf software is built for many companies and configured to fit. Custom software is built around one company’s processes, integrates with its existing systems and is owned outright. It costs more up front but removes licence fees and workarounds over time.' },
       { q: 'Which technologies do you use for web and app development?', a: 'Mostly React, Next.js and TypeScript on the front end; Node.js, .NET, Python and Go on the back end; React Native and Flutter for mobile; PostgreSQL, MongoDB and Redis for data; and AWS, Azure or Google Cloud for hosting. We stay in your existing stack where one exists.' },
       { q: 'Do you build SaaS products from scratch?', a: 'Yes. We build multi-tenant SaaS platforms with authentication, roles and permissions, subscription billing through Stripe or Paddle, audit logging, usage analytics and an admin console, delivered in phased releases so you can sell before everything is finished.' },
-      { q: 'Can you work with clients in the UAE, Saudi Arabia and Singapore?', a: 'Yes. Our Lahore delivery centre is one hour behind Dubai and three hours behind Singapore, so there is a full working-day overlap. We account for UAE and Saudi PDPL and Singapore PDPA data rules and can host in-region on AWS or Azure.' },
       { q: 'Do you sign NDAs and assign intellectual property?', a: 'Yes. We sign your NDA before discovery, and our contract assigns all intellectual property in the deliverables to you on payment. Repositories and cloud accounts sit in your organisation from the start.' },
     ],
   },
@@ -121,7 +111,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'ai-machine-learning',
     metaTitle: 'AI Development Company | Machine Learning, Generative AI & AI Agent Development',
     metaDescription:
-      'AI and machine learning development services: generative AI, LLM and RAG applications, AI chatbots, AI agents, computer vision and ML models. For enterprises in the US, UK, Europe, UAE, Saudi Arabia and Singapore.',
+      'AI and machine learning development services: generative AI, LLM and RAG applications, AI chatbots, AI agents, computer vision and ML models for growing businesses and enterprises.',
     keywords: [
       'AI development company',
       'AI development services',
@@ -134,11 +124,9 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'computer vision development',
       'AI consulting services',
       'MLOps services',
-      'AI development company in UAE',
-      'AI development company in Singapore',
     ],
     quickAnswer:
-      'Texas Solutions is an AI development company that builds generative AI applications, retrieval-augmented (RAG) chatbots, AI agents, machine learning models and computer vision systems for enterprises. AI pilots start at around US$8,000, production AI assistants at US$20,000 and custom machine learning models at US$40,000, each measured against an evaluation set built from your own data.',
+      'Texas Solutions is an AI development company that builds generative AI applications, retrieval-augmented (RAG) chatbots, AI agents, machine learning models and computer vision systems for enterprises. AI pilots start at around US$5,000, production AI assistants at US$10,000 and custom machine learning models at US$20,000, each measured against an evaluation set built from your own data.',
     guideTitle: 'AI and machine learning development: what enterprises need to know',
     guide: [
       {
@@ -163,7 +151,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does AI development cost?',
         paragraphs: [
-          'An AI consulting engagement with a working pilot typically costs US$8,000 to US$30,000. A production chatbot or assistant runs US$20,000 to US$80,000, a generative AI workflow US$30,000 to US$120,000, and an AI agent system from US$50,000. Custom machine learning models range from US$40,000 to US$200,000 depending on data readiness.',
+          'An AI consulting engagement with a working pilot typically costs US$5,000 to US$15,000. A production chatbot or assistant runs US$10,000 to US$40,000, a generative AI workflow US$15,000 to US$60,000, and an AI agent system from US$25,000. Custom machine learning models range from US$20,000 to US$80,000 depending on data readiness.',
           'Model usage fees are billed separately by the provider. We model the cost per task at your real volume before launch, so running costs are known rather than discovered.',
         ],
       },
@@ -171,7 +159,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
         heading: 'How do you make sure an AI system is accurate and safe?',
         paragraphs: [
           'Every project starts with an evaluation set of real examples from your business. We report accuracy against it before launch and track it monthly afterwards. Retrieval systems cite their sources, low-confidence answers route to a person, and agents need approval for anything that cannot be undone.',
-          'Data stays under enterprise API terms that exclude training on your content, or inside your own AWS, Azure or Google Cloud account when regulations such as GDPR, UAE PDPL, Saudi PDPL or Singapore PDPA require it.',
+          'Data stays under enterprise API terms that exclude training on your content, or inside your own AWS, Azure or Google Cloud account when regulations such as GDPR or HIPAA require it.',
         ],
       },
     ],
@@ -180,7 +168,6 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       { q: 'What is the difference between an AI chatbot and an AI agent?', a: 'A chatbot answers questions. An AI agent takes actions across several steps, such as reading a request, looking up data in your CRM, drafting a quote and submitting it for approval. Agents need scoped permissions, approvals and audit logs, which is why they cost more to build.' },
       { q: 'Which AI models do you work with?', a: 'Anthropic Claude, OpenAI GPT models, Google Gemini, Azure OpenAI and AWS Bedrock, plus open-source models such as Llama and Mistral when data must stay on your own infrastructure. We choose by measured quality and cost on your evaluation set.' },
       { q: 'How long does an AI project take?', a: 'A discovery and pilot phase takes three to six weeks. A production assistant or generative AI workflow takes two to four months, and a custom machine learning model three to six months, mostly depending on how ready the data is.' },
-      { q: 'Do you build Arabic-language AI assistants for the Gulf?', a: 'Yes. Current models handle Arabic and English well, and we evaluate on Arabic examples from your own content before launch. Assistants can switch language per conversation and cite Arabic or English sources.' },
     ],
   },
 
@@ -189,7 +176,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'qa-testing',
     metaTitle: 'Software Testing & QA Services | Test Automation, Performance & Mobile App Testing',
     metaDescription:
-      'Software testing and QA outsourcing: test automation with Playwright, Selenium and Cypress, manual testing, performance and load testing, API testing, mobile app testing and QA staff augmentation. From US$70 an hour.',
+      'Software testing and QA outsourcing: test automation with Playwright, Selenium and Cypress, manual testing, performance and load testing, API testing, mobile app testing and QA staff augmentation. From US$25 an hour.',
     keywords: [
       'software testing services',
       'QA testing services',
@@ -206,7 +193,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'software QA company',
     ],
     quickAnswer:
-      'Texas Solutions provides software testing and QA services including test automation with Playwright, Selenium and Cypress, manual and exploratory testing, performance and load testing, API testing, mobile app testing and QA staff augmentation. QA engineers start at US$70 an hour in the US, and managed QA teams at US$4,000 a month, with the test suite built in your repository.',
+      'Texas Solutions provides software testing and QA services including test automation with Playwright, Selenium and Cypress, manual and exploratory testing, performance and load testing, API testing, mobile app testing and QA staff augmentation. QA engineers start at US$25 an hour, and managed QA teams at US$2,500 a month, with the test suite built in your repository.',
     guideTitle: 'Software QA and testing: how to choose a QA partner',
     guide: [
       {
@@ -233,7 +220,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does QA outsourcing cost?',
         paragraphs: [
-          'Hourly QA rates run about US$70 to US$120 in the United States, £50 to £90 in the UK and €35 to €85 in Eastern Europe. A managed QA team costs roughly US$4,000 to US$8,000 a month. Building an automation framework with the first ten to thirty journeys usually lands in the managed range for one to three months.',
+          'Hourly QA rates run about US$25 to US$45 depending on seniority and specialism. A managed QA team costs roughly US$2,500 to US$6,000 a month. Building an automation framework with the first ten to thirty journeys usually lands in the managed range for one to three months.',
         ],
       },
       {
@@ -312,7 +299,6 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     faqs: [
       { q: 'Do I need my own MC and DOT number to use a dispatch service?', a: 'Yes. A dispatch service books freight under your own operating authority. We help with broker setups using your MC number, insurance certificate and W-9, and every setup stays in your carrier name.' },
       { q: 'Is a truck dispatcher worth it for an owner-operator?', a: 'For most owner-operators, yes, if the dispatcher raises weekly gross, cuts deadhead and recovers detention by more than the fee. Our sample owner-operator profile moved from about US$4,900 to US$7,150 weekly gross after three months.' },
-      { q: 'Can you dispatch in Canada?', a: 'Yes, for Canadian carriers running cross-border and domestic lanes from our Toronto team, alongside US dispatch from Houston.' },
       { q: 'What hours is the dispatch desk staffed?', a: 'Weekday coverage is standard. Evening, weekend and full 24/7 coverage is available as an add-on, staffed across Houston and our overnight team.' },
     ],
   },
@@ -322,7 +308,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'dedicated-teams',
     metaTitle: 'Hire Dedicated Developers | Dedicated Development Team & IT Staff Augmentation',
     metaDescription:
-      'Hire dedicated developers and full software teams: React, Next.js, Node.js, .NET, Python, Java, Flutter and QA engineers. Offshore development team with US, UK, EU, Gulf and Asia time-zone overlap. Start in 1-2 weeks.',
+      'Hire dedicated developers and full software teams: React, Next.js, Node.js, .NET, Python, Java, Flutter and QA engineers. Dedicated engineers with working-hours overlap in your time zone. Start in 1-2 weeks.',
     keywords: [
       'hire dedicated developers',
       'dedicated development team',
@@ -338,7 +324,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'software team augmentation',
     ],
     quickAnswer:
-      'Texas Solutions provides dedicated development teams and IT staff augmentation: named software engineers, QA engineers, DevOps engineers and designers who work only on your product, in your tools and time zone. Mid-level engineers start at about US$5,500 a month and senior engineers at US$8,500, with the first engineers starting in one to two weeks.',
+      'Texas Solutions provides dedicated development teams and IT staff augmentation: named software engineers, QA engineers, DevOps engineers and designers who work only on your product, in your tools and time zone. Mid-level engineers start at about US$3,500 a month and senior engineers at US$5,000, with the first engineers starting in one to two weeks.',
     guideTitle: 'Hiring a dedicated development team: costs, models and pitfalls',
     guide: [
       {
@@ -359,7 +345,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does it cost to hire dedicated developers?',
         paragraphs: [
-          'Monthly rates for full-time dedicated engineers run from about US$3,500 to US$5,500 for junior, US$5,500 to US$8,500 for mid-level, US$8,500 to US$13,000 for senior and US$12,000 to US$17,000 for tech leads and architects. Full working-hours overlap with US, UK or EU clients adds around 10% to 15%.',
+          'Monthly rates for full-time dedicated engineers run from about US$2,500 to US$3,500 for junior, US$3,500 to US$5,000 for mid-level, US$5,000 to US$7,000 for senior and US$6,500 to US$9,000 for tech leads and architects. Full working-hours overlap with your team adds around 10% to 15%.',
         ],
       },
       {
@@ -371,7 +357,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     ],
     faqs: [
       { q: 'How fast can a dedicated developer start?', a: 'Usually within one to two weeks: a shortlist in three to seven days, your interviews, then onboarding. A full squad of four to six engineers typically takes three to four weeks.' },
-      { q: 'Which time zones do your developers cover?', a: 'Core hours overlap with the UK and Europe, the Gulf and Asia. For US clients we guarantee at least four hours of overlap, and full US hours are available at a small premium.' },
+      { q: 'Which time zones do your developers cover?', a: 'We guarantee at least four hours of overlap with your working day, and full overlap with your business hours is available at a small premium.' },
       { q: 'Who owns the code a dedicated team writes?', a: 'You do. Intellectual property is assigned to you in the contract and all code is committed to your repositories.' },
       { q: 'Can we scale the team up or down?', a: 'Yes, with thirty days notice. Most clients start with two or three engineers and grow once velocity and quality are proven.' },
     ],
@@ -382,10 +368,10 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'cloud-devops',
     metaTitle: 'Cloud & DevOps Services | AWS & Azure Migration, CI/CD and Managed Cloud',
     metaDescription:
-      'Cloud consulting, AWS and Azure migration, DevOps and CI/CD, Kubernetes, application modernisation and 24/7 managed cloud. For enterprises in the US, UK, Europe, the Gulf and Asia.',
+      'Cloud consulting, AWS and Azure migration, DevOps and CI/CD, Kubernetes, application modernisation and 24/7 managed cloud for growing businesses and enterprises.',
     keywords: ['cloud consulting services', 'AWS migration services', 'Azure migration', 'DevOps consulting services', 'CI/CD pipeline setup', 'Kubernetes consulting', 'managed cloud services', 'cloud cost optimization', 'application modernization services'],
     quickAnswer:
-      'Texas Solutions provides cloud and DevOps services: cloud readiness assessments, AWS and Azure migration, CI/CD pipelines, infrastructure as code with Terraform, Kubernetes, application modernisation and 24/7 managed cloud. Assessments start at about US$5,000, DevOps setups at US$10,000 and managed cloud at US$2,500 a month.',
+      'Texas Solutions provides cloud and DevOps services: cloud readiness assessments, AWS and Azure migration, CI/CD pipelines, infrastructure as code with Terraform, Kubernetes, application modernisation and 24/7 managed cloud. Assessments start at about US$2,500, DevOps setups at US$5,000 and managed cloud at US$1,000 a month.',
     guideTitle: 'Cloud migration and DevOps: a buyer’s guide',
     guide: [
       {
@@ -397,13 +383,13 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does cloud migration cost?',
         paragraphs: [
-          'A cloud readiness assessment typically costs US$5,000 to US$20,000. Migrating a set of workloads to AWS or Azure runs US$25,000 to US$250,000 depending on the number of applications, data volume and compliance needs. Cloud provider charges are billed directly to your account.',
+          'A cloud readiness assessment typically costs US$2,500 to US$8,000. Migrating a set of workloads to AWS or Azure runs US$10,000 to US$100,000 depending on the number of applications, data volume and compliance needs. Cloud provider charges are billed directly to your account.',
         ],
       },
       {
-        heading: 'Can data stay in the Gulf or in Asia?',
+        heading: 'Can our data stay in a specific cloud region?',
         paragraphs: [
-          'Yes. AWS and Azure both operate regions in the UAE, Saudi Arabia (announced and live regions vary by provider), Singapore, Japan and Hong Kong. We design landing zones to keep regulated data in-region for UAE and Saudi PDPL, Saudi NCA controls and Singapore PDPA.',
+          'Yes. AWS, Azure and Google Cloud operate regions around the world, and we can keep data in the cloud region your compliance requires. We design landing zones so regulated data stays where it must, with access controls, encryption and audit logging to match frameworks such as GDPR, HIPAA and SOC 2.',
         ],
       },
     ],
@@ -421,7 +407,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'Data analytics and business intelligence services: Power BI and Tableau dashboards, data engineering, Snowflake and BigQuery data warehouses, and predictive analytics for enterprises worldwide.',
     keywords: ['data analytics services', 'business intelligence consulting', 'Power BI consulting services', 'data engineering services', 'data warehouse consulting', 'Snowflake consulting', 'predictive analytics services', 'Tableau consulting'],
     quickAnswer:
-      'Texas Solutions provides data analytics and business intelligence services: Power BI, Tableau and Looker dashboards, data engineering pipelines, cloud data warehouses on Snowflake, BigQuery or Microsoft Fabric, and predictive analytics. Dashboard projects start at about US$10,000 and data warehouses at US$50,000.',
+      'Texas Solutions provides data analytics and business intelligence services: Power BI, Tableau and Looker dashboards, data engineering pipelines, cloud data warehouses on Snowflake, BigQuery or Microsoft Fabric, and predictive analytics. Dashboard projects start at about US$4,000 and data warehouses at US$20,000.',
     guideTitle: 'Business intelligence and data engineering explained',
     guide: [
       {
@@ -433,7 +419,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does a Power BI or data warehouse project cost?',
         paragraphs: [
-          'A set of five to eight Power BI or Tableau dashboards on up to three data sources typically costs US$10,000 to US$40,000. A cloud data warehouse with a semantic layer runs US$50,000 to US$250,000. Licences are billed by the vendor.',
+          'A set of five to eight Power BI or Tableau dashboards on up to three data sources typically costs US$4,000 to US$15,000. A cloud data warehouse with a semantic layer runs US$20,000 to US$100,000. Licences are billed by the vendor.',
         ],
       },
     ],
@@ -448,16 +434,16 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'crm-erp',
     metaTitle: 'CRM & ERP Implementation | Salesforce, Dynamics 365, Odoo & Custom CRM',
     metaDescription:
-      'CRM and ERP consulting, implementation, integration and support: Salesforce, Microsoft Dynamics 365, Business Central, Odoo, HubSpot and custom CRM development for companies in the US, UK, Europe and the Gulf.',
+      'CRM and ERP consulting, implementation, integration and support: Salesforce, Microsoft Dynamics 365, Business Central, Odoo, HubSpot and custom CRM development for growing businesses and enterprises.',
     keywords: ['CRM implementation services', 'ERP implementation services', 'Salesforce consulting partner', 'Dynamics 365 implementation', 'Odoo implementation partner', 'custom CRM development', 'ERP integration services', 'Business Central implementation'],
     quickAnswer:
-      'Texas Solutions implements and customises CRM and ERP systems, including Salesforce, Microsoft Dynamics 365, Business Central, Odoo and HubSpot, and builds custom CRM where packages do not fit. CRM implementations start at about US$10,000, Odoo or Business Central ERP at US$15,000, and enterprise ERP from US$50,000 excluding licences.',
+      'Texas Solutions implements and customises CRM and ERP systems, including Salesforce, Microsoft Dynamics 365, Business Central, Odoo and HubSpot, and builds custom CRM where packages do not fit. CRM implementations start at about US$5,000, Odoo or Business Central ERP at US$8,000, and enterprise ERP from US$40,000 excluding licences.',
     guideTitle: 'CRM and ERP implementation: planning, cost and adoption',
     guide: [
       {
         heading: 'How much does ERP implementation cost?',
         paragraphs: [
-          'For a midsized company, platform-based ERP implementation commonly ranges from US$50,000 to around US$1,000,000 excluding licences, depending on modules, entities, integrations and data migration. Mid-market systems such as Odoo and Business Central often come in at US$15,000 to US$120,000.',
+          'For a midsized company, platform-based ERP implementation commonly ranges from US$40,000 to around US$400,000 with us, excluding licences, depending on modules, entities, integrations and data migration. Mid-market systems such as Odoo and Business Central often come in at US$8,000 to US$60,000.',
         ],
       },
       {
@@ -469,7 +455,6 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     ],
     faqs: [
       { q: 'Salesforce, Dynamics 365 or Odoo?', a: 'Salesforce suits sales-led organisations with complex pipelines, Dynamics 365 suits Microsoft-centric businesses, and Odoo or Business Central are strong, cost-effective ERP choices for small and mid-sized companies.' },
-      { q: 'Do you support Arabic and multi-currency ERP for the Gulf?', a: 'Yes. Odoo, Dynamics 365 and Business Central support Arabic, right-to-left layouts, multi-currency and VAT for the UAE and Saudi Arabia, including ZATCA e-invoicing requirements in Saudi Arabia.' },
     ],
   },
 
@@ -481,7 +466,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'Cybersecurity services: security assessments, application security, penetration testing via accredited partners, SOC 2 and ISO 27001 readiness and managed security for SaaS and enterprises.',
     keywords: ['cybersecurity services', 'security assessment services', 'penetration testing services', 'SOC 2 readiness consulting', 'ISO 27001 consulting', 'application security services', 'managed security services', 'vulnerability assessment'],
     quickAnswer:
-      'Texas Solutions provides cybersecurity services including security assessments, application security testing, penetration testing through accredited partners, SOC 2 and ISO 27001 readiness, and managed security. Assessments start at about US$8,000 and compliance readiness programmes at US$20,000.',
+      'Texas Solutions provides cybersecurity services including security assessments, application security testing, penetration testing through accredited partners, SOC 2 and ISO 27001 readiness, and managed security. Assessments start at about US$3,000 and compliance readiness programmes at US$8,000.',
     guideTitle: 'Cybersecurity for growing software companies',
     guide: [
       {
@@ -491,9 +476,9 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
         ],
       },
       {
-        heading: 'Which regulations apply in the Gulf and Asia?',
+        heading: 'Which regulations and frameworks apply to us?',
         paragraphs: [
-          'The UAE and Saudi Arabia both have Personal Data Protection Laws (PDPL), and Saudi Arabia’s National Cybersecurity Authority (NCA) publishes Essential Cybersecurity Controls. Singapore has the PDPA and Japan the APPI. We map your controls to the rules that apply where your customers and data are.',
+          'It depends on your industry and the data you hold. Common requirements include GDPR for personal data, HIPAA for health information, PCI DSS for card payments, and SOC 2 or ISO 27001 when enterprise customers ask for assurance. We map your controls to the rules that apply to your customers and data.',
         ],
       },
     ],
@@ -508,10 +493,10 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'lead-generation',
     metaTitle: 'B2B Lead Generation Services | Outbound, Cold Email & Appointment Setting',
     metaDescription:
-      'B2B lead generation agency: outbound campaigns, cold email, LinkedIn outreach, appointment setting and verified data. Retainers from US$2,500 a month, or pay per qualified lead.',
+      'B2B lead generation agency: outbound campaigns, cold email, LinkedIn outreach, appointment setting and verified data. Retainers from US$1,500 a month, or pay per qualified lead.',
     keywords: ['B2B lead generation services', 'lead generation agency', 'cold email agency', 'appointment setting services', 'LinkedIn lead generation', 'outbound sales agency', 'pay per lead'],
     quickAnswer:
-      'Texas Solutions runs B2B lead generation: outbound campaigns across cold email, LinkedIn and phone, appointment setting and verified contact data. Retainers start at about US$2,500 a month in the US, with per-qualified-lead pricing from US$150 once volume is proven.',
+      'Texas Solutions runs B2B lead generation: outbound campaigns across cold email, LinkedIn and phone, appointment setting and verified contact data. Retainers start at about US$1,500 a month, with per-qualified-lead pricing from US$75 once volume is proven.',
     guideTitle: 'B2B lead generation that produces meetings, not lists',
     guide: [
       {
@@ -522,7 +507,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       },
     ],
     faqs: [
-      { q: 'How much does B2B lead generation cost?', a: 'Retainers typically run US$2,500 to US$15,000 a month in the US. Per qualified lead pricing runs about US$150 to US$600, and per booked appointment US$300 to US$900.' },
+      { q: 'How much does B2B lead generation cost?', a: 'Retainers typically run US$1,500 to US$5,000 a month. Per qualified lead pricing runs about US$75 to US$250, and per booked appointment US$150 to US$400.' },
     ],
   },
 
@@ -531,10 +516,10 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'ads-optimization',
     metaTitle: 'PPC Management & Ad Creative | Google Ads, Meta Ads, LinkedIn & TikTok',
     metaDescription:
-      'PPC and paid social management: Google Ads, Meta, LinkedIn and TikTok campaigns, account audits, conversion tracking and ad creative design. From US$500 a month or 10-20% of spend.',
+      'PPC and paid social management: Google Ads, Meta, LinkedIn and TikTok campaigns, account audits, conversion tracking and ad creative design. From US$400 a month or 10-20% of spend.',
     keywords: ['PPC management services', 'Google Ads management agency', 'Meta ads agency', 'LinkedIn ads agency', 'ad creative design services', 'conversion tracking setup', 'PPC audit'],
     quickAnswer:
-      'Texas Solutions manages paid advertising on Google Ads, Meta, LinkedIn and TikTok, with account audits, server-side conversion tracking and monthly ad creative. Management costs about US$500 to US$3,000 a month or 10% to 20% of ad spend, whichever is lower for you.',
+      'Texas Solutions manages paid advertising on Google Ads, Meta, LinkedIn and TikTok, with account audits, server-side conversion tracking and monthly ad creative. Management costs about US$400 to US$1,500 a month or 10% to 20% of ad spend, whichever is lower for you.',
     guideTitle: 'Paid advertising management: fix measurement first',
     guide: [
       {
@@ -545,7 +530,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       },
     ],
     faqs: [
-      { q: 'How much does PPC management cost?', a: 'Typically US$500 to US$3,000 a month, or 10% to 20% of ad spend. Setup and tracking is usually a one-time US$500 to US$2,000.' },
+      { q: 'How much does PPC management cost?', a: 'Typically US$400 to US$1,500 a month, or 10% to 20% of ad spend. Setup and tracking is usually a one-time US$300 to US$1,000.' },
     ],
   },
 
@@ -557,7 +542,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'Google AdSense revenue management for publishers: approval, ad placement optimisation, RPM and CTR tuning, policy compliance, Core Web Vitals and header bidding advice.',
     keywords: ['AdSense management service', 'increase AdSense RPM', 'AdSense optimization', 'AdSense approval service', 'AdSense policy compliance', 'publisher ad revenue optimization'],
     quickAnswer:
-      'Texas Solutions manages Google AdSense revenue for publishers: policy compliance, ad placement and density tuning, RPM optimisation, Core Web Vitals and header bidding advice. Management costs US$500 to US$2,500 per site a month, or 15% to 30% of the revenue uplift above an agreed baseline.',
+      'Texas Solutions manages Google AdSense revenue for publishers: policy compliance, ad placement and density tuning, RPM optimisation, Core Web Vitals and header bidding advice. Management costs US$200 to US$800 per site a month, or 15% to 30% of the revenue uplift above an agreed baseline.',
     guideTitle: 'How to raise AdSense revenue without hurting your readers',
     guide: [
       {
@@ -580,7 +565,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'Used, remanufactured and crate engines sourced by VIN, verified with compression data and installed by vetted shops, with warranty and core returns handled. From US$2,600 installed.',
     keywords: ['used engines for sale', 'remanufactured engines', 'engine replacement cost', 'crate engines', 'used engine with warranty', 'engine installation service'],
     quickAnswer:
-      'Texas Solutions sources used, remanufactured and crate engines matched by VIN, verifies them with compression and leak-down data, arranges installation through vetted shops, and handles warranty registration and core returns. Used engines installed start at about US$2,600 and remanufactured engines at US$4,000 in the US.',
+      'Texas Solutions sources used, remanufactured and crate engines matched by VIN, verifies them with compression and leak-down data, arranges installation through vetted shops, and handles warranty registration and core returns. Used engines installed start at about US$2,600 and remanufactured engines at US$4,000.',
     guideTitle: 'Engine replacement: used, remanufactured or crate?',
     guide: [
       {
@@ -591,7 +576,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       },
     ],
     faqs: [
-      { q: 'How much does an engine replacement cost?', a: 'In the US, a used engine supplied and installed typically costs US$2,600 to US$4,500, a remanufactured engine US$4,000 to US$6,500, and a truck or European engine US$6,000 to US$12,000.' },
+      { q: 'How much does an engine replacement cost?', a: 'A used engine supplied and installed typically costs US$2,600 to US$4,500, a remanufactured engine US$4,000 to US$6,500, and a truck or European engine US$6,000 to US$12,000.' },
     ],
   },
 };

@@ -32,9 +32,9 @@ export const INSIGHTS: Insight[] = [
   {
     slug: 'custom-software-development-cost-2026',
     kind: 'Guide',
-    title: 'How much does custom software development cost in 2026? US, UK, Europe, UAE and Singapore compared',
+    title: 'How much does custom software development cost in 2026? Websites, web apps, SaaS and mobile apps',
     excerpt:
-      'Published price ranges for websites, web applications, SaaS platforms and mobile apps across seven markets, what drives the number, and how to budget without overpaying.',
+      'Published price ranges for websites, web applications, SaaS platforms and mobile apps, what drives the number, and how to budget without overpaying.',
     date: '2026-09-15',
     readingMinutes: 12,
     author: 'Texas Solutions engineering',
@@ -42,31 +42,30 @@ export const INSIGHTS: Insight[] = [
     service: 'web-development',
     tags: ['Software development cost', 'App development cost', 'SaaS', 'Budgeting'],
     body: [
-      { t: 'p', text: 'Short answer: a business website costs about US$3,000 to US$10,000, a web application or portal US$30,000 to US$150,000, a mobile app MVP US$25,000 to US$60,000, a mid-complexity app US$60,000 to US$150,000, and enterprise or AI-enabled platforms usually start above US$150,000. The rest of this guide explains why the range is so wide and how the price changes by country.' },
+      { t: 'p', text: 'Short answer: with an experienced offshore team, a business website costs about US$2,000 to US$5,000, a web application or portal US$15,000 to US$75,000, a mobile app MVP US$15,000 to US$35,000, a mid-complexity app US$35,000 to US$80,000, and enterprise or AI-enabled platforms usually start around US$80,000. US onshore agencies typically charge two to three times these figures. The rest of this guide explains why the range is so wide and how to budget for it.' },
       { t: 'h2', text: 'Custom software development cost by project type' },
-      { t: 'table', head: ['Project', 'Typical US range', 'Typical timeline'], rows: [
-        ['Landing page', 'US$300 - 800', '1-2 weeks'],
-        ['Business website, 5-10 pages', 'US$3,000 - 10,000', '4-8 weeks'],
-        ['E-commerce store', 'US$10,000 - 50,000+', '6-12 weeks'],
-        ['Web application or portal', 'US$30,000 - 150,000', '3-6 months'],
-        ['Mobile app MVP', 'US$25,000 - 60,000', '3-4 months'],
-        ['Mid-complexity app', 'US$60,000 - 150,000', '4-8 months'],
-        ['Enterprise or AI platform', 'US$150,000+', '6-12 months'],
+      { t: 'table', head: ['Project', 'Typical range (USD)', 'Typical timeline'], rows: [
+        ['Landing page', 'US$500 - 1,500', '1-2 weeks'],
+        ['Business website, 5-10 pages', 'US$2,000 - 5,000', '4-8 weeks'],
+        ['E-commerce store', 'US$5,000 - 20,000+', '6-12 weeks'],
+        ['Web application or portal', 'US$15,000 - 75,000', '3-6 months'],
+        ['Mobile app MVP', 'US$15,000 - 35,000', '3-4 months'],
+        ['Mid-complexity app', 'US$35,000 - 80,000', '4-8 months'],
+        ['Enterprise or AI platform', 'US$80,000+', '6-12 months'],
       ] },
-      { t: 'h2', text: 'How does software development cost change by country?' },
-      { t: 'p', text: 'Developer rates differ sharply by market. US agencies bill roughly US$100 to US$200 an hour, UK developers £50 to £75 and London agencies £80 to £180, Canadian developers CA$90 to CA$130, Australian developers A$90 to A$120, and Eastern European developers €40 to €80. Gulf and Asian enterprise projects are usually contracted in US dollars at rates close to US levels.' },
+      { t: 'h2', text: 'Does offshore or hybrid delivery lower the cost?' },
       { t: 'p', text: 'Offshore and hybrid delivery lowers the blended rate without lowering the standard, provided the partner uses senior engineers, overlaps your working hours and puts the code in your name.' },
       { t: 'h2', text: 'What drives the cost of a software project?' },
       { t: 'ul', items: [
         'Scope: the number of screens, user roles and workflows.',
         'Integrations: each connection to a CRM, ERP, payment provider or data source adds build and test time.',
         'Design: a template restyled to your brand costs far less than a bespoke design system.',
-        'Compliance: HIPAA, PCI, GDPR, UAE or Saudi PDPL and Singapore PDPA add security and documentation work.',
+        'Compliance: HIPAA, PCI DSS and GDPR add security and documentation work.',
         'Timeline: rushed work costs more because it displaces other work; flexible timing costs less.',
         'Data migration: moving years of records from legacy systems is often underestimated.',
       ] },
       { t: 'h2', text: 'Fixed price, time and materials, or a dedicated team?' },
-      { t: 'p', text: 'Fixed price suits well-defined scopes such as a website or an MVP. Time and materials suits evolving products. A dedicated team suits long-running product development, with mid-level engineers at about US$5,500 to US$8,500 a month and senior engineers at US$8,500 to US$13,000.' },
+      { t: 'p', text: 'Fixed price suits well-defined scopes such as a website or an MVP. Time and materials suits evolving products. A dedicated team suits long-running product development, with mid-level engineers at about US$3,500 to US$5,000 a month and senior engineers at US$5,000 to US$7,000.' },
       { t: 'h2', text: 'How to avoid overpaying' },
       { t: 'ol', items: [
         'Write down the outcome you need, not a feature list.',
@@ -75,7 +74,7 @@ export const INSIGHTS: Insight[] = [
         'Make sure repositories and cloud accounts are in your name from day one.',
         'Compare total cost of ownership, including hosting, licences and maintenance, not just the build.',
       ] },
-      { t: 'p', text: 'Our Rough Estimate calculator applies these factors to published price tables for the US, UK, Canada, Australia, Europe, the Gulf and Asia, and returns a low, likely and high range for your scope.' },
+      { t: 'p', text: 'Our Rough Estimate calculator applies these factors to our published US-dollar price list and returns a low, likely and high range for your scope.' },
     ],
   },
   {
@@ -91,15 +90,15 @@ export const INSIGHTS: Insight[] = [
     service: 'ai-machine-learning',
     tags: ['AI development cost', 'Generative AI', 'AI agents', 'Machine learning'],
     body: [
-      { t: 'p', text: 'Short answer: an AI consulting engagement with a working pilot costs about US$8,000 to US$30,000; a production chatbot or assistant US$20,000 to US$80,000; a generative AI workflow US$30,000 to US$120,000; an AI agent system from US$50,000; and a custom machine learning model US$40,000 to US$200,000. Model usage fees are extra.' },
+      { t: 'p', text: 'Short answer: an AI consulting engagement with a working pilot costs about US$5,000 to US$15,000; a production chatbot or assistant US$10,000 to US$40,000; a generative AI workflow US$15,000 to US$60,000; an AI agent system from US$25,000; and a custom machine learning model US$20,000 to US$80,000. Model usage fees are extra.' },
       { t: 'h2', text: 'AI development cost by solution type' },
-      { t: 'table', head: ['Solution', 'Typical US range', 'Timeline'], rows: [
-        ['AI consulting and pilot', 'US$8,000 - 30,000', '3-6 weeks'],
-        ['RAG chatbot or assistant', 'US$20,000 - 80,000', '6-12 weeks'],
-        ['Generative AI workflow', 'US$30,000 - 120,000', '2-4 months'],
-        ['AI agent system', 'US$50,000 - 250,000+', '3-6 months'],
-        ['Custom ML model', 'US$40,000 - 200,000', '3-6 months'],
-        ['Computer vision', 'US$60,000 - 300,000', '3-9 months'],
+      { t: 'table', head: ['Solution', 'Typical range (USD)', 'Timeline'], rows: [
+        ['AI consulting and pilot', 'US$5,000 - 15,000', '3-6 weeks'],
+        ['RAG chatbot or assistant', 'US$10,000 - 40,000', '6-12 weeks'],
+        ['Generative AI workflow', 'US$15,000 - 60,000', '2-4 months'],
+        ['AI agent system', 'US$25,000 - 100,000+', '3-6 months'],
+        ['Custom ML model', 'US$20,000 - 80,000', '3-6 months'],
+        ['Computer vision', 'US$30,000 - 120,000', '3-9 months'],
       ] },
       { t: 'h2', text: 'What makes AI projects expensive?' },
       { t: 'ul', items: [
@@ -107,7 +106,7 @@ export const INSIGHTS: Insight[] = [
         'Evaluation: building a test set from real examples and measuring accuracy properly.',
         'Integration: connecting the model to CRMs, ERPs, help desks and document stores.',
         'Guardrails: permissions, approvals, human hand-off and audit logs, especially for agents.',
-        'Compliance: data residency and consent under GDPR, the EU AI Act, UAE and Saudi PDPL or Singapore PDPA.',
+        'Compliance: data residency, consent and AI governance requirements such as GDPR and the EU AI Act.',
       ] },
       { t: 'h2', text: 'The running cost of AI' },
       { t: 'p', text: 'Every request to a large language model has a usage cost. For most assistants that is cents per conversation, but at scale it matters. Model the cost per task at your real volume before launch, cache repeated answers, use smaller models for simple steps and set budgets with alerts.' },
@@ -120,7 +119,7 @@ export const INSIGHTS: Insight[] = [
     kind: 'Guide',
     title: 'Software QA outsourcing in 2026: costs, engagement models and how to choose a testing partner',
     excerpt:
-      'Hourly and monthly QA rates by region, manual versus automated testing, Playwright versus Selenium, and the questions that separate good QA partners from bad ones.',
+      'Hourly and monthly QA rates, manual versus automated testing, Playwright versus Selenium, and the questions that separate good QA partners from bad ones.',
     date: '2026-09-08',
     readingMinutes: 9,
     author: 'Texas Solutions QA practice',
@@ -128,7 +127,7 @@ export const INSIGHTS: Insight[] = [
     service: 'qa-testing',
     tags: ['QA outsourcing', 'Test automation', 'Software testing cost'],
     body: [
-      { t: 'p', text: 'Short answer: outsourced QA engineers cost about US$70 to US$120 an hour in the US, £50 to £90 in the UK and €35 to €85 in Eastern Europe. A managed QA team costs roughly US$4,000 to US$8,000 a month. The best value usually comes from automating regression tests and keeping skilled manual testers for new features.' },
+      { t: 'p', text: 'Short answer: outsourced QA engineers cost about US$25 to US$45 an hour with an offshore team, depending on seniority and specialism. A managed QA team costs roughly US$2,500 to US$6,000 a month. The best value usually comes from automating regression tests and keeping skilled manual testers for new features.' },
       { t: 'h2', text: 'Which QA engagement model fits?' },
       { t: 'ul', items: [
         'Project-based testing: a defined release or product launch.',
@@ -150,7 +149,7 @@ export const INSIGHTS: Insight[] = [
   {
     slug: 'hire-dedicated-developers-guide',
     kind: 'Guide',
-    title: 'How to hire dedicated developers offshore: rates, time zones and contracts for US, UK, Gulf and Asian companies',
+    title: 'How to hire dedicated developers: rates, time-zone overlap and contracts',
     excerpt:
       'Monthly rates by seniority, how much time-zone overlap you really need, and the contract terms that protect your code and your roadmap.',
     date: '2026-09-04',
@@ -160,9 +159,9 @@ export const INSIGHTS: Insight[] = [
     service: 'dedicated-teams',
     tags: ['Hire developers', 'Dedicated team', 'Staff augmentation', 'Offshore development'],
     body: [
-      { t: 'p', text: 'Short answer: dedicated full-time engineers cost about US$3,500 to US$5,500 a month for juniors, US$5,500 to US$8,500 for mid-level, US$8,500 to US$13,000 for seniors and US$12,000 to US$17,000 for tech leads. Expect to add 10% to 15% for full overlap with US, UK or EU working hours.' },
+      { t: 'p', text: 'Short answer: dedicated full-time offshore engineers cost about US$2,500 to US$3,500 a month for juniors, US$3,500 to US$5,000 for mid-level, US$5,000 to US$7,000 for seniors and US$6,500 to US$9,000 for tech leads. Expect to add 10% to 15% for full overlap with your working hours.' },
       { t: 'h2', text: 'How much time-zone overlap do you need?' },
-      { t: 'p', text: 'Four hours of overlap is enough for most product teams: standup, planning and a review window. Teams in the Gulf share a full working day with a delivery centre on UTC+5, and UK and European teams share most of theirs. US teams typically share mornings, with full US-hours cover available at a premium.' },
+      { t: 'p', text: 'Four hours of overlap is enough for most product teams: standup, planning and a review window. Full overlap with your business hours is available at a premium when a team needs it.' },
       { t: 'h2', text: 'Contract terms that matter' },
       { t: 'ul', items: [
         'Intellectual property assigned to you on payment.',
@@ -339,7 +338,7 @@ export const INSIGHTS: Insight[] = [
       { t: 'h2', text: 'Monitor the right signals' },
       { t: 'p', text: 'Open rates are unreliable now that privacy features pre-fetch images. Watch reply rate, bounce rate and spam complaint rate instead. Keep bounces under 3 percent and complaints under 0.1 percent, and pause the moment either climbs.' },
       { t: 'h2', text: 'Legal basis, briefly' },
-      { t: 'p', text: 'US sending follows CAN-SPAM: accurate headers, a physical address and a working opt-out. UK and EU B2B outreach generally runs on legitimate interest, which requires a documented assessment, relevance to the recipient role and an easy objection route. Keep records of why each contact was approached.' },
+      { t: 'p', text: 'CAN-SPAM requires accurate headers, a physical address and a working opt-out. Under GDPR, B2B outreach generally runs on legitimate interest, which requires a documented assessment, relevance to the recipient role and an easy objection route. Keep records of why each contact was approached.' },
       { t: 'p', text: 'This guide is operational advice, not legal advice. Have your counsel review your programme before launch.' },
     ],
   },

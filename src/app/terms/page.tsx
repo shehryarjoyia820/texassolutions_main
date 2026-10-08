@@ -49,7 +49,7 @@ export default function TermsPage() {
             </p>
             <p>
               The calculator returns a low, likely and high figure derived from the answers you give and the
-              published table for your region. It cannot see your actual requirements, your existing systems,
+              published US dollar price table. It cannot see your actual requirements, your existing systems,
               your data quality or your constraints. Final pricing is confirmed only in a written proposal
               issued after a consultation, and that proposal governs if it differs from anything shown here.
             </p>
@@ -58,12 +58,10 @@ export default function TermsPage() {
               bind us, and a saved or printed estimate is guidance for approximately 30 days.
             </p>
 
-            <h2>3. Region and currency</h2>
+            <h2>3. Currency</h2>
             <p>
-              Prices are shown in the currency of the region you select. Each region has its own authored price
-              table. We do not convert currency live, and the figures shown in one region are not an exchange
-              rate calculation of another. Canadian and European figures are derived from US and UK benchmarks
-              and are marked as such on the pricing page.
+              All prices on this site are shown and invoiced in US dollars (USD) unless a signed service
+              agreement states otherwise.
             </p>
 
             <h2>4. Service agreements</h2>

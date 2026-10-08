@@ -95,7 +95,7 @@ export function MarketplaceDetail({ item }: { item: MarketplaceItem }) {
 
               <NoteBox tone="warn" className="mt-6">
                 Enquiry-only in this release. There is no checkout: you tell us what you need, we confirm
-                availability and the price for your region, then we invoice.
+                availability and the price, then we invoice.
               </NoteBox>
 
               {related.length > 0 && (
@@ -122,7 +122,7 @@ export function MarketplaceDetail({ item }: { item: MarketplaceItem }) {
             <aside className="lg:sticky lg:top-28 lg:self-start">
               <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
                 <p className="text-xs uppercase tracking-wider text-fg-subtle">
-                  Price · {region.label} · {region.currency}
+                  Price · {region.currency}
                 </p>
                 <p className="mt-2 font-display text-3xl font-semibold text-svc">
                   {item.priceLabel ?? formatRange(value, code, { plus: row?.plus?.[code], compact: true })}

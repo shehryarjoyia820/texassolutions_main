@@ -146,7 +146,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
                 <p className="eyebrow mb-4 text-svc">Proof</p>
                 <h2 className="text-display-sm">{solution.proof.headline}</h2>
                 <p className="mt-4 leading-relaxed text-fg-muted">{solution.proof.body}</p>
-                <ArrowLink href="/insights?kind=Case+study" className="mt-6">
+                <ArrowLink href="/blog?kind=Case+study" className="mt-6">
                   Read the written case studies
                 </ArrowLink>
               </div>
@@ -174,7 +174,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
 
       <CtaSection
         title={`Ready to price a ${solution.navLabel.toLowerCase()} engagement?`}
-        body="The calculator covers every service in this solution. Answer seven questions and you have a range in your own currency."
+        body="The calculator covers every service in this solution. Answer seven questions and you have a range in US dollars."
         primary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
         secondary={{ href: '/contact', label: 'Book a consultation' }}
       />

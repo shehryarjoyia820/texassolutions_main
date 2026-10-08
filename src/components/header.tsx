@@ -5,19 +5,15 @@ import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ChevronDown,
-  Globe,
   Menu,
   Phone,
   X,
   ArrowRight,
-  Check,
 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { HEADER_MENUS as MEGA_MENUS, type MegaMenu } from '@/data/nav';
 import { SITE } from '@/data/site';
-import { REGIONS, type RegionCode } from '@/data/regions';
 import { cn } from '@/lib/utils';
-import { useRegion } from './providers';
 import { ButtonLink } from './ui';
 import { Logo } from './brand';
 
@@ -27,12 +23,9 @@ export function Header() {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [regionOpen, setRegionOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const { region, setRegion } = useRegion();
 
   // Shrink on scroll.
   useEffect(() => {
@@ -46,7 +39,6 @@ export function Header() {
   useEffect(() => {
     setOpenMenu(null);
     setMobileOpen(false);
-    setRegionOpen(false);
   }, [pathname]);
 
   // Escape closes the open menu and returns focus to its trigger.
@@ -58,7 +50,6 @@ export function Header() {
         setOpenMenu(null);
         trigger?.focus();
       }
-      setRegionOpen(false);
       setMobileOpen(false);
     };
     document.addEventListener('keydown', onKey);
@@ -70,7 +61,6 @@ export function Header() {
     const onClick = (e: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setOpenMenu(null);
-        setRegionOpen(false);
       }
     };
     document.addEventListener('mousedown', onClick);
@@ -161,60 +151,6 @@ export function Header() {
 
           {/* ---- right side ---- */}
           <div className="ml-auto flex shrink-0 items-center gap-1.5 xl:gap-2">
-            <div className="relative hidden md:block">
-              <button
-                onClick={() => setRegionOpen((v) => !v)}
-                aria-expanded={regionOpen}
-                aria-haspopup="listbox"
-                className="flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-2 text-xs font-medium text-fg-muted transition-colors hover:border-accent/50 hover:text-fg"
-              >
-                <Globe className="h-3.5 w-3.5" aria-hidden />
-                <span className="2xl:hidden">{region.currency}</span>
-                <span className="hidden 2xl:inline">
-                  {region.short} · {region.currency}
-                </span>
-                <ChevronDown className={cn('h-3 w-3 transition-transform', regionOpen && 'rotate-180')} aria-hidden />
-              </button>
-              <AnimatePresence>
-                {regionOpen && (
-                  <motion.ul
-                    role="listbox"
-                    aria-label="Choose your region"
-                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-line bg-bg-elev p-1.5 shadow-lift"
-                  >
-                    {REGIONS.map((r) => (
-                      <li key={r.code}>
-                        <button
-                          role="option"
-                          aria-selected={r.code === region.code}
-                          onClick={() => {
-                            setRegion(r.code as RegionCode);
-                            setRegionOpen(false);
-                          }}
-                          className={cn(
-                            'flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors',
-                            r.code === region.code ? 'bg-accent/10 text-accent' : 'text-fg-muted hover:bg-bg-soft hover:text-fg',
-                          )}
-                        >
-                          <span aria-hidden>{r.flag}</span>
-                          <span className="flex-1 text-left">{r.label}</span>
-                          <span className="text-xs text-fg-subtle">{r.currency}</span>
-                          {r.code === region.code && <Check className="h-3.5 w-3.5" aria-hidden />}
-                        </button>
-                      </li>
-                    ))}
-                    <li className="border-t border-line px-3 pb-1 pt-2 text-[0.6875rem] leading-relaxed text-fg-subtle">
-                      Each region has its own price table. Currency is never converted live.
-                    </li>
-                  </motion.ul>
-                )}
-              </AnimatePresence>
-            </div>
-
             <a
               href={SITE.phoneHref}
               className="hidden items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs font-medium text-fg-muted transition-colors hover:border-accent/50 hover:text-fg 2xl:flex"
@@ -359,8 +295,6 @@ function MegaPanel({ menu }: { menu: MegaMenu }) {
 
 function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [expanded, setExpanded] = useState<string | null>(null);
-  const { region, setRegion } = useRegion();
-
   return (
     <AnimatePresence>
       {open && (
@@ -381,23 +315,6 @@ function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
           </div>
 
           <div className="h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain px-5 pb-28 pt-4">
-            <div className="mb-5 flex flex-wrap gap-1.5">
-              {REGIONS.map((r) => (
-                <button
-                  key={r.code}
-                  onClick={() => setRegion(r.code as RegionCode)}
-                  className={cn(
-                    'rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
-                    r.code === region.code
-                      ? 'border-accent bg-accent/10 text-accent'
-                      : 'border-line text-fg-muted',
-                  )}
-                >
-                  {r.flag} {r.short} · {r.currency}
-                </button>
-              ))}
-            </div>
-
             <ul className="divide-y divide-line border-y border-line">
               {MEGA_MENUS.map((menu) => (
                 <li key={menu.label}>

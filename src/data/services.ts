@@ -140,7 +140,7 @@ const BASE_SERVICES: Service[] = [
         slug: 'enterprise-software',
         name: 'Enterprise software development',
         summary: 'Secure, integrated systems for large organisations.',
-        body: 'Enterprise applications that meet security, compliance and scale requirements: single sign-on with Azure AD or Okta, role-based access, audit logging, data residency in-region for GDPR, UAE and Saudi PDPL or Singapore PDPA, and integrations with Salesforce, Dynamics 365, SAP and Odoo.',
+        body: 'Enterprise applications that meet security, compliance and scale requirements: single sign-on with Azure AD or Okta, role-based access, audit logging, data residency in the cloud region your compliance requires, and integrations with Salesforce, Dynamics 365, SAP and Odoo.',
         deliverables: ['Security and compliance design', 'SSO and role-based access', 'ERP and CRM integration', 'Data residency planning', 'Load and security testing', 'Long-term support SLAs'],
         keyword: 'enterprise software development services',
       },
@@ -449,7 +449,7 @@ const BASE_SERVICES: Service[] = [
       { q: 'Will cold email damage our domain reputation?', a: 'Not if it is done properly. We send from dedicated domains that are separate from your main one, authenticate them with SPF, DKIM and DMARC, warm them for several weeks and ramp volume only while deliverability holds.' },
       { q: 'How long before we see meetings?', a: 'Domain warming takes two to three weeks, so the first meetings usually land in week four or five. Meaningful volume data arrives around week eight.' },
       { q: 'Do you work per lead or on a retainer?', a: 'Most accounts start on a retainer because it lets us invest in deliverability and testing. Once volume and quality are proven, we can move to per qualified lead or per booked appointment.' },
-      { q: 'Are you compliant with GDPR and CAN-SPAM?', a: 'Yes. B2B outreach in the UK and EU runs on legitimate interest with clear opt-out, records of the basis for contact and honoured suppression lists. US sending follows CAN-SPAM identification and opt-out rules.' },
+      { q: 'Are you compliant with GDPR and CAN-SPAM?', a: 'Yes. Outreach covered by GDPR runs on legitimate interest with clear opt-out, records of the basis for contact and honoured suppression lists, and all sending follows CAN-SPAM identification and opt-out rules.' },
     ],
     metrics: [
       { label: 'Typical deliverability', value: '95%+' },

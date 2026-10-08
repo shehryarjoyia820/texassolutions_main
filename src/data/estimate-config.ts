@@ -169,8 +169,8 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         defaultValue: 'client',
         options: [
           { value: 'client', label: 'We supply copy and images', factor: 1 },
-          { value: 'polish', label: 'We draft, you polish it', add: [900, 2600] },
-          { value: 'full', label: 'You write everything', add: [2400, 7500] },
+          { value: 'polish', label: 'We draft, you polish it', add: [300, 900] },
+          { value: 'full', label: 'You write everything', add: [800, 2500] },
         ],
       },
       {
@@ -182,11 +182,11 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         options: [
           { value: 'ios', label: 'iOS', factor: 1 },
           { value: 'android', label: 'Android', factor: 1 },
-          { value: 'web', label: 'Web companion', add: [4000, 14000] },
+          { value: 'web', label: 'Web companion', add: [2000, 7000] },
         ],
       },
     ],
-    disclaimer: 'Fixed-scope builds are quoted as a project. Hourly work is billed at the regional rate.',
+    disclaimer: 'Fixed-scope builds are quoted as a project. Hourly work is billed at the published hourly rate.',
     outputNotes: [
       'Includes discovery, design, build, CMS setup, SEO basics and 30 days of support.',
       'Excludes ongoing hosting, licences and paid media budget.',
@@ -213,9 +213,9 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         defaultValue: ['email'],
         options: [
           { value: 'email', label: 'Cold email', factor: 1 },
-          { value: 'linkedin', label: 'LinkedIn', add: [700, 2400] },
-          { value: 'phone', label: 'Phone', add: [1200, 4200] },
-          { value: 'paid', label: 'Paid social support', add: [900, 3000] },
+          { value: 'linkedin', label: 'LinkedIn', add: [300, 900] },
+          { value: 'phone', label: 'Phone', add: [500, 1500] },
+          { value: 'paid', label: 'Paid social support', add: [300, 1000] },
         ],
       },
       {
@@ -311,8 +311,8 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         defaultValue: 'unsure',
         options: [
           { value: 'yes', label: 'Yes, verified recently', factor: 1 },
-          { value: 'unsure', label: 'Not sure', add: [500, 2000] },
-          { value: 'no', label: 'No, it needs rebuilding', add: [800, 2600] },
+          { value: 'unsure', label: 'Not sure', add: [200, 700] },
+          { value: 'no', label: 'No, it needs rebuilding', add: [300, 900] },
         ],
       },
     ],
@@ -453,9 +453,9 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         defaultValue: ['web'],
         options: [
           { value: 'web', label: 'Web', factor: 1 },
-          { value: 'ios', label: 'iOS', add: [800, 2200] },
-          { value: 'android', label: 'Android', add: [800, 2200] },
-          { value: 'api', label: 'APIs', add: [600, 1800] },
+          { value: 'ios', label: 'iOS', add: [400, 1000] },
+          { value: 'android', label: 'Android', add: [400, 1000] },
+          { value: 'api', label: 'APIs', add: [300, 800] },
         ],
       },
       {
@@ -484,7 +484,7 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
     ],
     disclaimer: 'The test suite is built inside your repository and handed over documented. There is no licence to keep paying.',
     outputNotes: [
-      'Hourly engagements are quoted at the regional QA rate; managed teams are quoted monthly.',
+      'Hourly engagements are quoted at the published QA rate; managed teams are quoted monthly.',
       'Security testing here covers application risks, not a formal accredited penetration test.',
     ],
   },

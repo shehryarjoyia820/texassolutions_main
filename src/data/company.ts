@@ -172,7 +172,7 @@ export const ENGAGEMENT_MODELS: EngagementModel[] = [
 
 export const PROOF_POINTS = [
   { value: 13, suffix: '', label: 'Service lines under one contract', body: 'Web, QA, leads and engines, enterprise IT from AI to cybersecurity, plus dispatch, ads and AdSense, with one account contact across all of them.' },
-  { value: 5, suffix: '', label: 'Regions with their own price tables', body: 'US, UK, Canada, Australia and Europe, each with authored pricing rather than a live currency conversion.' },
+  { value: 1, suffix: '', label: 'Published price list', body: 'One set of US dollar ranges for every client, with no pricing by location.' },
   { value: 24, suffix: '/7', label: 'Dispatch desk coverage', body: 'Overnight and weekend cover for breakdowns, delivery issues and next-day booking.' },
   { value: 30, suffix: ' days', label: 'Notice period, never longer', body: 'No multi-year lock-in on any service. If we are not earning the fee you should be able to leave.' },
   { value: 90, suffix: '+', label: 'Mobile Lighthouse target', body: 'A build acceptance criterion on every site we ship, not an aspiration in a proposal.' },
@@ -197,7 +197,7 @@ export const COMPARISON = {
     { label: 'Services covered', values: ['All thirteen under one contract', 'One or two specialisms', 'Whatever you hire for'] },
     { label: 'Contract lock-in', values: ['30 days notice', '6-12 month minimum', 'Employment commitment'] },
     { label: 'Who owns the accounts', values: ['You, always', 'Often the agency', 'You'] },
-    { label: 'Regional pricing', values: ['Five authored price tables', 'One currency, converted', 'Not applicable'] },
+    { label: 'Published pricing', values: ['One public US dollar price list', 'Quoted after discovery calls', 'Not applicable'] },
     { label: 'After-hours coverage', values: ['24/7 dispatch desk', 'Business hours', 'Overtime cost'] },
     { label: 'Cost at small scale', values: ['Retainer from the low thousands', 'Minimums often higher', 'Full salary plus overhead'] },
     { label: 'Knowledge if someone leaves', values: ['Documented, team covers', 'Account manager churn', 'Leaves with them'] },
@@ -210,7 +210,7 @@ export const SECURITY_PRACTICES = [
   { title: 'Form protection', body: 'Rate limiting, bot challenge via Cloudflare Turnstile and server-side validation on every public form.' },
   { title: 'Data retention', body: 'Lead records retained for 24 months by default unless you specify otherwise, then deleted. Deletion requests honoured within 30 days.' },
   { title: 'Subprocessors disclosed', body: 'Every third-party tool that touches client data is listed in the privacy policy, with its purpose and location.' },
-  { title: 'Incident response', body: 'A written incident process with a one-hour response target for critical issues and notification obligations under GDPR and US state law.' },
+  { title: 'Incident response', body: 'A written incident process with a one-hour response target for critical issues and notification obligations under GDPR and other applicable data breach laws.' },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -224,7 +224,7 @@ export const MILESTONES = [
   { year: '2022', title: 'Ads and AdSense practices launch', body: 'Paid acquisition for carrier and service clients, followed by publisher revenue management as a distinct practice.' },
   { year: '2023', title: 'QA practice and delivery centre', body: 'An engineering and QA delivery centre opens, adding test automation and staff augmentation to the offer.' },
   { year: '2024', title: 'Auto engines joins the group', body: 'Fleet clients ask for sourcing help during downtime, and engine supply and installation becomes the seventh service line.' },
-  { year: '2025', title: 'Five regions, five price tables', body: 'UK, Canada, Australia and Europe get their own authored pricing rather than converted US figures.' },
+  { year: '2025', title: 'Published pricing', body: 'Every service line gets a public price list with sourced ranges, so clients see a number before the first call.' },
   { year: '2026', title: 'One platform, thirteen services', body: 'The group consolidates onto a single site, a single estimate calculator and one account contact per client.' },
 ];
 
@@ -436,7 +436,7 @@ export const DISPATCH_DAY = [
 
 export const INVESTOR_METRICS = [
   { label: 'Service lines', value: '7', note: 'Diversified across freight, marketing and engineering' },
-  { label: 'Regions served', value: '5', note: 'US, UK, Canada, Australia, Europe' },
+  { label: 'Locations', value: '5', note: 'Houston, London, Toronto, Sydney, Lahore' },
   { label: 'Revenue mix, recurring', value: '68%', note: 'Dispatch, retainers and managed services' },
   { label: 'Client retention, 12 month', value: '84%', note: 'Across all service lines' },
   { label: 'Headcount', value: '90+', note: 'Across five locations' },
@@ -453,7 +453,7 @@ export const PRESS = [
   { date: '2026-08-14', title: 'Texas Solutions opens overnight dispatch coverage for US carriers', outlet: 'Company announcement' },
   { date: '2026-06-02', title: 'Publisher revenue practice passes one hundred managed sites', outlet: 'Company announcement' },
   { date: '2026-03-19', title: 'Engine sourcing division expands to heavy-duty diesel', outlet: 'Company announcement' },
-  { date: '2025-11-05', title: 'Regional price tables published for five markets', outlet: 'Company announcement' },
+  { date: '2025-11-05', title: 'Published price ranges for every service line', outlet: 'Company announcement' },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -480,12 +480,12 @@ export const AD_PLACEMENTS = [
 /* ------------------------------------------------------------------ */
 
 export const SITE_FAQS = [
-  { q: 'What does Texas Solutions do?', a: 'Texas Solutions is a software development and technology services company. It builds custom software, web applications, SaaS platforms and mobile apps; develops AI and machine learning solutions; provides QA and software testing; supplies dedicated development teams; and runs cloud, data, CRM and ERP, and cybersecurity projects. It also operates a truck dispatch service for US and Canadian carriers.' },
+  { q: 'What does Texas Solutions do?', a: 'Texas Solutions is a software development and technology services company. It builds custom software, web applications, SaaS platforms and mobile apps; develops AI and machine learning solutions; provides QA and software testing; supplies dedicated development teams; and runs cloud, data, CRM and ERP, and cybersecurity projects. It also operates a truck dispatch service for US carriers.' },
   { q: 'Where is Texas Solutions based?', a: 'Texas Solutions LLC is headquartered in Houston, Texas, with client teams in London, Toronto and Sydney and an engineering, QA and overnight dispatch delivery centre in Lahore.' },
-  { q: 'Which countries does Texas Solutions work with?', a: 'Tier 1 markets including the United States, United Kingdom, Canada, Australia, New Zealand and Western Europe; the Gulf including the UAE, Saudi Arabia, Qatar, Kuwait, Bahrain and Oman; and Asia including Singapore, Japan, Hong Kong, South Korea and Malaysia.' },
+  { q: 'Who does Texas Solutions work with?', a: 'Growing businesses and enterprises that want senior engineers, published pricing and a named contact, plus US owner-operators and small fleets for truck dispatch. We work remotely and overlap with your business hours.' },
   { q: 'Is Texas Solutions a good choice for outsourcing software development?', a: 'It suits companies that want senior engineers, published pricing, working-hours overlap and full ownership of their code. Every project has a named delivery lead, automated testing from the first sprint and a 30-day notice period rather than a long lock-in.' },
   { q: 'Can we use one service without buying the others?', a: 'Yes. Every service line stands on its own with its own agreement. Clients who use several get one account contact across all of them, but nothing is bundled by force.' },
-  { q: 'How does the region switcher affect pricing?', a: 'Each region has its own authored price table. Switching regions changes which table is read; it never converts currency live, because a converted figure would imply a precision we do not have.' },
+  { q: 'What currency are your prices in?', a: 'All prices are published and invoiced in US dollars. Every client sees the same price list; final pricing is confirmed in writing after a consultation.' },
   { q: 'Is the estimate calculator a quote?', a: 'No. It returns a rough range from the answers you give, using the same published tables as the pricing page. Final pricing is confirmed after a consultation.' },
   { q: 'What are your contract terms?', a: 'Thirty days notice on every recurring service, in either direction, with no termination fee. Project work is governed by the written scope and its acceptance criteria.' },
   { q: 'Who owns the work you produce?', a: 'You do. Repositories, design files, ad accounts, test suites and creative all sit in your name from day one, and handover within five days is part of the exit process.' },
@@ -500,7 +500,7 @@ export const SITE_FAQS = [
 
 export const HOW_IT_WORKS = [
   { step: '01', title: 'Tell us the situation', body: 'Use the estimate calculator or the contact form. Either way you get a range and an honest read on whether we are the right fit.', duration: 'Same day' },
-  { step: '02', title: 'Scope and price it', body: 'A consultation to confirm the detail, then a written scope with acceptance criteria and a firm price for your region.', duration: '2-4 days' },
+  { step: '02', title: 'Scope and price it', body: 'A consultation to confirm the detail, then a written scope with acceptance criteria and a firm price.', duration: '2-4 days' },
   { step: '03', title: 'Start the work', body: 'A named lead, a kickoff, and access to the environment or desk where the work happens. Dispatch starts in three days.', duration: 'Week 1' },
   { step: '04', title: 'Report and adjust', body: 'Weekly for retainers, monthly at minimum, with the metric that matters to you rather than a vanity dashboard.', duration: 'Ongoing' },
 ];

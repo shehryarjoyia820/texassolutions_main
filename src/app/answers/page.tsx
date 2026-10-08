@@ -3,7 +3,6 @@ import { ChevronDown } from 'lucide-react';
 import { SITE_FAQS } from '@/data/company';
 import { SERVICES } from '@/data/services';
 import { SERVICE_SEO } from '@/data/seo-content';
-import { MARKETS } from '@/data/markets';
 import { PageHero, CtaSection } from '@/components/page-shell';
 import { Container, Section } from '@/components/ui';
 import { JsonLd, breadcrumbSchema, faqSchema, pageMeta } from '@/lib/seo';
@@ -11,7 +10,7 @@ import { JsonLd, breadcrumbSchema, faqSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Answers | Software Development, AI, QA & Dispatch Questions Answered',
   description:
-    'Straight answers on custom software development cost, AI and machine learning, QA and test automation, dedicated teams, truck dispatch fees and working with us from the US, UK, Europe, the Gulf and Asia.',
+    'Straight answers on custom software development cost, AI and machine learning, QA and test automation, dedicated teams, truck dispatch fees and how working with us runs.',
   path: '/answers',
   keywords: [
     'how much does custom software development cost',
@@ -39,12 +38,6 @@ function buildGroups(): Group[] {
       items: [...(SERVICE_SEO[s.slug]?.faqs ?? []), ...s.faqs],
     });
   }
-  groups.push({
-    id: 'markets',
-    title: 'Working with us by country',
-    href: '/markets',
-    items: MARKETS.flatMap((m) => m.faqs),
-  });
   return groups;
 }
 

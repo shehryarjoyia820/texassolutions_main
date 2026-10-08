@@ -9,12 +9,11 @@ import {
   Check,
   Download,
   FileText,
-  Globe,
   Loader2,
   RotateCcw,
 } from 'lucide-react';
 import { SERVICES } from '@/data/services';
-import { REGIONS, getRegion, type RegionCode } from '@/data/regions';
+import { DEFAULT_REGION, REGIONS, getRegion, type RegionCode } from '@/data/regions';
 import {
   ESTIMATE_CONFIG_MAP,
   TIMELINE_MULTIPLIERS,
@@ -28,12 +27,14 @@ import { computeEstimate, defaultAnswers, questionApplies, type Answers, type Es
 import { formatMoney, formatNumber, formatRange } from '@/lib/format';
 import { trackEstimateStep } from '@/lib/analytics';
 import { submitForm, HONEYPOT_FIELD, CONSENT_WORDING } from '@/lib/forms';
-import { useRegion } from '@/components/providers';
 import { Button, ButtonLink, Container, NoteBox, RangeBar } from '@/components/ui';
 import { ConsentCheckbox, Field, Honeypot, Select, TextArea } from '@/components/forms';
 import { cn } from '@/lib/utils';
 import { buildEstimateDocument } from './print';
 
+// Step 0 (region) was removed: the site quotes US dollars only. Steps keep their
+// numbering, so the wizard starts at FIRST_STEP and the stepper hides index 0.
+const FIRST_STEP = 1;
 const STEPS = [
   'Region',
   'Service',
@@ -46,10 +47,8 @@ const STEPS = [
 
 export function EstimateWizard() {
   const params = useSearchParams();
-  const { code: headerRegion, setRegion } = useRegion();
-
-  const [step, setStep] = useState(0);
-  const [region, setLocalRegion] = useState<RegionCode>(headerRegion);
+  const [step, setStep] = useState(FIRST_STEP);
+  const region: RegionCode = DEFAULT_REGION;
   const [serviceSlug, setServiceSlug] = useState(params.get('service') ?? '');
   const [subType, setSubType] = useState(params.get('sub') ?? '');
   const [answers, setAnswers] = useState<Answers>({});
@@ -65,9 +64,6 @@ export function EstimateWizard() {
 
   const config = serviceSlug ? ESTIMATE_CONFIG_MAP[serviceSlug] : undefined;
   const service = SERVICES.find((s) => s.slug === serviceSlug);
-
-  // Keep the calculator and the header switcher in sync.
-  useEffect(() => setLocalRegion(headerRegion), [headerRegion]);
 
   // Seed answers whenever the service changes.
   useEffect(() => {
@@ -156,7 +152,7 @@ export function EstimateWizard() {
   };
 
   const reset = () => {
-    setStep(0);
+    setStep(FIRST_STEP);
     setServiceSlug('');
     setSubType('');
     setAnswers({});
@@ -180,8 +176,6 @@ export function EstimateWizard() {
               transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
               className="p-6 sm:p-9"
             >
-              {step === 0 && <StepRegion region={region} onChange={(r) => { setLocalRegion(r); setRegion(r); }} />}
-
               {step === 1 && <StepService value={serviceSlug} onChange={setServiceSlug} region={region} />}
 
               {step === 2 && config && (
@@ -240,8 +234,8 @@ export function EstimateWizard() {
             <div className="flex items-center justify-between gap-4 border-t border-line bg-bg-soft px-6 py-5 sm:px-9">
               <Button
                 variant="ghost"
-                onClick={() => setStep((s) => Math.max(0, s - 1))}
-                disabled={step === 0}
+                onClick={() => setStep((s) => Math.max(FIRST_STEP, s - 1))}
+                disabled={step === FIRST_STEP}
                 icon={ArrowLeft}
               >
                 Back
@@ -279,6 +273,7 @@ function Stepper({ step, onJump }: { step: number; onJump: (i: number) => void }
     <nav aria-label="Estimate progress">
       <ol className="no-scrollbar flex gap-1.5 overflow-x-auto pb-1">
         {STEPS.map((label, i) => {
+          if (i < FIRST_STEP) return null;
           const done = i < step;
           const current = i === step;
           return (
@@ -303,7 +298,7 @@ function Stepper({ step, onJump }: { step: number; onJump: (i: number) => void }
                     <Check className="h-3 w-3 text-accent" aria-hidden />
                   ) : (
                     <span className={cn('font-mono text-[0.625rem]', current ? 'text-accent' : 'text-fg-subtle')}>
-                      {i + 1}
+                      {i - FIRST_STEP + 1}
                     </span>
                   )}
                   <span
@@ -334,48 +329,9 @@ function StepHeading({ title, body }: { title: string; body?: string }) {
 }
 
 /* ================================================================== */
-/*  1. Region                                                          */
+/*  (Region step removed: US dollars only)                             */
 /* ================================================================== */
 
-function StepRegion({ region, onChange }: { region: RegionCode; onChange: (r: RegionCode) => void }) {
-  return (
-    <div>
-      <StepHeading
-        title="Where are you based?"
-        body="Each region has its own authored price table. We never convert currency live, because a converted figure implies a precision we do not have."
-      />
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {REGIONS.map((r) => (
-          <button
-            key={r.code}
-            onClick={() => onChange(r.code)}
-            aria-pressed={r.code === region}
-            className={cn(
-              'flex items-center gap-3 rounded-xl border p-4 text-left transition-colors',
-              r.code === region ? 'border-accent bg-accent/10' : 'border-line hover:border-accent/40',
-            )}
-          >
-            <span className="text-2xl" aria-hidden>
-              {r.flag}
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-sm font-medium">{r.label}</span>
-              <span className="block text-xs text-fg-subtle">Prices in {r.currency}</span>
-            </span>
-            {r.code === region && <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden />}
-          </button>
-        ))}
-      </div>
-      <NoteBox className="mt-6">
-        <span className="flex items-start gap-2">
-          <Globe className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
-          Your choice here also updates the switcher in the header, so pricing stays consistent everywhere on
-          the site.
-        </span>
-      </NoteBox>
-    </div>
-  );
-}
 
 /* ================================================================== */
 /*  2. Service                                                         */
@@ -415,7 +371,7 @@ function StepService({
               <span className="mt-1.5 block text-xs leading-relaxed text-fg-muted">{s.summary}</span>
               {!available && (
                 <span className="mt-2 block text-[0.6875rem] text-warn">
-                  Not currently offered in this region
+                  Not currently offered
                 </span>
               )}
             </button>
@@ -464,7 +420,6 @@ function StepSubType({
         ))}
       </div>
       <NoteBox className="mt-6">{config.disclaimer}</NoteBox>
-      <p className="mt-3 text-xs text-fg-subtle">Reading the {getRegion(region).label} price table.</p>
     </div>
   );
 }
@@ -815,7 +770,7 @@ function StepResult({
           {service?.name} · {config?.subTypes.find((s) => s.id === result.subType)?.label}
         </h2>
         <p className="mt-2 text-sm text-fg-subtle">
-          {r.flag} {r.label} · {r.currency} · {unitLabel}
+          Prices in {r.currency} · {unitLabel}
         </p>
       </div>
 

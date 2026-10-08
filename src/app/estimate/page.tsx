@@ -7,7 +7,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Rough Estimate calculator',
   description:
-    'Seven questions and you have a low, likely and high range in your own currency, with the breakdown of how we got there and a PDF you can keep.',
+    'Seven questions and you have a low, likely and high range in US dollars, with the breakdown of how we got there and a PDF you can keep.',
   path: '/estimate',
 });
 
@@ -19,7 +19,7 @@ export default function EstimatePage() {
       <PageHero
         eyebrow="Rough Estimate"
         title="A real number, before anyone calls you"
-        body="Seven steps. You get a low, likely and high range in your currency, the assumptions we used and a line-item breakdown. Nothing is sent anywhere until you choose to."
+        body="Seven steps. You get a low, likely and high range in US dollars, the assumptions we used and a line-item breakdown. Nothing is sent anywhere until you choose to."
         trail={[{ label: 'Rough Estimate' }]}
       />
 
@@ -45,7 +45,7 @@ export default function EstimatePage() {
             </NoteBox>
             <NoteBox>
               <strong className="block text-fg">What changes them</strong>
-              Your region sets the table. Scope answers add or multiply. Timeline applies a 1.30, 1.00 or 0.90
+              Your service sets the table. Scope answers add or multiply. Timeline applies a 1.30, 1.00 or 0.90
               multiplier.
             </NoteBox>
             <NoteBox>

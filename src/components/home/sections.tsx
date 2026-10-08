@@ -219,7 +219,7 @@ export function EngagementModels() {
         <SectionHeading
           eyebrow="How we work together"
           title="Pick the shape before you pick up the phone"
-          body="Set the team size and the commitment here, and you will know roughly what it costs before we ever speak. Figures are indicative USD, confirmed for your region on a call."
+          body="Set the team size and the commitment here, and you will know roughly what it costs before we ever speak. Figures are indicative USD, confirmed on a call."
         />
 
         <div className="mt-12 grid gap-4 lg:grid-cols-3">
@@ -330,7 +330,7 @@ export function EngagementModels() {
               Discuss this shape
             </ButtonLink>
             <p className="mt-3 text-[0.6875rem] leading-relaxed text-fg-subtle">
-              Indicative only. Your region and scope change the final figure.
+              Indicative only. Your scope changes the final figure.
             </p>
           </div>
         </div>
@@ -418,7 +418,7 @@ export function MiniEstimate() {
           <div className="flex flex-col justify-between rounded-2xl border border-svc/25 bg-svc/5 p-7">
             <div>
               <p className="text-[0.6875rem] uppercase tracking-wider text-fg-subtle">
-                Indicative range · {region.label} · {region.currency}
+                Indicative range · {region.currency}
               </p>
               <motion.p
                 key={`${serviceSlug}-${budget}`}
@@ -606,7 +606,7 @@ export function CaseStudiesCarousel() {
         </div>
 
         <div className="mt-8">
-          <ArrowLink href="/insights?kind=Case+study">Read the full written case studies</ArrowLink>
+          <ArrowLink href="/blog?kind=Case+study">Read the full written case studies</ArrowLink>
         </div>
       </Container>
     </Section>
@@ -701,7 +701,7 @@ export function CtaBand() {
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-display-md">Start with a number, not a sales call</h2>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-fg-muted">
-            Seven questions, a real range in your currency, and the breakdown of how we got there. If it does
+            Seven questions, a real range in US dollars, and the breakdown of how we got there. If it does
             not fit your budget, you have lost four minutes rather than an afternoon.
           </p>
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">

@@ -4,7 +4,6 @@ import { useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Check, Loader2, Send, ShieldCheck } from 'lucide-react';
 import { SERVICES } from '@/data/services';
-import { REGIONS } from '@/data/regions';
 import { SITE } from '@/data/site';
 import { useRegion } from './providers';
 import { submitForm, HONEYPOT_FIELD, CONSENT_WORDING, PRIVACY_WORDING, type FormName } from '@/lib/forms';
@@ -375,15 +374,6 @@ export function ContactForm({ defaultService = '' }: { defaultService?: string }
           ]}
         />
 
-        <Select
-          id="region"
-          label="Your region"
-          required
-          value={values.region}
-          onChange={set('region')}
-          options={REGIONS.map((r) => ({ value: r.code, label: `${r.label} (${r.currency})` }))}
-        />
-
         <Select id="budget" label="Budget range" value={values.budget} onChange={set('budget')} options={BUDGETS} />
         <Select
           id="preferredTime"
@@ -420,7 +410,7 @@ export function EnquiryForm({
   subject,
   submitLabel = 'Send enquiry',
   successTitle = 'Enquiry received',
-  successBody = 'We will confirm availability and pricing for your region within one business day.',
+  successBody = 'We will confirm availability and pricing within one business day.',
 }: {
   formName?: FormName;
   subject: string;
@@ -453,7 +443,7 @@ export function EnquiryForm({
         id="eq-message"
         label="What do you need?"
         rows={4}
-        placeholder="Anything specific about your setup, timing or region."
+        placeholder="Anything specific about your setup or timing."
         value={values.message}
         onChange={set('message')}
       />

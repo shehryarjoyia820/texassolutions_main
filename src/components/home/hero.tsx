@@ -6,7 +6,6 @@ import { ArrowRight, Phone, PlayCircle } from 'lucide-react';
 import { SITE } from '@/data/site';
 import { SplitText } from '@/components/motion';
 import { ButtonLink } from '@/components/ui';
-import { useRegion } from '@/components/providers';
 
 // Lazy-loaded so the canvas never blocks first paint.
 const RouteScene = dynamic(() => import('./route-scene').then((m) => m.RouteScene), {
@@ -16,13 +15,11 @@ const RouteScene = dynamic(() => import('./route-scene').then((m) => m.RouteScen
 
 const HIGHLIGHTS = [
   'Custom software, AI/ML and QA for enterprises',
-  'Serving the US, UK, Europe, the Gulf and Asia',
-  'Published pricing in seven regions',
+  'Senior engineers, named contact on every project',
+  'Published pricing in US dollars',
 ];
 
 export function Hero() {
-  const { region } = useRegion();
-
   return (
     <section className="relative isolate overflow-hidden">
       {/* backdrop */}
@@ -64,9 +61,8 @@ export function Hero() {
             className="mt-7 max-w-2xl text-lg leading-relaxed text-fg-muted sm:text-xl"
           >
             Custom software development, web and mobile app development, AI and machine learning, and QA and
-            software testing for enterprises in the United States, United Kingdom, Europe, Canada, Australia,
-            the Gulf and Asia, plus 24/7 truck dispatch for US carriers. Transparent pricing in{' '}
-            {region.currency}, a named contact on every project, and thirty days notice.
+            software testing for growing businesses and enterprises, plus 24/7 truck dispatch for US carriers.
+            Transparent pricing in US dollars, a named contact on every project, and thirty days notice.
           </motion.p>
 
           <motion.div

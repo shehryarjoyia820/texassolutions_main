@@ -594,7 +594,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     faqs: [
       { q: 'Do we get to interview the engineers?', a: 'Always. We share a shortlist, you interview and choose, and nobody joins your team without your approval.' },
       { q: 'What if an engineer is not working out?', a: 'Tell us and we replace them at no cost, with a handover period so knowledge is not lost.' },
-      { q: 'How much overlap with our working hours?', a: 'At least four hours of overlap with your core hours is standard. Full overlap is available for US, UK and EU time zones at a small premium.' },
+      { q: 'How much overlap with our working hours?', a: 'At least four hours of overlap with your core hours is standard. Full overlap with your business hours is available at a small premium.' },
       { q: 'Who owns the code?', a: 'You do. IP assignment is in the contract, and everything is committed to your repositories.' },
     ],
     metrics: [

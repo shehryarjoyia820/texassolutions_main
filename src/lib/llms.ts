@@ -1,7 +1,6 @@
 import { SITE, OFFICES } from '@/data/site';
 import { SERVICES } from '@/data/services';
 import { SERVICE_SEO } from '@/data/seo-content';
-import { MARKETS } from '@/data/markets';
 import { PRICE_TABLE_MAP } from '@/data/pricing';
 import { formatRange } from '@/lib/format';
 import { SITE_FAQS } from '@/data/company';
@@ -19,7 +18,7 @@ export function llmsTxt(): string {
   const lines = [
     `# ${SITE.name}`,
     '',
-    `> ${SITE.tagline}. ${SITE.name} is a software development and technology services company headquartered in Houston, Texas, serving the United States, United Kingdom, Canada, Australia, Europe, the Gulf (UAE, Saudi Arabia, Qatar) and Asia (Singapore, Japan, Hong Kong). Core services: custom software and app development, AI and machine learning, QA and software testing, dedicated development teams, and truck dispatch for US carriers.`,
+    `> ${SITE.tagline}. ${SITE.name} is a software development and technology services company headquartered in Houston, Texas, working with growing businesses and enterprises. Core services: custom software and app development, AI and machine learning, QA and software testing, dedicated development teams, and truck dispatch for US carriers.`,
     '',
     `Contact: ${SITE.phone} · ${SITE.email}`,
     `Owner and CEO: ${SITE.ceo}`,
@@ -27,11 +26,8 @@ export function llmsTxt(): string {
     '## Services',
     ...SERVICES.map((s) => `- [${s.name}](${u(`/services/${s.slug}`)}): ${s.summary}`),
     '',
-    '## Markets',
-    ...MARKETS.map((m) => `- [${m.name}](${u(`/markets/${m.slug}`)}): ${m.headline}`),
-    '',
     '## Pricing and estimates',
-    `- [Pricing by region](${u('/pricing')}): published ranges for every service in USD, GBP, CAD, AUD and EUR, with USD tables for the Gulf and Asia`,
+    `- [Pricing](${u('/pricing')}): published price ranges for every service in US dollars`,
     `- [Rough Estimate calculator](${u('/estimate')}): low, likely and high range for a specific scope`,
     '',
     '## Answers',
@@ -40,7 +36,7 @@ export function llmsTxt(): string {
     '## Optional',
     `- [Full plain-text summary](${u('/llms-full.txt')})`,
     `- [About](${u('/about')})`,
-    `- [Insights](${u('/insights')})`,
+    `- [Blog](${u('/blog')})`,
     '',
   ];
   return lines.join('\n');
@@ -62,15 +58,12 @@ export function llmsFullTxt(): string {
     out.push(`Sub-services: ${s.subServices.map((x) => x.name).join(', ')}.`, '');
     const table = PRICE_TABLE_MAP[s.slug];
     if (table) {
-      out.push('US pricing:');
+      out.push('Pricing (US dollars):');
       for (const row of table.rows) out.push(`- ${row.label}: ${formatRange(row.values.US, 'US', { plus: row.plus?.US })}`);
       out.push('');
     }
     for (const f of [...(seo?.faqs ?? []), ...s.faqs].slice(0, 6)) out.push(`Q: ${f.q}`, `A: ${f.a}`, '');
   }
-
-  out.push('# Markets', '');
-  for (const m of MARKETS) out.push(`## ${m.name}`, '', m.quickAnswer, '');
 
   out.push('# General questions', '');
   for (const f of SITE_FAQS) out.push(`Q: ${f.q}`, `A: ${f.a}`, '');

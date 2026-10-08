@@ -49,7 +49,7 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
             author: article.author,
           }),
           breadcrumbSchema([
-            { label: 'Insights', href: '/insights' },
+            { label: 'Blog', href: '/blog' },
             { label: article.title, href: `/insights/${article.slug}` },
           ]),
         ]}
@@ -58,7 +58,7 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
       <section className="relative isolate overflow-hidden border-b border-line">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 accent-glow" />
         <Container className="py-[clamp(2.5rem,6vw,4.5rem)]">
-          <Breadcrumbs trail={[{ label: 'Insights', href: '/insights' }, { label: article.kind }]} />
+          <Breadcrumbs trail={[{ label: 'Blog', href: '/blog' }, { label: article.kind }]} />
 
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-3">
@@ -162,7 +162,7 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
               )}
 
               <div className="mt-5">
-                <ArrowLink href="/insights">Back to all insights</ArrowLink>
+                <ArrowLink href="/blog">Back to the blog</ArrowLink>
               </div>
             </aside>
           </div>
@@ -171,7 +171,7 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
 
       <CtaSection
         title="Turn the reading into a number"
-        body="The calculator uses the same published ranges referenced in these articles. Seven questions and you have a figure in your own currency."
+        body="The calculator uses the same published ranges referenced in these articles. Seven questions and you have a figure in US dollars."
         primary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
         secondary={{ href: '/contact', label: 'Talk to someone' }}
       />

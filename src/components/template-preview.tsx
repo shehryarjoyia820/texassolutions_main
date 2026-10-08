@@ -93,7 +93,7 @@ function Hero({ config, p, center }: { config: TemplatePreviewConfig; p: Palette
         className="inline-block rounded-full px-1.5 py-0.5 text-[6px] font-semibold"
         style={{ background: `${p.accent}22`, color: p.accent }}
       >
-        New · Trusted by teams in 5 regions
+        New · Trusted by teams nationwide
       </span>
       <p className="mt-1.5 text-[13px] font-extrabold leading-[1.1] tracking-tight">{config.headline}</p>
       {config.sub && (

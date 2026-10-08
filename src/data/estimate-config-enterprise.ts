@@ -53,7 +53,7 @@ export const ENTERPRISE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         options: [
           { value: 'ready', label: 'Clean and accessible', factor: 0.9 },
           { value: 'partial', label: 'Scattered but usable', factor: 1 },
-          { value: 'raw', label: 'Needs cleaning or labelling', add: [8000, 40000] },
+          { value: 'raw', label: 'Needs cleaning or labelling', add: [3000, 15000] },
         ],
       },
       { id: 'integrations', type: 'number', label: 'Systems it must connect to', min: 0, max: 12, step: 1, defaultValue: 1, unit: 'systems', freeUnits: 1, perUnit: [3000, 12000] },
@@ -157,7 +157,7 @@ export const ENTERPRISE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         options: [
           { value: 'none', label: 'Starting fresh', factor: 0.9 },
           { value: 'some', label: 'Migrate current records', factor: 1 },
-          { value: 'heavy', label: 'Years of history from legacy systems', add: [8000, 40000] },
+          { value: 'heavy', label: 'Years of history from legacy systems', add: [3000, 15000] },
         ],
       },
     ],
@@ -200,7 +200,7 @@ export const ENTERPRISE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
     durationOptions: [3, 6, 12, 24],
     subTypes: [
       { id: 'partial', label: 'Four hours of overlap', description: 'Standard, lowest cost', priceRow: 'dev-middle' },
-      { id: 'full', label: 'Full working-hours overlap', description: 'US, UK or EU hours, adds about 12%', priceRow: 'dev-middle' },
+      { id: 'full', label: 'Full working-hours overlap', description: 'US business hours, adds about 12%', priceRow: 'dev-middle' },
     ],
     // Role counts are priced from the regional rate card in the engine, not from per-unit adders.
     questions: [

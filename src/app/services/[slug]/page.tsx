@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { SERVICES, getService } from '@/data/services';
 import { SERVICE_SEO } from '@/data/seo-content';
-import { MARKETS } from '@/data/markets';
 import { ServiceDetail } from '@/components/service-detail';
 import {
   JsonLd,
@@ -37,11 +36,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   const seo = SERVICE_SEO[slug];
   const path = `/services/${service.slug}`;
 
-  // Truck dispatch is a US and Canada service; everything else serves every market.
-  const markets = MARKETS.filter((m) =>
-    slug === 'truck-dispatch' ? ['united-states', 'canada'].includes(m.slug) : true,
-  ).map((m) => ({ slug: m.slug, name: m.name, flag: m.flag }));
-
   return (
     <>
       <JsonLd
@@ -56,7 +50,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           ]),
         ]}
       />
-      <ServiceDetail service={service} seo={seo} markets={markets} />
+      <ServiceDetail service={service} seo={seo} />
     </>
   );
 }

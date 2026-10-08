@@ -63,13 +63,11 @@ export function pageMeta({
 /*  JSON-LD                                                            */
 /* ------------------------------------------------------------------ */
 
-/** Countries we actively serve, used for areaServed across the schema. */
-export const AREA_SERVED = [
-  'United States', 'United Kingdom', 'Canada', 'Australia', 'New Zealand', 'Ireland',
-  'Germany', 'Netherlands', 'Sweden', 'Denmark', 'Norway', 'Finland', 'Switzerland', 'France',
-  'United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Kuwait', 'Bahrain', 'Oman',
-  'Singapore', 'Japan', 'Hong Kong', 'South Korea', 'Malaysia',
-].map((name) => ({ '@type': 'Country', name }));
+/** Location-neutral areaServed used across the schema. */
+export const AREA_SERVED = 'Worldwide';
+
+/** Truck dispatch is a US service, so its schema names the United States. */
+const DISPATCH_AREA_SERVED = { '@type': 'Country', name: 'United States' };
 
 export const KNOWS_ABOUT = [
   'Custom software development', 'Web application development', 'SaaS development',
@@ -146,7 +144,6 @@ export function organizationSchema() {
         '@type': 'ContactPoint',
         telephone: SITE.phone,
         contactType: 'sales',
-        areaServed: ['US', 'GB', 'CA', 'AU', 'NZ', 'IE', 'DE', 'NL', 'SE', 'CH', 'AE', 'SA', 'QA', 'KW', 'BH', 'OM', 'SG', 'JP', 'HK', 'KR', 'MY'],
         availableLanguage: ['English'],
       },
     ],
@@ -195,7 +192,7 @@ export function serviceSchema(service: {
     description: service.description,
     url: absUrl(`/services/${service.slug}`),
     provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
-    areaServed: AREA_SERVED,
+    areaServed: service.slug === 'truck-dispatch' ? DISPATCH_AREA_SERVED : AREA_SERVED,
     serviceType: service.name,
     ...(service.keywords ? { keywords: service.keywords.join(', ') } : {}),
     hasOfferCatalog: {

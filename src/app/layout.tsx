@@ -53,9 +53,6 @@ export const metadata: Metadata = {
     'test automation services',
     'hire dedicated developers',
     'truck dispatch service',
-    'software development company in Dubai',
-    'software development company Singapore',
-    'software development company UK',
   ],
   openGraph: {
     type: 'website',

@@ -101,9 +101,9 @@ export async function submitForm(payload: SubmitPayload): Promise<SubmitResult> 
 /**
  * Web3Forms access key. It is created for info@texassolutions.co at
  * https://web3forms.com and is meant to be public (it can only send mail to
- * that one inbox). Leave it empty to fall back to FORM_ENDPOINT.
+ * that one inbox). Set NEXT_PUBLIC_WEB3FORMS_KEY to override it.
  */
-export const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || '';
+export const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || '70e9bd04-bb93-4829-84dd-bd6adee31b64';
 
 const FORM_TITLES: Record<FormName, string> = {
   contact: 'Contact form',
@@ -135,7 +135,7 @@ async function submitToWeb3Forms(payload: SubmitPayload, attribution: Record<str
   };
   if (typeof f.email === 'string' && f.email) data.replyto = f.email;
   for (const [k, v] of Object.entries(f)) {
-    if (k === HONEYPOT_FIELD) continue;
+    if (k === HONEYPOT_FIELD || k === 'region') continue; // region: legacy field, always US
     const text = flatten(v);
     if (text) data[k] = text;
   }

@@ -198,12 +198,12 @@ export function computeEstimate(input: {
   // Add-ons are authored in US terms. Scale them by how this region's base
   // row compares with the US row, so a CAD or GBP estimate stays coherent.
   const usBase = baseRange(config, subType, 'US').range;
-  const regionScale =
-    usBase && usBase[0] + usBase[1] > 0 ? (range[0] + range[1]) / (usBase[0] + usBase[1]) : 1;
+  // One US-dollar price list: no regional scaling of add-ons.
+  const regionScale = usBase ? 1 : 1;
   const scaled = ([lo, hi]: Range): Range => [lo * regionScale, hi * regionScale];
 
   if (service === 'dedicated-teams') {
-    // Itransition-style team pricing: each role at its regional monthly rate.
+    // Team pricing: each selected role at its monthly rate from the rate card.
     const table = PRICE_TABLE_MAP['dedicated-teams'];
     range = [0, 0];
     let headcount = 0;
@@ -215,22 +215,10 @@ export function computeEstimate(input: {
       headcount += count;
       const line: Range = [rate[0] * count, rate[1] * count];
       range = add(range, line);
-      lineItems.push({ label: row!.label, detail: `${count} x monthly rate`, range: line, kind: 'addition' });
+      lineItems.push({ label: row!.label, detail: `${count} x US$${rate[0].toLocaleString('en-US')} a month (up to 160 h each)`, range: line, kind: 'addition' });
     }
-    if (subType === 'full' && headcount > 0) {
-      const before = [...range] as Range;
-      range = scale(range, 1.12);
-      lineItems.push({
-        label: 'Full working-hours overlap',
-        range: [range[0] - before[0], range[1] - before[1]],
-        kind: 'multiplier',
-        multiplier: 1.12,
-      });
-    }
-    if (headcount >= 4) {
-      lineItems.push({ label: 'Delivery manager', detail: 'Included free on teams of four or more', range: [0, 0], kind: 'info' });
-    }
-    assumptions.push(`${headcount} full-time ${headcount === 1 ? 'person' : 'people'} on the team.`);
+    assumptions.push('A project manager is not included; one can be added and is quoted separately.');
+    assumptions.push(`${headcount} dedicated ${headcount === 1 ? 'person' : 'people'}, each up to 160 working hours a month. Extra hours are billed at the role's hourly rate, only with your approval.`);
   } else {
     lineItems.push({ label: `${base.label} base range`, range: [...range] as Range, kind: 'base' });
   }
@@ -350,30 +338,14 @@ export function computeEstimate(input: {
     assumptions.push('OTR operations only. No flat rate. Final percentage is discussed with each carrier.');
   }
 
-  if (service === 'adsense-management') {
-    result.adsense = adsenseProjection(answers, range);
-    assumptions.push('Uplift assumes placement and density tuning against a held-back control group.');
-  }
-
-  if (service === 'ads-optimization') {
-    const adSpend = num(answers, 'adSpend', 10000);
-    const percentFee: Range = [adSpend * 0.1, adSpend * 0.2];
-    result.ads = {
-      adSpend,
-      percentOfSpendFee: tidyRange(percentFee),
-      flatFee: [range[0], range[1]],
-      recommended: percentFee[0] < range[0] ? 'percent' : 'flat',
-    };
-    assumptions.push(`Ad spend of ${adSpend.toLocaleString()} per month is paid to the platforms, not to us.`);
+  if (service === 'adsense-management' || service === 'ads-optimization') {
+    assumptions.push('Management fee only. Results, approval and revenue are not guaranteed; ad spend is paid directly to the platforms.');
   }
 
   if (service === 'lead-generation') {
-    const leads = num(answers, 'leadsPerMonth', 30);
-    if (leads > 0) {
-      result.perLead = tidyRange([range[0] / leads, range[1] / leads]);
-      assumptions.push(`Based on ${leads} qualified leads per month against the agreed criteria.`);
-    }
+    assumptions.push('Priced by support hours, not by lead count. Lead counts are not guaranteed.');
   }
+
 
   if (service === 'auto-engines') {
     const installs = str(answers, 'installation', 'yes') === 'yes';
@@ -390,7 +362,7 @@ export function computeEstimate(input: {
     assumptions.push(`Total shown across ${durationMonths} months at the monthly rate.`);
   }
 
-  assumptions.push(`${timelineEntry.label} timeline applies a ${tMultiplier.toFixed(2)}x multiplier.`);
+  assumptions.push(`Timeline (${timelineEntry.label}) sets the start date only; it does not change the price.`);
 
   return result;
 }

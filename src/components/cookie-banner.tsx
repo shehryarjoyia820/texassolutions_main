@@ -31,21 +31,20 @@ export function CookieBanner() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 24 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-x-3 bottom-3 z-[80] mx-auto max-w-3xl rounded-2xl border border-line bg-bg-elev/[0.97] p-5 shadow-lift backdrop-blur-xl sm:inset-x-5 sm:bottom-5 sm:p-6"
+          className="fixed inset-x-0 bottom-0 z-[80] border-t border-line bg-bg-elev/[0.98] px-4 py-3 shadow-lift backdrop-blur-xl sm:px-6"
         >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="mx-auto flex max-w-6xl flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-5">
             <div className="flex-1">
-              <p className="font-display text-sm font-semibold">We only measure if you say yes</p>
-              <p className="mt-1.5 text-sm leading-relaxed text-fg-muted">
-                Essential cookies keep the site working. Analytics cookies help us see which pages earn
-                enquiries, and they stay off until you accept. Read the{' '}
+              <p className="text-xs leading-relaxed text-fg-muted sm:text-sm">
+                <span className="font-semibold text-fg">Analytics cookies stay off unless you accept.</span>{' '}
+                Essential cookies keep the site working. See the{' '}
                 <Link href="/privacy" className="text-accent underline underline-offset-4">
                   privacy policy
                 </Link>
                 .
               </p>
             </div>
-            <div className="flex shrink-0 gap-2.5">
+            <div className="flex shrink-0 gap-2">
               <Button variant="secondary" size="sm" onClick={() => decide('denied')}>
                 Essential only
               </Button>

@@ -1,7 +1,7 @@
 import { SITE, OFFICES } from '@/data/site';
 import { PageHero } from '@/components/page-shell';
 import { ScrollProgress } from '@/components/motion';
-import { Container, Section, NoteBox } from '@/components/ui';
+import { Container, Section } from '@/components/ui';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
@@ -28,18 +28,12 @@ export default function PrivacyPage() {
 
       <Section>
         <Container>
-          <NoteBox tone="warn" className="mx-auto mb-10 max-w-prose">
-            This policy is a thorough working draft written by the development team. It must be reviewed by a
-            qualified lawyer in each market before launch. Do not publish it as final legal text without that
-            review.
-          </NoteBox>
-
           <div className="prose-ts mx-auto">
             <h2>Who we are</h2>
             <p>
               {SITE.legalName} operates {SITE.url} and provides truck dispatch, web and app development, lead
               generation, advertising, AdSense revenue management, quality assurance testing and auto engine
-              supply. Our head office is at {OFFICES[0].address.slice(1).join(', ')}. For any privacy question
+              supply. Our office is at {OFFICES[0].address.slice(1).join(', ')}, USA. For any privacy question
               or request, contact <a href={`mailto:${SITE.email}`}>{SITE.email}</a> or call {SITE.phone}.
             </p>
 
@@ -116,8 +110,8 @@ export default function PrivacyPage() {
 
             <h2>International transfers</h2>
             <p>
-              We operate from the United States, United Kingdom, Canada, Australia and Pakistan. Personal data
-              may therefore be transferred outside your country. Where data leaves the UK or EEA, transfers are
+              We operate from the United States, with a delivery team in Lahore, Pakistan. Personal data may
+              therefore be transferred outside your country. Where data leaves the UK or EEA, transfers are
               made under Standard Contractual Clauses or the UK International Data Transfer Addendum, together
               with supplementary technical measures including encryption in transit and at rest.
             </p>
@@ -170,9 +164,8 @@ export default function PrivacyPage() {
               We use HTTPS with HSTS across the site, encrypt lead data at rest, apply least-privilege
               role-based access to every system holding client data, review access quarterly and revoke it
               within one business day of someone leaving. Public forms carry rate limiting, server-side
-              validation and a bot challenge. We have a written incident response process with a one-hour
-              response target for critical issues and will notify you and the relevant regulator where the law
-              requires it.
+              validation and a bot challenge. We have a written incident response process and will notify you and
+              the relevant regulator where the law requires it.
             </p>
 
             <h2>Children</h2>

@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, GripVertical, Search, TrendingUp } from 'lucide-react';
 import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP, UNIT_LABEL, dispatchPercentLabel } from '@/data/pricing';
-import { TEAM_ROLES } from '@/data/pricing-enterprise';
+import { MONTHLY_RESOURCES, SUPPORT_PLANS } from '@/data/rates';
 import { SERVICE_MAP } from '@/data/services';
 import { MARKETPLACE_ITEMS } from '@/data/catalog';
 import { TemplatePreview } from './template-preview';
@@ -123,54 +123,54 @@ function TemplateGallery() {
 /* ================================================================== */
 
 function CplCalculator() {
-  const { code } = useRegion();
-  const [leads, setLeads] = useState(40);
-  const [closeRate, setCloseRate] = useState(20);
-  const [dealValue, setDealValue] = useState(6000);
+  // Lead generation is priced by support hours from the rate card, never by lead count.
+  const plan = SUPPORT_PLANS.find((p) => p.id === 'leadgen-support')!;
+  const included = plan.hours ?? 40;
+  const extraRate = plan.from / included; // the plan rate per hour
+  const [hours, setHours] = useState(included);
+  const [dealValue, setDealValue] = useState(3000);
 
-  const row = PRICE_TABLE_MAP['lead-generation'].rows.find((r) => r.id === 'per-lead')!;
-  const cpl = row.values[code] ?? [150, 600];
-
-  const monthlySpend: [number, number] = [cpl[0] * leads, cpl[1] * leads];
-  const deals = (leads * closeRate) / 100;
-  const revenue = deals * dealValue;
-  const roas: [number, number] = [revenue / monthlySpend[1], revenue / monthlySpend[0]];
+  const fee = plan.from + Math.max(0, hours - included) * extraRate;
+  const breakEvenDeals = dealValue > 0 ? fee / dealValue : 0;
+  const usd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
       <div className="space-y-6 rounded-2xl border border-line bg-bg-soft p-6">
-        <Slider id="cpl-leads" label="Qualified leads per month" value={leads} min={5} max={200} step={5} onChange={setLeads} display={formatNumber(leads)} />
-        <Slider id="cpl-close" label="Close rate" value={closeRate} min={2} max={60} step={1} onChange={setCloseRate} display={`${closeRate}%`} />
         <Slider
-          id="cpl-deal"
-          label="Average deal value"
+          id="lg-hours"
+          label="Research and outreach-support hours per month"
+          value={hours}
+          min={included}
+          max={160}
+          step={10}
+          onChange={setHours}
+          display={`${hours} h`}
+        />
+        <Slider
+          id="lg-deal"
+          label="Your average deal value"
           value={dealValue}
           min={500}
-          max={80000}
+          max={50000}
           step={500}
           onChange={setDealValue}
-          display={formatMoney(dealValue, code, { compact: true })}
+          display={usd(dealValue)}
         />
       </div>
 
-      <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
+      <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6" aria-live="polite">
         <dl className="space-y-5">
-          <Metric label="Cost per qualified lead" value={formatRange(cpl, code)} />
-          <Metric label="Monthly investment" value={formatRange(monthlySpend, code, { compact: true })} big />
-          <Metric label="Closed deals per month" value={deals.toFixed(1)} />
-          <Metric label="Revenue from those deals" value={formatMoney(revenue, code, { compact: true })} />
-          <Metric
-            label="Return on investment"
-            value={`${roas[0].toFixed(1)}x – ${roas[1].toFixed(1)}x`}
-            big
-            tone={roas[0] >= 3 ? 'good' : roas[0] >= 1 ? 'neutral' : 'bad'}
-          />
+          <Metric label="Monthly fee (USD)" value={usd(fee)} big />
+          <Metric label="Included" value={`${included} h for ${usd(plan.from)}; extra hours ${usd(extraRate)}/h with your approval`} />
+          <Metric label="Deals a month to cover the fee" value={breakEvenDeals.toFixed(1)} />
         </dl>
-        <ButtonLink href="/estimate?service=lead-generation" variant="service" icon={ArrowRight} className="mt-6 w-full">
-          Build a full estimate
+        <ButtonLink href="/contact?service=lead-generation" variant="service" icon={ArrowRight} className="mt-6 w-full">
+          Talk to a Specialist
         </ButtonLink>
         <p className="mt-3 text-[0.6875rem] leading-relaxed text-fg-subtle">
-          Uses the published per-lead range. Your close rate and deal value are your own figures.
+          We do not guarantee lead counts or revenue. Paid data and outreach tools are separate. The break-even figure
+          uses your own deal value.
         </p>
       </div>
     </div>
@@ -243,7 +243,7 @@ function CreativeSlider() {
         <MetricPanel title="After" metrics={CREATIVE_METRICS.after} tone="svc" />
       </div>
       <p className="mt-3 text-xs text-fg-subtle">
-        Figures from a home services account after a tracking rebuild and a monthly creative cadence.
+        <strong className="text-fg">Illustrative example — not a client result.</strong> The figures show the kind of change a tracking rebuild and creative refresh aim for; they are not from a client account and are not guaranteed.
       </p>
     </div>
   );
@@ -300,56 +300,28 @@ function CreativePanel({ variant }: { variant: 'before' | 'after' }) {
 /* ================================================================== */
 
 function RevenueEstimator() {
-  const { code } = useRegion();
-  const [pageviews, setPageviews] = useState(500000);
-  const [rpm, setRpm] = useState(4);
-
-  const current = (pageviews / 1000) * rpm;
-  const projected: [number, number] = [current * 1.2, current * 1.6];
-  const uplift: [number, number] = [projected[0] - current, projected[1] - current];
-  const fee: [number, number] = [uplift[0] * 0.15, uplift[1] * 0.3];
-  const net: [number, number] = [uplift[0] - fee[0], uplift[1] - fee[1]];
-
+  // AdSense management is a flat plan per site from the rate card. No revenue projections.
+  const plan = SUPPORT_PLANS.find((p) => p.id === 'adsense-management')!;
+  const [sites, setSites] = useState(1);
+  const fee = plan.from * sites;
+  const usd = (n: number) => `$${n.toLocaleString('en-US')}`;
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
       <div className="space-y-6 rounded-2xl border border-line bg-bg-soft p-6">
-        <Slider
-          id="rev-pv"
-          label="Monthly pageviews"
-          value={pageviews}
-          min={10000}
-          max={5000000}
-          step={10000}
-          onChange={setPageviews}
-          display={formatNumber(pageviews)}
-        />
-        <Slider
-          id="rev-rpm"
-          label="Current RPM, per 1,000 pageviews"
-          value={rpm}
-          min={0.5}
-          max={30}
-          step={0.5}
-          onChange={setRpm}
-          display={formatMoney(rpm, code, { decimals: 2 })}
-        />
-        <NoteBox className="text-xs">
-          Uplift assumes placement and density tuning measured against a held-back control group, not a
-          guaranteed outcome.
-        </NoteBox>
+        <Slider id="as-sites" label="Sites to manage" value={sites} min={1} max={20} step={1} onChange={setSites} display={`${sites}`} />
+        <p className="text-sm text-fg-muted">{plan.scope}, per site.</p>
       </div>
-
-      <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
+      <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6" aria-live="polite">
         <dl className="space-y-5">
-          <Metric label="Current monthly revenue" value={formatMoney(current, code)} />
-          <Metric label="Projected after tuning" value={formatRange(projected, code, { compact: true })} big />
-          <Metric label="Monthly uplift" value={formatRange(uplift, code, { compact: true })} tone="good" />
-          <Metric label="Our fee, 15-30% of uplift" value={formatRange(fee, code, { compact: true })} />
-          <Metric label="You keep" value={formatRange(net, code, { compact: true })} big tone="good" />
+          <Metric label="Monthly fee (USD)" value={usd(fee)} big />
+          <Metric label="Per site" value={`${usd(plan.from)} a month`} />
         </dl>
-        <ButtonLink href="/estimate?service=adsense-management" variant="service" icon={ArrowRight} className="mt-6 w-full">
-          Build a full estimate
+        <ButtonLink href="/contact?service=adsense-management" variant="service" icon={ArrowRight} className="mt-6 w-full">
+          Talk to a Specialist
         </ButtonLink>
+        <p className="mt-3 text-[0.6875rem] leading-relaxed text-fg-subtle">
+          We do not guarantee AdSense approval or revenue increases. Google sets AdSense policies and revenue share.
+        </p>
       </div>
     </div>
   );
@@ -487,7 +459,7 @@ function CoverageBuilder() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.3fr_1fr]">
-      <fieldset className="rounded-2xl border border-line bg-bg-soft p-6">
+      <fieldset className="min-w-0 rounded-2xl border border-line bg-bg-soft p-6">
         <legend className="px-1 text-sm font-medium">Tick what you already have</legend>
         <ul className="mt-3 space-y-1.5">
           {COVERAGE_ITEMS.map((item) => {
@@ -733,31 +705,19 @@ function BallparkPicker({ slug }: { slug: string }) {
 /* ================================================================== */
 
 function TeamBuilder() {
-  const { code, region } = useRegion();
-  const table = PRICE_TABLE_MAP['dedicated-teams'];
-  const [counts, setCounts] = useState<Record<string, number>>({
-    'dev-middle': 2,
-    'dev-senior': 1,
-    'team-qa': 1,
-  });
-  const [fullOverlap, setFullOverlap] = useState(false);
-  const [months, setMonths] = useState(6);
+  // Every price comes from the owner rate card (src/data/rates.ts), one allocation = up to 160 hours a month.
+  const [counts, setCounts] = useState<Record<string, number>>({ 'dev-middle': 1 });
+  const [months, setMonths] = useState(3);
 
-  const headcount = Object.values(counts).reduce((a, b) => a + b, 0);
-  const monthly = useMemo<[number, number]>(() => {
-    let lo = 0;
-    let hi = 0;
-    for (const role of TEAM_ROLES) {
-      if (role.id === 'team-pm' && headcount >= 4) continue; // included free
-      const n = counts[role.id] ?? 0;
-      const rate = table?.rows.find((r) => r.id === role.id)?.values[code];
-      if (!n || !rate) continue;
-      lo += rate[0] * n;
-      hi += rate[1] * n;
-    }
-    const f = fullOverlap ? 1.12 : 1;
-    return [Math.round(lo * f), Math.round(hi * f)];
-  }, [counts, code, fullOverlap, headcount, table]);
+  const lines = MONTHLY_RESOURCES.filter((r) => (counts[r.id] ?? 0) > 0).map((r) => ({
+    ...r,
+    n: counts[r.id],
+    subtotal: r.price * counts[r.id],
+  }));
+  const headcount = lines.reduce((a, l) => a + l.n, 0);
+  const monthly = lines.reduce((a, l) => a + l.subtotal, 0);
+  const usd = (n: number) => `$${n.toLocaleString('en-US')}`;
+  const roles = lines.map((l) => `${l.n}x ${l.label}`).join(', ');
 
   const bump = (id: string, d: number) =>
     setCounts((c) => ({ ...c, [id]: Math.max(0, Math.min(20, (c[id] ?? 0) + d)) }));
@@ -766,51 +726,40 @@ function TeamBuilder() {
     <div className="grid gap-6 lg:grid-cols-[1.3fr_1fr]">
       <div className="rounded-2xl border border-line bg-bg-soft p-6">
         <ul className="divide-y divide-line">
-          {TEAM_ROLES.map((role) => {
-            const rate = table?.rows.find((r) => r.id === role.id)?.values[code];
+          {MONTHLY_RESOURCES.map((role) => {
             const n = counts[role.id] ?? 0;
             return (
-              <li key={role.id} className="flex items-center justify-between gap-4 py-3">
+              <li key={role.id} className="flex items-center justify-between gap-4 py-2.5">
                 <span className="min-w-0">
                   <span className="block text-sm font-medium">{role.label}</span>
-                  <span className="block text-xs text-fg-subtle">
-                    {rate ? `${formatRange(rate, code, { compact: true })} per month` : '—'}
-                    {role.id === 'team-pm' && ' · free on teams of 4+'}
-                  </span>
+                  <span className="block text-xs text-fg-subtle">{usd(role.price)} USD per month · up to 160 h</span>
                 </span>
                 <span className="flex shrink-0 items-center gap-2">
                   <button
+                    type="button"
                     onClick={() => bump(role.id, -1)}
                     aria-label={`Remove one ${role.label}`}
-                    className="grid h-8 w-8 place-items-center rounded-lg border border-line hover:border-svc/50"
+                    disabled={n === 0}
+                    className="grid h-11 w-11 place-items-center rounded-lg border border-line hover:border-svc/50 disabled:opacity-40"
                   >
-                    <Minus className="h-3.5 w-3.5" />
+                    <Minus className="h-4 w-4" />
                   </button>
-                  <span className="w-6 text-center font-display font-semibold" aria-live="polite">
+                  <span className="w-6 text-center font-display font-semibold" aria-live="polite" aria-label={`${n} ${role.label}`}>
                     {n}
                   </span>
                   <button
+                    type="button"
                     onClick={() => bump(role.id, 1)}
                     aria-label={`Add one ${role.label}`}
-                    className="grid h-8 w-8 place-items-center rounded-lg border border-line hover:border-svc/50"
+                    className="grid h-11 w-11 place-items-center rounded-lg border border-line hover:border-svc/50"
                   >
-                    <Plus className="h-3.5 w-3.5" />
+                    <Plus className="h-4 w-4" />
                   </button>
                 </span>
               </li>
             );
           })}
         </ul>
-
-        <label className="mt-5 flex cursor-pointer items-center gap-3 rounded-lg border border-line p-3 text-sm">
-          <input
-            type="checkbox"
-            checked={fullOverlap}
-            onChange={(e) => setFullOverlap(e.target.checked)}
-            className="h-4 w-4 accent-[rgb(var(--svc))]"
-          />
-          Full overlap with your working hours (about 12% more)
-        </label>
 
         <div className="mt-5">
           <Slider
@@ -821,40 +770,55 @@ function TeamBuilder() {
             max={24}
             step={1}
             onChange={setMonths}
-            display={`${months} months`}
+            display={`${months} month${months === 1 ? '' : 's'}`}
           />
         </div>
       </div>
 
-      <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
+      <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6" aria-live="polite">
         <p className="text-xs uppercase tracking-wider text-fg-subtle">
-          {headcount} {headcount === 1 ? 'person' : 'people'} · {region.currency}
+          {headcount} {headcount === 1 ? 'person' : 'people'} · USD
         </p>
-        <p className="mt-2 font-display text-3xl font-semibold text-svc">
-          {headcount ? formatRange(monthly, code, { compact: true }) : 'Add a role'}
-        </p>
-        <p className="text-sm text-fg-muted">per month for the whole team</p>
+        <p className="mt-2 font-display text-3xl font-semibold text-svc">{headcount ? usd(monthly) : 'Add a role'}</p>
+        <p className="text-sm text-fg-muted">per month, billed monthly in advance</p>
 
         {headcount > 0 && (
-          <p className="mt-5 border-t border-svc/20 pt-4 text-sm text-fg-muted">
-            Across {months} months:{' '}
-            <span className="font-display font-semibold text-fg">
-              {formatRange([monthly[0] * months, monthly[1] * months], code, { compact: true })}
-            </span>
-          </p>
-        )}
-        {headcount >= 4 && (
-          <p className="mt-3 flex items-center gap-2 text-xs text-success">
-            <Check className="h-3.5 w-3.5" aria-hidden /> Delivery manager included free
-          </p>
+          <table className="mt-5 w-full border-t border-svc/20 text-sm">
+            <caption className="sr-only">Monthly breakdown</caption>
+            <tbody>
+              {lines.map((l) => (
+                <tr key={l.id}>
+                  <td className="py-1.5 text-fg-muted">
+                    {l.n} x {l.label}
+                    <span className="block text-xs text-fg-subtle">{l.n * 160} h max</span>
+                  </td>
+                  <td className="py-1.5 text-right font-medium tabular-nums">{usd(l.subtotal)}</td>
+                </tr>
+              ))}
+              <tr className="border-t border-svc/20 font-semibold">
+                <td className="py-1.5">Total per month</td>
+                <td className="py-1.5 text-right tabular-nums">{usd(monthly)}</td>
+              </tr>
+              <tr>
+                <td className="py-1.5 text-fg-muted">Across {months} months</td>
+                <td className="py-1.5 text-right tabular-nums">{usd(monthly * months)}</td>
+              </tr>
+            </tbody>
+          </table>
         )}
         <ul className="mt-5 space-y-1.5 text-xs text-fg-subtle">
-          <li>You interview and approve every engineer.</li>
-          <li>First engineers start in one to two weeks.</li>
-          <li>Resize with 30 days notice.</li>
+          <li>Each person is dedicated to your work for up to 160 hours a month.</li>
+          <li>Extra hours only with your written approval, at the role&apos;s hourly rate.</li>
+          <li>A project manager is not included; quoted separately if needed.</li>
+          <li>Resize with 30 days notice. Prices exclude taxes and third-party tools.</li>
         </ul>
-        <ButtonLink href="/estimate?service=dedicated-teams" variant="service" icon={ArrowRight} className="mt-6 w-full">
-          Get a detailed estimate
+        <ButtonLink
+          href={`/contact?service=dedicated-teams&roles=${encodeURIComponent(roles)}&months=${months}&estimate_likely=${monthly}&estimate_billing=monthly`}
+          variant="service"
+          icon={ArrowRight}
+          className="mt-6 w-full"
+        >
+          Ask about this team
         </ButtonLink>
       </div>
     </div>

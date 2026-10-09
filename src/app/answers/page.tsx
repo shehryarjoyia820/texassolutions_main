@@ -108,7 +108,7 @@ export default function AnswersPage() {
         title="Your question not here?"
         body="Ask it on the contact form and a named person replies within four business hours."
         primary={{ href: '/contact', label: 'Ask a question' }}
-        secondary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
+        secondary={{ href: '/estimate', label: 'Get an Estimate' }}
       />
     </>
   );

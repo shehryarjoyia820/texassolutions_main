@@ -1,23 +1,16 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { motion } from 'framer-motion';
-import { ArrowRight, Phone, PlayCircle } from 'lucide-react';
-import { SITE } from '@/data/site';
-import { SplitText } from '@/components/motion';
+import { ArrowRight, MessageSquare } from 'lucide-react';
 import { ButtonLink } from '@/components/ui';
 
-// Lazy-loaded so the canvas never blocks first paint.
+// Lazy-loaded so the canvas never blocks first paint. It respects reduced motion.
 const RouteScene = dynamic(() => import('./route-scene').then((m) => m.RouteScene), {
   ssr: false,
   loading: () => null,
 });
 
-const HIGHLIGHTS = [
-  'Custom software, AI/ML and QA for enterprises',
-  'Senior engineers, named contact on every project',
-  'Published pricing in US dollars',
-];
+const HIGHLIGHTS = ['Prices published in US dollars', 'One point of contact', '30 days notice, no lock-in'];
 
 export function Hero() {
   return (
@@ -26,94 +19,53 @@ export function Hero() {
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 grid-noise opacity-60" />
         <div className="absolute inset-0 accent-glow" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bg to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bg to-transparent" />
       </div>
 
-      <div className="absolute inset-0 -z-10 opacity-[0.55]">
+      <div aria-hidden className="absolute inset-0 -z-10 opacity-[0.45]">
         <RouteScene className="h-full w-full" />
       </div>
 
-      <div className="container-x relative py-[clamp(4rem,11vw,9rem)]">
-        <div className="max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/5 px-3.5 py-1.5"
-          >
-            <span className="text-xs font-medium text-accent">
-              Software development · AI &amp; ML · QA &amp; testing · Truck dispatch
-            </span>
-          </motion.div>
+      <div className="container-x relative pb-[clamp(2.5rem,6vw,4.5rem)] pt-[clamp(2rem,5vw,3.75rem)]">
+        <div className="max-w-3xl">
+          <p className="mb-5 inline-flex items-center rounded-full border border-accent/30 bg-accent/5 px-3.5 py-1.5 text-xs font-medium text-accent">
+            Technology · Marketing &amp; Publisher Services · Logistics &amp; Automotive
+          </p>
 
-          <h1 className="text-[clamp(2.4rem,6.2vw,5rem)] font-semibold leading-[1] tracking-[-0.03em]">
-            <SplitText text="Custom Web Platforms & Software" />
-            <br />
-            <span className="text-accent">
-              <SplitText text="Built for Modern Enterprises" delay={0.22} />
-            </span>
+          <h1 className="text-[clamp(2rem,4.6vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.025em]">
+            Custom Web Platforms &amp; Software <span className="text-accent">Built for Modern Enterprises</span>
           </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-7 max-w-2xl text-lg leading-relaxed text-fg-muted sm:text-xl"
-          >
-            Custom software development, web and mobile app development, AI and machine learning, and QA and
-            software testing for growing businesses and enterprises, plus 24/7 truck dispatch for US carriers.
-            Transparent pricing in US dollars, a named contact on every project, and thirty days notice.
-          </motion.p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
+            Software, AI and QA from our engineering team, marketing and lead generation, and truck dispatch for US
+            carriers. One published price list and one point of contact.
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
-          >
-            <ButtonLink
-              href="/estimate"
-              size="lg"
-              icon={ArrowRight}
-              magnetic
-              trackLabel="Get a Rough Estimate"
-              trackLocation="hero"
-            >
-              Get a Rough Estimate
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <ButtonLink href="/estimate" size="lg" icon={ArrowRight} trackLabel="Get an Estimate" trackLocation="hero">
+              Get an Estimate
             </ButtonLink>
             <ButtonLink
-              href="/services"
+              href="/contact"
               size="lg"
               variant="secondary"
-              icon={PlayCircle}
+              icon={MessageSquare}
               iconRight={false}
-              trackLabel="Explore Services"
+              trackLabel="Talk to a Specialist"
               trackLocation="hero"
             >
-              Explore Services
+              Talk to a Specialist
             </ButtonLink>
-            <a
-              href={SITE.phoneHref}
-              className="inline-flex h-[3.25rem] items-center gap-2 px-2 text-[0.9375rem] font-medium text-fg-muted transition-colors hover:text-accent sm:ml-2"
-            >
-              <Phone className="h-4 w-4" aria-hidden />
-              {SITE.phone}
-            </a>
-          </motion.div>
+          </div>
 
-          <motion.ul
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.85 }}
-            className="mt-10 flex flex-col gap-2.5 text-sm text-fg-subtle sm:flex-row sm:flex-wrap sm:gap-x-7"
-          >
+          <ul className="mt-7 flex flex-col gap-2 text-sm text-fg-subtle sm:flex-row sm:flex-wrap sm:gap-x-6">
             {HIGHLIGHTS.map((h) => (
               <li key={h} className="flex items-center gap-2">
                 <span className="h-1 w-1 rounded-full bg-accent" aria-hidden />
                 {h}
               </li>
             ))}
-          </motion.ul>
+          </ul>
         </div>
       </div>
     </section>

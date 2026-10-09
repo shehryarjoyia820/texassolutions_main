@@ -111,9 +111,23 @@ export function Header() {
           </Link>
 
           {/* ---- desktop nav ---- */}
-          <nav className="ml-6 hidden min-w-0 flex-1 xl:block 2xl:ml-10" aria-label="Main">
+          <nav className="ml-6 hidden min-w-0 flex-1 lg:block 2xl:ml-10" aria-label="Main">
             <ul className="flex items-center">
-              {MEGA_MENUS.map((menu) => (
+              {MEGA_MENUS.map((menu) =>
+                menu.columns.length === 0 ? (
+                  <li key={menu.label}>
+                    <Link
+                      href={menu.href}
+                      aria-current={pathname.startsWith(menu.href) ? 'page' : undefined}
+                      className={cn(
+                        'flex items-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                        pathname.startsWith(menu.href) ? 'text-accent' : 'text-fg-muted hover:text-fg',
+                      )}
+                    >
+                      {menu.label}
+                    </Link>
+                  </li>
+                ) : (
                 <li
                   key={menu.label}
                   className="static"
@@ -145,7 +159,8 @@ export function Header() {
                     />
                   </button>
                 </li>
-              ))}
+                ),
+              )}
             </ul>
           </nav>
 
@@ -159,23 +174,29 @@ export function Header() {
               {SITE.phone}
             </a>
 
+            <Link
+              href="/contact"
+              className="hidden items-center rounded-lg border border-line px-3 py-2 text-xs font-medium text-fg transition-colors hover:border-accent/50 lg:flex"
+            >
+              Talk to a Specialist
+            </Link>
+
             <ButtonLink
               href="/estimate"
               size="sm"
               icon={ArrowRight}
               className="shrink-0 px-3 sm:px-4"
-              trackLabel="Get a Rough Estimate"
+              trackLabel="Get an Estimate"
               trackLocation="header"
             >
               <span className="sm:hidden">Estimate</span>
-              <span className="hidden sm:inline 2xl:hidden">Get an Estimate</span>
-              <span className="hidden 2xl:inline">Get a Rough Estimate</span>
+              <span className="hidden sm:inline">Get an Estimate</span>
             </ButtonLink>
 
             <button
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
-              className="shrink-0 rounded-lg border border-line p-2 text-fg xl:hidden"
+              className="shrink-0 rounded-lg border border-line p-2 text-fg lg:hidden"
             >
               <Menu className="h-5 w-5" />
             </button>
@@ -192,7 +213,7 @@ export function Header() {
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={cancelClose}
               onMouseLeave={scheduleClose}
-              className="absolute inset-x-0 top-full hidden border-b border-line bg-bg-elev/[0.97] backdrop-blur-xl xl:block"
+              className="absolute inset-x-0 top-full hidden border-b border-line bg-bg-elev/[0.97] backdrop-blur-xl lg:block"
             >
               <MegaPanel menu={MEGA_MENUS.find((m) => m.label === openMenu)!} />
             </motion.div>
@@ -303,7 +324,7 @@ function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[70] bg-bg xl:hidden"
+          className="fixed inset-0 z-[70] bg-bg lg:hidden"
         >
           <div className="flex h-16 items-center justify-between border-b border-line px-5">
             <Link href="/" onClick={onClose} className="flex items-center" aria-label="Texas Solutions home">
@@ -316,7 +337,14 @@ function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
 
           <div className="h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain px-5 pb-28 pt-4">
             <ul className="divide-y divide-line border-y border-line">
-              {MEGA_MENUS.map((menu) => (
+              {MEGA_MENUS.map((menu) =>
+                menu.columns.length === 0 ? (
+                  <li key={menu.label}>
+                    <Link href={menu.href} onClick={onClose} className="flex w-full items-center py-4 font-display text-base font-medium">
+                      {menu.label}
+                    </Link>
+                  </li>
+                ) : (
                 <li key={menu.label}>
                   <button
                     onClick={() => setExpanded(expanded === menu.label ? null : menu.label)}
@@ -368,13 +396,21 @@ function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
                     )}
                   </AnimatePresence>
                 </li>
-              ))}
+                ),
+              )}
             </ul>
 
             <div className="mt-6 space-y-2.5">
               <ButtonLink href="/estimate" size="lg" icon={ArrowRight} className="w-full">
-                Get a Rough Estimate
+                Get an Estimate
               </ButtonLink>
+              <Link
+                href="/contact"
+                onClick={onClose}
+                className="flex h-[3.25rem] w-full items-center justify-center rounded-xl border border-line text-[0.9375rem] font-medium"
+              >
+                Talk to a Specialist
+              </Link>
               <a
                 href={SITE.phoneHref}
                 className="flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-xl border border-line text-[0.9375rem] font-medium"

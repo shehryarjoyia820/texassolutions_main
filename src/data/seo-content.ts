@@ -75,7 +75,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
         heading: 'How much does custom software development cost in 2026?',
         paragraphs: [
           'Published market ranges put a small business website at US$2,000 to US$5,000, a web application or portal at US$15,000 to US$75,000, a mobile app MVP at US$15,000 to US$35,000 and a mid-complexity app at US$35,000 to US$80,000. Enterprise and AI-enabled platforms usually start around US$80,000.',
-          'Cost is driven by scope, number of integrations, compliance requirements, design complexity and how quickly you need it. Our Rough Estimate calculator applies those factors to our published US-dollar price list and returns a low, likely and high range in minutes.',
+          'Cost is driven by scope, number of integrations, compliance requirements, design complexity and how quickly you need it. Our Estimate calculator applies those factors to our published US-dollar price list and returns a low, likely and high range in minutes.',
         ],
       },
       {
@@ -88,7 +88,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
         heading: 'Why outsource software development to Texas Solutions?',
         paragraphs: [
           'Offshore and nearshore software development lowers cost, but only if quality, communication and ownership hold up. We work in your time zone for the core of the day, publish our pricing, assign a named delivery lead, and put the code, cloud accounts and design files in your name from day one.',
-          'Engineering and QA are centred in our Lahore delivery centre, with client teams in Houston, London, Toronto and Sydney.',
+          'Engineering and QA are delivered by our team in Lahore, Pakistan, with client accounts managed from our Midland, Texas office.',
         ],
         bullets: [
           'Senior engineers who have shipped production systems, not trainees learning on your budget.',
@@ -298,8 +298,8 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     ],
     faqs: [
       { q: 'Do I need my own MC and DOT number to use a dispatch service?', a: 'Yes. A dispatch service books freight under your own operating authority. We help with broker setups using your MC number, insurance certificate and W-9, and every setup stays in your carrier name.' },
-      { q: 'Is a truck dispatcher worth it for an owner-operator?', a: 'For most owner-operators, yes, if the dispatcher raises weekly gross, cuts deadhead and recovers detention by more than the fee. Our sample owner-operator profile moved from about US$4,900 to US$7,150 weekly gross after three months.' },
-      { q: 'What hours is the dispatch desk staffed?', a: 'Weekday coverage is standard. Evening, weekend and full 24/7 coverage is available as an add-on, staffed across Houston and our overnight team.' },
+      { q: 'Is a truck dispatcher worth it for an owner-operator?', a: 'For most owner-operators, yes, if the dispatcher raises weekly gross, cuts deadhead and recovers detention by more than the fee.' },
+      { q: 'What hours is the dispatch desk staffed?', a: 'The dispatch desk is available 24/7, run from Midland, Texas with after-hours support from our Lahore team. Engineering and marketing work is business hours only.' },
     ],
   },
 
@@ -368,10 +368,10 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'cloud-devops',
     metaTitle: 'Cloud & DevOps Services | AWS & Azure Migration, CI/CD and Managed Cloud',
     metaDescription:
-      'Cloud consulting, AWS and Azure migration, DevOps and CI/CD, Kubernetes, application modernisation and 24/7 managed cloud for growing businesses and enterprises.',
+      'Cloud consulting, AWS and Azure migration, DevOps and CI/CD, Kubernetes, application modernisation and business-hours cloud support for growing businesses and enterprises.',
     keywords: ['cloud consulting services', 'AWS migration services', 'Azure migration', 'DevOps consulting services', 'CI/CD pipeline setup', 'Kubernetes consulting', 'managed cloud services', 'cloud cost optimization', 'application modernization services'],
     quickAnswer:
-      'Texas Solutions provides cloud and DevOps services: cloud readiness assessments, AWS and Azure migration, CI/CD pipelines, infrastructure as code with Terraform, Kubernetes, application modernisation and 24/7 managed cloud. Assessments start at about US$2,500, DevOps setups at US$5,000 and managed cloud at US$1,000 a month.',
+      'Texas Solutions provides cloud and DevOps services: cloud readiness assessments, AWS and Azure migration, CI/CD pipelines, infrastructure as code with Terraform, Kubernetes, application modernisation and business-hours cloud support (from US$400 a month). Assessments start at about US$2,500, DevOps setups at US$5,000 and managed cloud at US$1,000 a month.',
     guideTitle: 'Cloud migration and DevOps: a buyer’s guide',
     guide: [
       {

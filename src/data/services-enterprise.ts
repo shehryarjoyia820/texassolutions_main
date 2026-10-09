@@ -23,7 +23,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     heroVisual: 'Neural network lighting up as data flows through',
     interactive: 'ballpark',
     interactiveTitle: 'AI project ballpark',
-    startingPriceRow: 'ai-consulting',
+    startingPriceRow: 'ai-hourly',
     timelines: 'Discovery and pilot 3-6 weeks · production assistant or agent 2-4 months · custom ML model 3-6 months',
     problem: {
       title: 'Plenty of AI ideas, very little AI in production',
@@ -124,7 +124,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     heroVisual: 'Data streams converging into a live dashboard',
     interactive: 'ballpark',
     interactiveTitle: 'Data project ballpark',
-    startingPriceRow: 'bi-dashboards',
+    startingPriceRow: 'data-hourly',
     timelines: 'Dashboard set 3-6 weeks · data warehouse 2-4 months · predictive model 2-3 months',
     problem: {
       title: 'Three reports, three different revenue numbers',
@@ -214,7 +214,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     name: 'Cloud and DevOps',
     navLabel: 'Cloud and DevOps',
     promise: 'Infrastructure that deploys daily, scales on demand and costs what it should.',
-    summary: 'Cloud consulting, AWS and Azure migration, DevOps and CI/CD, application modernisation, managed IT and 24/7 support.',
+    summary: 'Cloud consulting, AWS and Azure migration, DevOps and CI/CD, application modernisation, and business-hours managed support.',
     description:
       'We move workloads to the cloud without drama, automate how software gets deployed, and run the infrastructure afterwards with monitoring, backups and a cost report someone actually reads.',
     icon: 'Cloud',
@@ -223,7 +223,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     heroVisual: 'Workloads lifting from servers into the cloud',
     interactive: 'ballpark',
     interactiveTitle: 'Cloud project ballpark',
-    startingPriceRow: 'cloud-assessment',
+    startingPriceRow: 'cloud-hourly',
     timelines: 'Assessment 2-3 weeks · CI/CD setup 3-6 weeks · migration 1-6 months depending on estate',
     problem: {
       title: 'Deploys that need a weekend and a cloud bill nobody understands',
@@ -250,7 +250,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
       { slug: 'cloud-migration', name: 'AWS and Azure migration', summary: 'Rehost, replatform or refactor, workload by workload.', body: 'Migration to AWS or Azure in waves, with rollback plans, cutover rehearsals and performance checks so users notice the improvement and not the move.', deliverables: ['Landing zone', 'Wave planning', 'Data migration', 'Cutover rehearsal', 'Post-migration tuning'], keyword: 'aws migration services' },
       { slug: 'devops-ci-cd', name: 'DevOps and CI/CD', summary: 'Pipelines that test and ship on every merge.', body: 'Build, test and deployment pipelines with infrastructure as code, preview environments and one-click rollback, so releasing becomes routine.', deliverables: ['Pipeline design', 'Infrastructure as code', 'Preview environments', 'Automated rollback', 'Secrets management'], keyword: 'devops consulting services' },
       { slug: 'application-modernization', name: 'Application modernisation', summary: 'Legacy systems moved to maintainable, scalable architecture.', body: 'Step-by-step modernisation of monoliths and legacy stacks, strangling old components behind stable interfaces so the business keeps running throughout.', deliverables: ['Codebase assessment', 'Target architecture', 'Incremental extraction', 'Containerisation', 'Performance testing'], keyword: 'application modernization services' },
-      { slug: 'managed-it', name: 'Managed IT and support', summary: 'Monitoring, patching, backups and a 24/7 response.', body: 'Ongoing operation of your infrastructure and applications with monitoring, patching, backup and restore tests, and incident response against agreed service levels.', deliverables: ['24/7 monitoring', 'Patching', 'Backup and restore tests', 'Incident response', 'Monthly service report'], keyword: 'managed it services' },
+      { slug: 'managed-it', name: 'Managed IT and support', summary: 'Monitoring, patching and backups in business hours; out-of-hours cover quoted separately.', body: 'Ongoing operation of your infrastructure and applications with monitoring, patching, backup and restore tests, and incident response against agreed service levels.', deliverables: ['Business-hours monitoring', 'Patching', 'Backup and restore tests', 'Incident response', 'Monthly service report'], keyword: 'managed it services' },
       { slug: 'cloud-cost-optimization', name: 'Cloud cost optimisation', summary: 'Find and remove the waste in your cloud bill.', body: 'Rightsizing, reserved capacity, storage tiering and idle resource clean-up, with savings tracked month by month against a baseline.', deliverables: ['Spend analysis', 'Rightsizing', 'Commitment planning', 'Tagging and ownership', 'Savings report'], keyword: 'cloud cost optimization services' },
     ],
     included: [
@@ -268,7 +268,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     packages: [
       { name: 'Starter', tagline: 'Assessment and a costed plan.', priceRow: 'cloud-assessment', anchor: 'high', features: ['Estate inventory', 'Target architecture', 'Cost model', 'Migration roadmap', 'Quick-win savings'] },
       { name: 'Growth', tagline: 'CI/CD plus a first migration wave.', priceRow: 'devops-setup', anchor: 'high', popular: true, features: ['Landing zone', 'CI/CD pipelines', 'Infrastructure as code', 'First migration wave', 'Monitoring and alerts'] },
-      { name: 'Pro', tagline: 'Full migration and managed operations.', priceRow: 'cloud-migration', anchor: 'mid', features: ['Full estate migration', 'Modernisation of key apps', '24/7 managed operations', 'Cost optimisation programme', 'Named cloud architect'] },
+      { name: 'Pro', tagline: 'Full migration and managed operations.', priceRow: 'cloud-migration', anchor: 'mid', features: ['Full estate migration', 'Modernisation of key apps', 'Business-hours managed support', 'Cost optimisation programme', 'Named cloud architect'] },
     ],
     process: [
       { title: 'Assess', body: 'Inventory, dependencies, costs and risks mapped. Target architecture agreed.', duration: 'Weeks 1-3' },
@@ -303,7 +303,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     ],
     metrics: [
       { label: 'Assessment', value: '2-3 wks' },
-      { label: 'Monitoring', value: '24/7' },
+      { label: 'Support', value: 'Business hours' },
       { label: 'Infrastructure', value: 'As code' },
     ],
   },
@@ -322,7 +322,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     heroVisual: 'Departments connecting to one shared system',
     interactive: 'ballpark',
     interactiveTitle: 'CRM and ERP ballpark',
-    startingPriceRow: 'crm-implementation',
+    startingPriceRow: 'crm-hourly',
     timelines: 'CRM implementation 1-4 months · Odoo or Business Central 2-6 months · enterprise ERP 6-18 months',
     problem: {
       title: 'Customer and order data scattered across a dozen tools',
@@ -421,7 +421,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     heroVisual: 'Threats deflected by layered shields',
     interactive: 'ballpark',
     interactiveTitle: 'Security project ballpark',
-    startingPriceRow: 'security-assessment',
+    startingPriceRow: 'security-hourly',
     timelines: 'Assessment 2-4 weeks · SOC 2 readiness 2-4 months · managed security ongoing',
     problem: {
       title: 'A security questionnaire you cannot answer',
@@ -519,7 +519,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     heroVisual: 'A team assembling around a product roadmap',
     interactive: 'team-builder',
     interactiveTitle: 'Build your team',
-    startingPriceRow: 'dev-middle',
+    startingPriceRow: 'dev-junior',
     timelines: 'First engineers in 1-2 weeks · full squad in 3-4 weeks',
     problem: {
       title: 'A roadmap growing faster than your hiring',
@@ -543,7 +543,7 @@ export const ENTERPRISE_SERVICES: Service[] = [
     },
     subServices: [
       { slug: 'dedicated-developers', name: 'Dedicated developers', summary: 'Individual engineers embedded in your team.', body: 'Front-end, back-end, full-stack and mobile engineers who join your team full time, matched to your stack and seniority requirements.', deliverables: ['Candidate shortlist', 'Your interviews', 'Onboarding', 'Monthly performance review', 'Replacement guarantee'], keyword: 'hire dedicated developers' },
-      { slug: 'full-squads', name: 'Full product squads', summary: 'A complete team: engineers, QA, design and delivery.', body: 'A cross-functional squad that owns a product area end to end, with a delivery manager accountable for velocity and quality.', deliverables: ['Squad design', 'Delivery manager', 'Sprint cadence', 'Quality metrics', 'Quarterly review'], keyword: 'dedicated development team' },
+      { slug: 'full-squads', name: 'Full product squads', summary: 'A team of developers, QA and design, built from the monthly rate card.', body: 'A cross-functional team that owns a product area end to end. Each role is a dedicated monthly allocation of up to 160 hours; a project manager can be added and is quoted separately.', deliverables: ['Squad design', 'Project manager (quoted separately)', 'Sprint cadence', 'Quality metrics', 'Quarterly review'], keyword: 'dedicated development team' },
       { slug: 'backend-engineers', name: 'Back-end engineering', summary: 'Java, .NET, Python, Node.js, PHP, Go and Ruby.', body: 'APIs, integrations, data processing and platform work in the back-end stack you already run.', deliverables: ['API development', 'Integrations', 'Performance work', 'Code review', 'Documentation'], keyword: 'hire backend developers' },
       { slug: 'frontend-engineers', name: 'Front-end engineering', summary: 'React, Next.js, Angular and Vue.', body: 'Interfaces, design systems and performance work, delivered to your component library and your accessibility standards.', deliverables: ['UI development', 'Design system work', 'Performance budgets', 'Accessibility', 'Testing'], keyword: 'hire react developers' },
       { slug: 'mobile-engineers', name: 'Mobile engineering', summary: 'Flutter, React Native, Swift and Kotlin.', body: 'Cross-platform and native mobile engineers for new apps or ongoing development of existing ones.', deliverables: ['Feature development', 'Release management', 'Crash monitoring', 'Store compliance', 'Testing'], keyword: 'hire flutter developers' },
@@ -553,18 +553,19 @@ export const ENTERPRISE_SERVICES: Service[] = [
       'You interview every engineer',
       'Start within one to two weeks',
       'Work in your tools and ceremonies',
-      'Delivery manager at no extra cost',
+      'Routine coordination and weekly progress reporting',
       'Monthly performance reviews',
-      'Free replacement if it is not a fit',
+      'Replacement if a person is not a fit',
       'Overlap with your working hours',
       'Code and IP assigned to you',
       'Scale with 30 days notice',
       'Knowledge documented continuously',
     ],
     packages: [
-      { name: 'Starter', tagline: 'One or two engineers.', priceRow: 'dev-middle', anchor: 'mid', features: ['One to two engineers', 'Your interviews', 'Monthly review', 'Replacement guarantee', '30 days notice'] },
-      { name: 'Growth', tagline: 'A small squad with QA.', priceRow: 'dev-senior', anchor: 'mid', popular: true, features: ['Three to five engineers', 'QA engineer', 'Delivery manager', 'Sprint reporting', 'Quarterly business review'] },
-      { name: 'Pro', tagline: 'Full product squads.', priceRow: 'dev-lead', anchor: 'high', features: ['Multiple squads', 'Tech lead and architect', 'Design and QA', 'Velocity and quality metrics', 'Executive sponsor'] },
+      // Rendered from DEV_PACKAGES in src/data/rates.ts (see components/dev-packages.tsx); kept in sync here for text exports.
+      { name: 'Starter', tagline: '40 development hours + 10 manual QA hours a month.', priceRow: 'dev-junior', anchor: 'low', features: ['40 development hours', '10 manual QA hours', 'Routine coordination', 'Weekly progress reporting', 'US$1,000 a month'] },
+      { name: 'Growth', tagline: '160 mid-level development hours + 40 manual QA hours a month.', priceRow: 'dev-middle', anchor: 'low', popular: true, features: ['160 mid-level development hours', '40 manual QA hours', 'Routine coordination', 'Weekly progress reporting', 'US$3,500 a month'] },
+      { name: 'Product Team', tagline: '160 mid-level + 160 senior development hours + 40 manual QA hours a month.', priceRow: 'dev-senior', anchor: 'low', features: ['160 mid-level development hours', '160 senior development hours', '40 manual QA hours', 'Weekly progress reporting', 'US$8,000 a month'] },
     ],
     process: [
       { title: 'Define', body: 'Stack, seniority, time zone overlap and team shape agreed.', duration: 'Days 1-3' },

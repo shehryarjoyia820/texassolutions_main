@@ -15,10 +15,11 @@ export function PricingTables({ tables, services }: { tables: PriceTable[]; serv
   return (
     <Section>
       <Container>
-        <NoteBox>
-          All prices are in US dollars. Ranges are indicative: your scope sets the final figure, and every
-          quote is confirmed in writing before work starts.
-        </NoteBox>
+        <SectionHeading
+          eyebrow="Prices by service"
+          title="Every service line, every price"
+          body="Fixed-scope project ranges are confirmed in a written proposal after scoping. Hourly, monthly and package prices are the rate card above."
+        />
 
         {/* tables */}
         <div className="mt-14 space-y-16">

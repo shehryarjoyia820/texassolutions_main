@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
 import { useState } from 'react';
-import { SITE, OFFICES, CERTIFICATIONS } from '@/data/site';
-import { FOOTER_COLUMNS, FOOTER_MENUS } from '@/data/nav';
+import { SITE, OFFICES } from '@/data/site';
+import { FOOTER_COLUMNS } from '@/data/nav';
 import { submitForm } from '@/lib/forms';
 import { Logo } from './brand';
 import { Button } from './ui';
@@ -30,7 +30,7 @@ export function Footer() {
         </div>
 
         {/* ---- link columns ---- */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-[1.3fr_repeat(5,minmax(0,1fr))]">
           <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="inline-flex items-center" aria-label={`${SITE.name} home`}>
               <Logo size="lg" />
@@ -50,6 +50,7 @@ export function Footer() {
                 {SITE.hours}
               </p>
             </div>
+            {SITE.social.length > 0 && (
             <ul className="mt-5 flex flex-wrap gap-3 text-sm">
               {SITE.social.map((s) => (
                 <li key={s.label}>
@@ -64,6 +65,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+            )}
           </div>
 
           {FOOTER_COLUMNS.map((col) => (
@@ -87,78 +89,34 @@ export function Footer() {
           ))}
         </div>
 
-        {/* ---- company menus, moved here from the header ---- */}
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-line pt-10 lg:grid-cols-4">
-          {FOOTER_MENUS.map((menu) => (
-            <div key={menu.title}>
-              <Link
-                href={menu.href}
-                className="group mb-4 inline-flex items-center gap-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle transition-colors hover:text-accent"
-              >
-                {menu.title}
-                <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" aria-hidden />
-              </Link>
-              <ul className="space-y-2.5">
-                {menu.links.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-fg-muted transition-colors hover:text-accent">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
         {/* ---- offices (home page only) ---- */}
         {showOffices && (
         <div className="mt-14 border-t border-line pt-10">
           <p className="mb-5 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle">
-            Offices
+            Where we are
           </p>
-          <div className="grid grid-cols-2 gap-6 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
             {OFFICES.map((office) => (
               <div key={office.city}>
                 <p className="font-display text-sm font-semibold">
                   {office.city}
                   <span className="ml-1.5 font-sans text-xs font-normal text-fg-subtle">{office.country}</span>
                 </p>
-                <address className="mt-1.5 text-xs not-italic leading-relaxed text-fg-muted">
-                  {office.address.map((line) => (
-                    <span key={line} className="block">
-                      {line}
-                    </span>
-                  ))}
-                </address>
+                {office.address.length > 0 && (
+                  <address className="mt-1.5 text-xs not-italic leading-relaxed text-fg-muted">
+                    {office.address.map((line) => (
+                      <span key={line} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </address>
+                )}
                 <p className="mt-1.5 text-xs text-fg-subtle">{office.focus}</p>
               </div>
             ))}
           </div>
         </div>
         )}
-
-        {/* ---- certifications ---- */}
-        <div className="mt-10 border-t border-line pt-8">
-          <p className="mb-4 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle">
-            Certifications and partners
-          </p>
-          <ul className="flex flex-wrap gap-2.5">
-            {CERTIFICATIONS.map((c) => (
-              <li
-                key={c.name}
-                className="rounded-lg border border-line bg-bg-elev px-3 py-2"
-                title={c.note}
-              >
-                <span className="text-xs font-medium text-fg">{c.name}</span>
-                <span className="ml-1.5 text-[0.6875rem] text-fg-subtle">{c.detail}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 text-[0.6875rem] text-fg-subtle">
-            Badge artwork is added once each certification is verified. Status is shown on hover.
-          </p>
-        </div>
 
         {/* ---- legal row ---- */}
         <div className="mt-10 flex flex-col gap-4 border-t border-line pt-7 text-xs text-fg-subtle sm:flex-row sm:items-center sm:justify-between">

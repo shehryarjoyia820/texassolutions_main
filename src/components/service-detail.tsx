@@ -21,6 +21,7 @@ import {
   NoteBox,
 } from './ui';
 import { ServicePriceTable } from './price-table';
+import { DevPackageCards } from './dev-packages';
 import { ServiceInteractive } from './service-widgets';
 import { cn } from '@/lib/utils';
 import type { ServiceSeo } from '@/data/seo-content';
@@ -72,10 +73,10 @@ export function ServiceDetail({
                   variant="service"
                   icon={ArrowRight}
                   magnetic
-                  trackLabel="Get a Rough Estimate"
+                  trackLabel="Get an Estimate"
                   trackLocation={`service-hero-${service.slug}`}
                 >
-                  Get a Rough Estimate
+                  Get an Estimate
                 </ButtonLink>
                 <ButtonLink href="/contact" size="lg" variant="secondary">
                   Talk to a specialist
@@ -95,8 +96,14 @@ export function ServiceDetail({
                 <p className="text-xs uppercase tracking-wider text-fg-subtle">
                   Starting price · US dollars
                 </p>
+                {service.slug === 'truck-dispatch' ? (
+                  <p className="mt-2 font-display text-[clamp(2rem,4.5vw,2.75rem)] font-semibold leading-none text-svc">
+                    5-10%
+                    <span className="ml-2 font-sans text-base font-normal text-fg-subtle">of weekly gross</span>
+                  </p>
+                ) : (
                 <p className="mt-2 font-display text-[clamp(2rem,4.5vw,2.75rem)] font-semibold leading-none text-svc">
-                  {startValue ? formatMoney(startValue[0], code, { compact: true }) : 'Per job'}
+                  {startValue ? (startRow?.from ? 'from ' : '') + formatMoney(startValue[0], code, { compact: true }) : 'Per job'}
                   {startRow && startValue && (
                     <span className="ml-2 font-sans text-base font-normal text-fg-subtle">
                       {startRow.unit === 'monthly'
@@ -111,7 +118,12 @@ export function ServiceDetail({
                     </span>
                   )}
                 </p>
-                <p className="mt-2 text-sm text-fg-muted">{startRow?.label}</p>
+                )}
+                <p className="mt-2 text-sm text-fg-muted">
+                  {service.slug === 'truck-dispatch'
+                    ? 'Semi 5%, hotshot 8%, box truck 10%, OTR. No flat rate or extra charges.'
+                    : [startRow?.label, startRow?.scope].filter(Boolean).join(' · ')}
+                </p>
 
                 <dl className="mt-7 grid gap-4 border-t border-svc/20 pt-6 sm:grid-cols-3">
                   {service.metrics.map((m) => (
@@ -241,21 +253,18 @@ export function ServiceDetail({
           <SectionHeading
             eyebrow="Packages"
             title="Three ways to start"
-            body="All prices in US dollars. Ranges are indicative; your scope sets the final figure."
+            body="All prices in US dollars. Project ranges are confirmed in a written proposal after scoping; monthly plans are capacity allocations, not unlimited work."
             align="center"
           />
 
+          {service.slug === 'dedicated-teams' ? (
+            <DevPackageCards serviceSlug={service.slug} />
+          ) : (
           <div className="mt-12 grid gap-5 lg:grid-cols-3">
             {service.packages.map((pkg, i) => {
               const row = table?.rows.find((r) => r.id === pkg.priceRow);
-              const value = row?.values[code];
-              const anchored = value
-                ? pkg.anchor === 'low'
-                  ? value[0]
-                  : pkg.anchor === 'mid'
-                    ? Math.round((value[0] + value[1]) / 2)
-                    : value[1]
-                : null;
+              const value = row?.values[code] ?? null;
+              const plus = Boolean(row?.plus?.[code]);
 
               return (
                 <Reveal key={pkg.name} delay={i * 0.08}>
@@ -273,27 +282,35 @@ export function ServiceDetail({
                     <h3 className="font-display text-xl font-semibold">{pkg.name}</h3>
                     <p className="mt-1.5 text-sm text-fg-muted">{pkg.tagline}</p>
 
-                    <p className="mt-6 font-display text-3xl font-semibold text-svc">
-                      {anchored !== null ? (
+                    <p className="mt-6 font-display text-2xl font-semibold text-svc">
+                      {value === null ? (
+                        'Quoted per scope'
+                      ) : row?.from || value[0] === value[1] ? (
                         <>
-                          {pkg.anchor === 'low' && <span className="text-base font-normal text-fg-subtle">from </span>}
-                          {formatMoney(anchored, code, { compact: true })}
+                          {row?.from && <span className="text-base font-normal text-fg-subtle">from </span>}
+                          {formatMoney(value[0], code)}
+                          {plus && '+'}
                         </>
                       ) : (
-                        'Per job'
+                        formatRange(value, code, { plus })
                       )}
                     </p>
                     <p className="mt-1 text-xs text-fg-subtle">
-                      {row?.unit === 'monthly'
-                        ? 'per month'
-                        : row?.unit === 'weekly'
-                          ? 'per truck, per week'
-                          : row?.unit === 'hourly'
-                            ? 'per hour'
-                            : row?.unit === 'per-unit'
-                              ? 'supplied and installed'
-                              : 'one-time project'}
+                      USD{' '}
+                      {row?.kind === 'example'
+                        ? 'per truck, per week (example)'
+                        : row?.unit === 'monthly'
+                          ? 'per month'
+                          : row?.unit === 'weekly'
+                            ? 'per truck, per week'
+                            : row?.unit === 'hourly'
+                              ? 'per hour'
+                              : row?.unit === 'per-unit'
+                                ? 'per engine, supplied and installed'
+                                : 'one-time project'}
+                      {row?.label ? ` · based on: ${row.label}` : ''}
                     </p>
+                    {row?.scope && <p className="mt-1 text-xs text-fg-muted">Includes: {row.scope}</p>}
 
                     <ul className="mt-7 flex-1 space-y-2.5">
                       {pkg.features.map((f) => (
@@ -317,6 +334,7 @@ export function ServiceDetail({
               );
             })}
           </div>
+          )}
 
           <div className="mt-12">
             <h3 className="mb-5 font-display text-lg font-semibold">Full price table</h3>
@@ -386,12 +404,15 @@ export function ServiceDetail({
       {/* ---------- 8. Case study ---------- */}
       <Section id="case-study">
         <Container>
-          <SectionHeading eyebrow="Case study" title={service.caseStudy.client} body={service.caseStudy.challenge} />
+          <p className="mb-4 inline-flex rounded-full border border-warn/40 bg-warn/10 px-3 py-1 text-xs font-semibold text-fg">
+            Illustrative example — not a client result
+          </p>
+          <SectionHeading eyebrow="Example engagement" title={service.caseStudy.client} body={service.caseStudy.challenge} />
 
           <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.1fr]">
             <div>
               <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle">
-                What we did
+                What we would do
               </p>
               <ul className="mt-4 space-y-3">
                 {service.caseStudy.work.map((w) => (
@@ -401,19 +422,13 @@ export function ServiceDetail({
                   </li>
                 ))}
               </ul>
-              {service.caseStudy.quote && (
-                <blockquote className="mt-7 border-l-2 border-svc pl-5">
-                  <p className="italic leading-relaxed text-fg">“{service.caseStudy.quote.text}”</p>
-                  <footer className="mt-2 text-sm text-fg-subtle">{service.caseStudy.quote.role}</footer>
-                </blockquote>
-              )}
             </div>
 
             <RevealGroup className="grid gap-4 sm:grid-cols-2">
               {service.caseStudy.results.map((r) => (
                 <RevealItem key={r.label}>
                   <div className="rounded-xl border border-line bg-bg-soft p-5">
-                    <p className="text-xs text-fg-subtle">{r.label}</p>
+                    <p className="text-xs text-fg-subtle">Example target: {r.label}</p>
                     <div className="mt-2.5 flex items-baseline gap-2">
                       <span className="text-sm text-fg-subtle line-through">{r.before}</span>
                       <ArrowRight className="h-3.5 w-3.5 text-fg-subtle" aria-hidden />
@@ -427,8 +442,8 @@ export function ServiceDetail({
           </div>
 
           <NoteBox className="mt-8">
-            Sample engagement profile showing the kind of result this service targets. It is replaced with a
-            client-approved case study, with names and logos, before launch.
+            This is an illustrative example of how we would approach this kind of work and the outcome we would aim
+            for. It is not a client result, and the figures are targets, not achieved numbers.
           </NoteBox>
         </Container>
       </Section>
@@ -462,7 +477,7 @@ export function ServiceDetail({
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-display-md">Put a number on it</h2>
             <p className="mt-5 text-lg leading-relaxed text-fg-muted">
-              The calculator opens on {service.navLabel.toLowerCase()} already selected. Seven questions and you
+              The calculator opens on {service.navLabel.toLowerCase()} already selected. A few questions and you
               have a range in US dollars.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -534,7 +549,7 @@ export function SubServiceDetail({
                   variant="service"
                   icon={ArrowRight}
                 >
-                  Get a Rough Estimate
+                  Get an Estimate
                 </ButtonLink>
                 <ButtonLink href="/contact" size="lg" variant="secondary">
                   Ask a question

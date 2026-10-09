@@ -14,80 +14,57 @@ export const SITE = {
   contactName: 'Shehryar Joyia',
   /** Owner and CEO. */
   ceo: 'Shehryar Joyia',
-  hours: 'Dispatch desk 24/7 · Offices Mon–Fri, 8am–7pm CT',
+  hours: 'Dispatch desk 24/7 · Software and marketing teams Mon–Fri, business hours (CT)',
+  /** Unverified; kept only because src/lib/seo.tsx and src/lib/llms.ts still read it. */
   founded: 2019,
-  /** Swap these for the real handles before launch. */
-  social: [
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/texassolutions', icon: 'linkedin' },
-    { label: 'Facebook', href: 'https://facebook.com/texassolutions', icon: 'facebook' },
-    { label: 'X', href: 'https://x.com/texassolutions', icon: 'twitter' },
-    { label: 'YouTube', href: 'https://youtube.com/@texassolutions', icon: 'youtube' },
-  ],
+  /** Social handles are unconfirmed, so none are published. */
+  social: [] as { label: string; href: string; icon: string }[],
 } as const;
 
 export interface Office {
   city: string;
   country: string;
   region: string;
+  /** Empty when no street address is published. */
   address: string[];
   phone?: string;
   timezone: string;
   focus: string;
 }
 
-/** CMS model: office */
+/** CMS model: office. The Midland office is the only office. */
 export const OFFICES: Office[] = [
   {
-    city: 'Houston',
+    city: 'Midland',
     country: 'United States',
     region: 'US',
-    address: ['Texas Solutions LLC', '1201 Fannin Street, Suite 260', 'Houston, TX 77002'],
+    address: ['Texas Solutions LLC', '401 W Kentucky Ave', 'Midland, TX 79701'],
     phone: '(838) 910-3147',
     timezone: 'America/Chicago',
-    focus: 'Head office · dispatch desk · sales',
-  },
-  {
-    city: 'London',
-    country: 'United Kingdom',
-    region: 'UK',
-    address: ['Texas Solutions UK', '86-90 Paul Street', 'London EC2A 4NE'],
-    timezone: 'Europe/London',
-    focus: 'Client accounts · ads and lead generation',
-  },
-  {
-    city: 'Toronto',
-    country: 'Canada',
-    region: 'CA',
-    address: ['Texas Solutions Canada', '120 Adelaide Street West', 'Toronto, ON M5H 1T1'],
-    timezone: 'America/Toronto',
-    focus: 'Client services · carrier accounts',
-  },
-  {
-    city: 'Sydney',
-    country: 'Australia',
-    region: 'AU',
-    address: ['Texas Solutions AU', '1 Sussex Street', 'Sydney NSW 2000'],
-    timezone: 'Australia/Sydney',
-    focus: 'Web and QA delivery',
+    focus: 'US office',
   },
   {
     city: 'Lahore',
     country: 'Pakistan',
-    region: 'EU',
-    address: ['Texas Solutions Delivery Centre', 'Arfa Software Technology Park', 'Ferozepur Road, Lahore'],
+    region: 'PK',
+    address: [],
     timezone: 'Asia/Karachi',
-    focus: 'Engineering · QA · 24/7 after-hours dispatch',
+    focus: 'Delivery team (engineering, QA and after-hours dispatch support)',
   },
 ];
 
-/** CMS model: certification / partner badge */
-export const CERTIFICATIONS = [
-  { name: 'Google Partner', detail: 'Ads and AdSense', note: 'Verify badge before launch' },
-  { name: 'Meta Business Partner', detail: 'Paid social', note: 'Verify badge before launch' },
-  { name: 'ISO 27001 aligned', detail: 'Information security', note: 'Certification in progress' },
-  { name: 'SOC 2 controls', detail: 'Data handling', note: 'Readiness assessment' },
-  { name: 'MC / DOT compliant', detail: 'Broker packets', note: 'Dispatch operations' },
-  { name: 'Clutch verified', detail: 'Client reviews', note: 'Profile live' },
+/**
+ * CMS model: certification / partner badge.
+ * No certifications or partner badges are confirmed, so none are published.
+ */
+export const CERTIFICATIONS: { name: string; detail: string; note: string }[] = [];
+
+/** Internal working practices. These are not certifications. */
+export const INTERNAL_PRACTICES = [
+  { name: 'Written scope before work starts', detail: 'Scope, price and acceptance criteria agreed in writing' },
+  { name: 'Code and accounts in your name', detail: 'Repositories, ad accounts and design files stay yours' },
+  { name: 'Least-privilege access', detail: 'Access limited to what the work needs and removed at the end' },
+  { name: 'Thirty days notice', detail: 'No long lock-in on recurring services' },
 ];
 
 export interface NavChild {

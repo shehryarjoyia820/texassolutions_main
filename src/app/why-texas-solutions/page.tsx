@@ -14,7 +14,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Why Texas Solutions',
   description:
-    'Thirteen service lines under one contract, published pricing in US dollars, thirty days notice and accounts that stay in your name. Guarantees, SLAs and a straight comparison against agencies and in-house.',
+    'Thirteen service lines under one contract, published pricing in US dollars, thirty days notice and accounts that stay in your name. Service commitments in the agreement and a straight comparison against agencies and in-house.',
   path: '/why-texas-solutions',
 });
 
@@ -84,9 +84,9 @@ export default function WhyPage() {
       <Section id="guarantees">
         <Container>
           <SectionHeading
-            eyebrow="Guarantees and SLAs"
-            title="The response times we hold ourselves to"
-            body="Each row names how it is measured, because a service level nobody measures is a slogan."
+            eyebrow="Service commitments"
+            title="What we commit to in writing"
+            body="Commitments written into every service agreement. Nothing here promises results, leads or revenue."
           />
           <div className="mt-10 overflow-hidden rounded-2xl border border-line">
             <table className="w-full border-collapse text-left text-sm">
@@ -187,7 +187,7 @@ export default function WhyPage() {
                 {[
                   ['Ranges, not single numbers', 'A single figure before scope is known is a guess dressed as a quote. We publish the range and narrow it with you.'],
                   ['One price list', 'Every client sees the same published US dollar ranges. No pricing by location, no hidden markups.'],
-                  ['The fee base is stated', 'Dispatch is a stated percentage of weekly gross with no flat rate: 5% for semis, 8% for hotshots, 10% for box trucks. AdSense uplift is measured against an agreed baseline. Ads fees are the lower of flat or percentage.'],
+                  ['The fee base is stated', 'Dispatch is a stated percentage of weekly gross with no flat rate: 5% for semis, 8% for hotshots, 10% for box trucks. Monthly plans state their included hours and scope; extra hours need your written approval.'],
                 ].map(([title, body]) => (
                   <li key={title} className="rounded-xl border border-line bg-bg-soft p-5">
                     <p className="font-display text-base font-semibold">{title}</p>
@@ -231,8 +231,8 @@ export default function WhyPage() {
       <CtaSection
         title="Hold us to the numbers on this page"
         body="If a service level here matters to your decision, it goes into the agreement. Start with a range and a conversation."
-        primary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
-        secondary={{ href: '/contact', label: 'Ask about SLAs' }}
+        primary={{ href: '/estimate', label: 'Get an Estimate' }}
+        secondary={{ href: '/contact', label: 'Talk to a Specialist' }}
       />
     </>
   );

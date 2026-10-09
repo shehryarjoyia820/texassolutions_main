@@ -1,15 +1,15 @@
-import { MapPin, User } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { MILESTONES, VALUES, LEADERSHIP, CSR } from '@/data/company';
-import { OFFICES, CERTIFICATIONS, SITE } from '@/data/site';
+import { OFFICES, CERTIFICATIONS, INTERNAL_PRACTICES } from '@/data/site';
 import { PageHero, CtaSection } from '@/components/page-shell';
-import { Container, Section, SectionHeading, NoteBox, Badge } from '@/components/ui';
+import { Container, Section, SectionHeading, Badge } from '@/components/ui';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
   title: 'About us',
   description:
-    'Texas Solutions started as a two-person truck dispatch desk in Houston in 2019 and now runs thirteen service lines across five offices.',
+    'Texas Solutions runs thirteen service lines from its office in Midland, Texas, with a delivery team in Lahore, Pakistan. Owner and CEO: Shehryar Joyia.',
   path: '/about',
 });
 
@@ -20,8 +20,8 @@ export default function AboutPage() {
 
       <PageHero
         eyebrow="About us"
-        title="It started with one phone and a load board"
-        body="Texas Solutions began as a two-person dispatch desk in Houston in 2019. Everything since has come from carriers asking for one more thing we did not yet do."
+        title="One accountable team, thirteen service lines"
+        body="Texas Solutions is run from Midland, Texas, with a delivery team in Lahore, Pakistan. Software, marketing and truck dispatch, with one published price list and a named contact."
         trail={[{ label: 'About us' }]}
       />
 
@@ -31,23 +31,16 @@ export default function AboutPage() {
           <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr]">
             <div className="prose-ts">
               <p className="text-lg text-fg">
-                The first client was an owner-operator running a dry van who was spending three hours a night
-                on load boards and still sitting empty on Mondays. Booking his loads was the whole business.
+                Texas Solutions provides software development, QA, marketing and lead generation, and truck
+                dispatch for US carriers, under one company and one account contact.
               </p>
               <p>
-                Within a year the work had changed shape. Carriers wanted the invoicing done, the broker
-                packets filled in, the detention claimed. Then they wanted a website that would recruit
-                drivers, then outbound to find shippers directly, then paid ads, then someone to test the
-                software they had commissioned. Each service line exists because a client asked twice.
+                A dispatch desk and a QA practice are not obvious neighbours, but both are back-office work that
+                a small operator cannot staff on its own and cannot afford to get wrong.
               </p>
               <p>
-                That history explains the odd-looking mix. A dispatch desk and a QA practice are not obvious
-                neighbours, but both are back-office work that a small operator cannot staff on its own and
-                cannot afford to get wrong.
-              </p>
-              <p>
-                What has not changed is the shape of the promise: a named person is accountable, the price is
-                published, and you can leave on thirty days notice.
+                The promise is simple: a named person is accountable, the price is published, and you can leave
+                on thirty days notice.
               </p>
             </div>
 
@@ -58,10 +51,11 @@ export default function AboutPage() {
                 </p>
                 <dl className="mt-5 space-y-4">
                   {[
-                    ['Founded', `${SITE.founded}, Houston, Texas`],
+                    ['Owner and CEO', 'Shehryar Joyia'],
                     ['Service lines', 'Thirteen, each with its own agreement'],
-                    ['Offices', 'Houston, London, Toronto, Sydney, Lahore'],
-                    ['Dispatch coverage', '24/7 across two time zones'],
+                    ['Office', 'Midland, Texas'],
+                    ['Delivery team', 'Lahore, Pakistan'],
+                    ['Dispatch desk', '24/7'],
                     ['Pricing', 'One published US dollar price list'],
                     ['Notice period', '30 days, every service'],
                   ].map(([k, v]) => (
@@ -77,7 +71,8 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* ---- Timeline ---- */}
+      {/* ---- Timeline (hidden until history is verified) ---- */}
+      {MILESTONES.length > 0 && (
       <Section tone="soft" id="timeline">
         <Container>
           <SectionHeading eyebrow="Timeline" title="How thirteen service lines came together" />
@@ -96,27 +91,23 @@ export default function AboutPage() {
           </ol>
         </Container>
       </Section>
+      )}
 
       {/* ---- Leadership ---- */}
       <Section id="leadership">
         <Container>
           <SectionHeading
             eyebrow="Leadership"
-            title="Who is accountable for what"
-            body="Roles are listed with the person who holds them where we have permission to publish a name. The rest are named once headshots and bios are signed off."
+            title="Who is accountable"
           />
           <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {LEADERSHIP.map((p) => (
+            {LEADERSHIP.filter((p) => p.name).map((p) => (
               <RevealItem key={p.role}>
                 <div className="h-full rounded-2xl border border-line bg-bg-elev p-6">
                   <span className="grid h-12 w-12 place-items-center rounded-xl border border-line bg-bg-soft text-fg-subtle">
-                    {p.name ? (
-                      <span className="font-display text-base font-semibold text-accent">{p.name.charAt(0)}</span>
-                    ) : (
-                      <User className="h-5 w-5" aria-hidden />
-                    )}
+                    <span className="font-display text-base font-semibold text-accent">{p.name?.charAt(0)}</span>
                   </span>
-                  <h3 className="mt-4 font-display text-base font-semibold">{p.name ?? 'Name pending sign-off'}</h3>
+                  <h3 className="mt-4 font-display text-base font-semibold">{p.name}</h3>
                   <p className="mt-0.5 text-sm text-accent">{p.role}</p>
                   <p className="mt-2.5 text-xs leading-relaxed text-fg-muted">{p.focus}</p>
                   <p className="mt-3 flex items-center gap-1.5 text-xs text-fg-subtle">
@@ -127,11 +118,6 @@ export default function AboutPage() {
               </RevealItem>
             ))}
           </RevealGroup>
-
-          <NoteBox className="mt-8">
-            We do not publish stock photography with invented names against it. Real headshots and bios replace
-            these cards before launch.
-          </NoteBox>
         </Container>
       </Section>
 
@@ -152,47 +138,42 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* ---- Certifications ---- */}
-      <Section id="certifications">
+      {/* ---- How we work (internal practices, not certifications) ---- */}
+      <Section id="how-we-work">
         <Container>
           <SectionHeading
-            eyebrow="Certifications and partners"
-            title="Where each badge actually stands"
-            body="Status is published next to each one rather than implied by an image."
+            eyebrow="How we work"
+            title="Internal practices we follow"
+            body="These are our own working practices. They are not certifications or third-party accreditations."
           />
-          <div className="mt-10 overflow-hidden rounded-2xl border border-line">
-            <table className="w-full border-collapse text-left text-sm">
-              <caption className="sr-only">Certification and partner status</caption>
-              <thead>
-                <tr className="border-b border-line bg-bg-soft">
-                  <th scope="col" className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-fg-subtle">Badge</th>
-                  <th scope="col" className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-fg-subtle">Area</th>
-                  <th scope="col" className="px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-fg-subtle">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line">
-                {CERTIFICATIONS.map((c) => (
-                  <tr key={c.name} className="bg-bg-elev">
-                    <th scope="row" className="px-5 py-4 text-left font-medium text-fg">{c.name}</th>
-                    <td className="px-5 py-4 text-fg-muted">{c.detail}</td>
-                    <td className="px-5 py-4">
-                      <Badge tone={c.note.includes('progress') || c.note.includes('Verify') ? 'warn' : 'success'}>
-                        {c.note}
-                      </Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <RevealGroup className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {INTERNAL_PRACTICES.map((c) => (
+              <RevealItem key={c.name}>
+                <div className="h-full rounded-2xl border border-line bg-bg-elev p-6">
+                  <Badge>Internal practice</Badge>
+                  <h3 className="mt-3 font-display text-base font-semibold">{c.name}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-fg-muted">{c.detail}</p>
+                </div>
+              </RevealItem>
+            ))}
+          </RevealGroup>
+          {CERTIFICATIONS.length > 0 && (
+            <ul className="mt-8 flex flex-wrap gap-2.5">
+              {CERTIFICATIONS.map((c) => (
+                <li key={c.name} className="rounded-lg border border-line bg-bg-elev px-3 py-2 text-sm">
+                  {c.name} <span className="text-fg-subtle">{c.detail}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </Container>
       </Section>
 
       {/* ---- Offices ---- */}
       <Section tone="soft" id="offices">
         <Container>
-          <SectionHeading eyebrow="Offices" title="Five locations, four time zones" />
-          <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <SectionHeading eyebrow="Where we are" title="Midland, Texas and Lahore, Pakistan" />
+          <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2">
             {OFFICES.map((o) => (
               <RevealItem key={o.city}>
                 <div className="h-full rounded-2xl border border-line bg-bg-elev p-6">
@@ -203,31 +184,29 @@ export default function AboutPage() {
                     </div>
                     <MapPin className="h-5 w-5 shrink-0 text-accent" aria-hidden />
                   </div>
-                  <address className="mt-4 text-sm not-italic leading-relaxed text-fg-muted">
-                    {o.address.map((line) => (
-                      <span key={line} className="block">{line}</span>
-                    ))}
-                  </address>
+                  {o.address.length > 0 && (
+                    <address className="mt-4 text-sm not-italic leading-relaxed text-fg-muted">
+                      {o.address.map((line) => (
+                        <span key={line} className="block">{line}</span>
+                      ))}
+                    </address>
+                  )}
                   <p className="mt-3 text-xs text-fg-subtle">{o.focus}</p>
                   <p className="mt-1 text-xs text-fg-subtle">{o.timezone.replace('_', ' ')}</p>
                 </div>
               </RevealItem>
             ))}
           </RevealGroup>
-          <NoteBox className="mt-8">
-            An interactive office map is added once photography and exact suite numbers are confirmed. We would
-            rather show an accurate list than an imprecise pin.
-          </NoteBox>
         </Container>
       </Section>
 
-      {/* ---- CSR ---- */}
+      {/* ---- CSR (hidden while empty) ---- */}
+      {CSR.length > 0 && (
       <Section id="csr">
         <Container>
           <SectionHeading
             eyebrow="Corporate responsibility"
-            title="Four commitments with a budget attached"
-            body="Each of these has a line in the annual plan rather than a paragraph on a website."
+            title="Commitments"
           />
           <RevealGroup className="mt-12 grid gap-5 sm:grid-cols-2">
             {CSR.map((c) => (
@@ -241,10 +220,11 @@ export default function AboutPage() {
           </RevealGroup>
         </Container>
       </Section>
+      )}
 
       <CtaSection
-        title="Want to talk to the people on this page?"
-        body="Every enquiry reaches a named person rather than a queue, and the first reply comes within four business hours."
+        title="Want to talk to us?"
+        body="Every enquiry reaches a named person rather than a queue, and the first reply comes within one business day."
         primary={{ href: '/contact', label: 'Contact us' }}
         secondary={{ href: '/look-inside', label: 'Look inside the company' }}
       />

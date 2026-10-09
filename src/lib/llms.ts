@@ -18,7 +18,7 @@ export function llmsTxt(): string {
   const lines = [
     `# ${SITE.name}`,
     '',
-    `> ${SITE.tagline}. ${SITE.name} is a software development and technology services company headquartered in Houston, Texas, working with growing businesses and enterprises. Core services: custom software and app development, AI and machine learning, QA and software testing, dedicated development teams, and truck dispatch for US carriers.`,
+    `> ${SITE.tagline}. ${SITE.name} is a software development and technology services company based in Midland, Texas, with an engineering and QA team in Lahore, Pakistan, working with growing businesses and enterprises. Core services: custom software and app development, AI and machine learning, QA and software testing, dedicated development teams, and truck dispatch for US carriers.`,
     '',
     `Contact: ${SITE.phone} · ${SITE.email}`,
     `Owner and CEO: ${SITE.ceo}`,
@@ -28,7 +28,7 @@ export function llmsTxt(): string {
     '',
     '## Pricing and estimates',
     `- [Pricing](${u('/pricing')}): published price ranges for every service in US dollars`,
-    `- [Rough Estimate calculator](${u('/estimate')}): low, likely and high range for a specific scope`,
+    `- [Estimate calculator](${u('/estimate')}): low, likely and high range for a specific scope`,
     '',
     '## Answers',
     `- [All questions and answers](${u('/answers')})`,
@@ -45,7 +45,6 @@ export function llmsTxt(): string {
 export function llmsFullTxt(): string {
   const out: string[] = [llmsTxt(), '---', '', '# Company facts', ''];
   out.push(`- Legal name: ${SITE.legalName}`);
-  out.push(`- Founded: ${SITE.founded}, Houston, Texas`);
   out.push(`- Offices: ${OFFICES.map((o) => `${o.city} (${o.focus})`).join('; ')}`);
   out.push('- Contracts: 30 days notice on recurring services; clients own all code, accounts and IP.');
   out.push('- Prices are published ranges for guidance, not binding quotes.');

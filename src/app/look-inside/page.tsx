@@ -2,7 +2,7 @@ import { Clock, MapPin, Briefcase } from 'lucide-react';
 import { LIFE_AT, DISPATCH_DAY, JOBS, VALUES, LEADERSHIP } from '@/data/company';
 import { OFFICES } from '@/data/site';
 import { PageHero, CtaSection } from '@/components/page-shell';
-import { Container, Section, SectionHeading, NoteBox, Badge } from '@/components/ui';
+import { Container, Section, SectionHeading, Badge } from '@/components/ui';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion';
 import { JobApplicationForm } from '@/components/forms';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
@@ -11,7 +11,7 @@ import { formatDateShort } from '@/lib/format';
 export const metadata = pageMeta({
   title: 'Look inside Texas Solutions',
   description:
-    'How the company actually runs: a day on the dispatch desk from the 4:30am board sweep to overnight handover, our culture, offices and open roles.',
+    'How Texas Solutions works: values, the owner, the Midland, Texas office and the Lahore, Pakistan delivery team.',
   path: '/look-inside',
 });
 
@@ -22,15 +22,16 @@ export default function LookInsidePage() {
 
       <PageHero
         eyebrow="Look inside"
-        title="The desk never actually closes"
-        body="Dispatch runs around the clock across Houston and Lahore, which shapes how the whole company works. This page shows the parts a sales call never covers."
+        title="How the company works"
+        body="Texas Solutions is run from Midland, Texas, with a delivery team in Lahore, Pakistan covering engineering, QA and after-hours dispatch support."
         trail={[{ label: 'Look inside' }]}
       />
 
-      {/* ---- Life at ---- */}
+      {/* ---- Life at (hidden while empty) ---- */}
+      {LIFE_AT.length > 0 && (
       <Section id="life">
         <Container>
-          <SectionHeading eyebrow="Life at Texas Solutions" title="Four things that define working here" />
+          <SectionHeading eyebrow="Life at Texas Solutions" title="What defines working here" />
           <RevealGroup className="mt-12 grid gap-5 sm:grid-cols-2">
             {LIFE_AT.map((l) => (
               <RevealItem key={l.title}>
@@ -41,21 +42,17 @@ export default function LookInsidePage() {
               </RevealItem>
             ))}
           </RevealGroup>
-
-          <NoteBox className="mt-8">
-            Team photography and the day-on-dispatch video are added once we have signed releases from
-            everyone who appears in them. Until then this page is written rather than shot.
-          </NoteBox>
         </Container>
       </Section>
+      )}
 
-      {/* ---- A day on dispatch ---- */}
+      {/* ---- A day on dispatch (hidden while empty) ---- */}
+      {DISPATCH_DAY.length > 0 && (
       <Section tone="soft" id="dispatch-day">
         <Container>
           <SectionHeading
             eyebrow="A day on dispatch"
-            title="From the 4:30am board sweep to overnight handover"
-            body="This is the real rhythm of the desk, in Central Time, as the Houston team runs it."
+            title="The rhythm of the desk"
           />
           <ol className="relative mt-12 border-l border-line pl-8 sm:pl-10">
             {DISPATCH_DAY.map((d, i) => (
@@ -75,20 +72,21 @@ export default function LookInsidePage() {
           </ol>
         </Container>
       </Section>
+      )}
 
       {/* ---- Team ---- */}
       <Section id="team">
         <Container>
           <SectionHeading
             eyebrow="Our team"
-            title="Every service line has a named owner"
-            body="Around ninety people across five locations. Each client gets a named contact on each service they use."
+            title="Who is accountable"
+            body="Each client gets a named contact on each service they use."
           />
           <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {LEADERSHIP.map((p) => (
+            {LEADERSHIP.filter((p) => p.name).map((p) => (
               <RevealItem key={p.role}>
                 <div className="h-full rounded-xl border border-line bg-bg-soft p-5">
-                  <p className="font-display text-sm font-semibold">{p.name ?? 'Name pending sign-off'}</p>
+                  <p className="font-display text-sm font-semibold">{p.name}</p>
                   <p className="mt-0.5 text-xs text-accent">{p.role}</p>
                   <p className="mt-2 text-xs leading-relaxed text-fg-muted">{p.focus}</p>
                 </div>
@@ -118,8 +116,8 @@ export default function LookInsidePage() {
       {/* ---- Offices ---- */}
       <Section id="offices">
         <Container>
-          <SectionHeading eyebrow="Office tour" title="Where the work happens" />
-          <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <SectionHeading eyebrow="Where we are" title="Midland, Texas and Lahore, Pakistan" />
+          <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2">
             {OFFICES.map((o) => (
               <RevealItem key={o.city}>
                 <div className="h-full overflow-hidden rounded-2xl border border-line bg-bg-elev">
@@ -139,14 +137,11 @@ export default function LookInsidePage() {
               </RevealItem>
             ))}
           </RevealGroup>
-          <NoteBox className="mt-8">
-            Office photography replaces these placeholder panels before launch. We are not using stock
-            interiors to imply premises we have not photographed.
-          </NoteBox>
         </Container>
       </Section>
 
-      {/* ---- Careers ---- */}
+      {/* ---- Careers (hidden while no roles are open) ---- */}
+      {JOBS.length > 0 && (
       <Section tone="soft" id="careers">
         <Container>
           <SectionHeading
@@ -228,7 +223,7 @@ export default function LookInsidePage() {
               <div className="rounded-2xl border border-accent/25 bg-accent/5 p-7">
                 <h2 className="font-display text-xl font-semibold">Apply</h2>
                 <p className="mt-2 text-sm leading-relaxed text-fg-muted">
-                  We read every application ourselves and reply either way, usually within five working days.
+                  We read every application ourselves.
                 </p>
                 <div className="mt-6">
                   <JobApplicationForm roles={JOBS.map((j) => ({ slug: j.slug, title: j.title }))} />
@@ -238,11 +233,12 @@ export default function LookInsidePage() {
           </div>
         </Container>
       </Section>
+      )}
 
       <CtaSection
-        title="Nothing open that fits?"
-        body="We keep speculative applications on file for six months and do contact people when a role appears. Send one through the contact form."
-        primary={{ href: '/contact', label: 'Send a speculative application' }}
+        title="Want to work with us?"
+        body="Send an introduction through the contact form."
+        primary={{ href: '/contact', label: 'Get in touch' }}
         secondary={{ href: '/about', label: 'Read the company story' }}
       />
     </>

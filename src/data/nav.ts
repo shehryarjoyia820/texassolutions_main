@@ -1,4 +1,5 @@
 import { SERVICES } from './services';
+import { DIVISIONS } from './divisions';
 import { SOLUTIONS } from './solutions';
 import { PRODUCTS, MARKETPLACE_CATEGORIES } from './catalog';
 
@@ -99,8 +100,8 @@ export const MEGA_MENUS: MegaMenu[] = [
     ],
     featured: {
       eyebrow: 'Not sure where to start',
-      title: 'Get a rough estimate',
-      body: 'Seven steps, a real range in US dollars and a breakdown of how we got there. No call required first.',
+      title: 'Get an estimate',
+      body: 'Six steps, a real range in US dollars and a breakdown of how we got there. No call required first.',
       href: '/estimate',
       cta: 'Start an estimate',
     },
@@ -196,7 +197,7 @@ export const MEGA_MENUS: MegaMenu[] = [
           { label: 'Life at Texas Solutions', href: '/look-inside#life', description: 'How we work across five locations.' },
           { label: 'Our team', href: '/look-inside#team', description: 'The people behind each service line.' },
           { label: 'Culture and values', href: '/look-inside#values', description: 'Six things we hold to.' },
-          { label: 'Office tour', href: '/look-inside#offices', description: 'Houston, London, Toronto, Sydney, Lahore.' },
+          { label: 'Where we are', href: '/about#offices', description: 'Midland, Texas and Lahore, Pakistan.' },
           { label: 'Careers', href: '/look-inside#careers', description: 'Open roles across dispatch and engineering.' },
           { label: 'A day on dispatch', href: '/look-inside#dispatch-day', description: 'From the 4:30am board sweep to handover.' },
         ],
@@ -283,48 +284,70 @@ function marketplaceBlurb(category: string): string {
   }
 }
 
-/** Menus moved out of the header into the footer, with their related links. */
-export const FOOTER_MENU_LABELS = ['Why Texas Solutions', 'Look Inside', 'About Us'];
+/* ------------------------------------------------------------------ */
+/*  Header: Services, Work, Pricing, About, Contact                    */
+/* ------------------------------------------------------------------ */
 
-export const HEADER_MENUS = MEGA_MENUS.filter((m) => !FOOTER_MENU_LABELS.includes(m.label));
+function divisionLinks(slugs: string[]): NavLink[] {
+  return slugs
+    .map((slug) => SERVICES.find((s) => s.slug === slug))
+    .filter((s): s is (typeof SERVICES)[number] => Boolean(s))
+    .map((s) => ({ label: s.navLabel, href: `/services/${s.slug}`, description: s.summary }));
+}
 
-export const FOOTER_MENUS = FOOTER_MENU_LABELS.map((label) => {
-  const menu = MEGA_MENUS.find((m) => m.label === label)!;
-  return {
-    title: menu.short ?? menu.label,
-    href: menu.href,
-    overviewLabel: menu.overviewLabel,
-    links: menu.columns.flatMap((c) => c.links).map((l) => ({ label: l.label, href: l.href })),
-  };
-});
+/** Items with no columns render as plain links in the header. */
+export const HEADER_MENUS: MegaMenu[] = [
+  {
+    label: 'Services',
+    href: '/services',
+    overviewLabel: 'View all services',
+    overviewDescription: 'Thirteen service lines in three divisions, each with its own page and prices.',
+    wide: true,
+    columns: DIVISIONS.map((d) => ({ title: d.name, links: divisionLinks(d.services) })),
+    featured: {
+      eyebrow: 'Not sure where to start',
+      title: 'Get an estimate',
+      body: 'Six short steps and a low, likely and high figure in US dollars, with every line item shown before we ask for contact details.',
+      href: '/estimate',
+      cta: 'Start an estimate',
+    },
+  },
+  { label: 'Work', href: '/portfolio', overviewLabel: '', overviewDescription: '', columns: [] },
+  { label: 'Pricing', href: '/pricing', overviewLabel: '', overviewDescription: '', columns: [] },
+  { label: 'About', href: '/about', overviewLabel: '', overviewDescription: '', columns: [] },
+  { label: 'Contact', href: '/contact', overviewLabel: '', overviewDescription: '', columns: [] },
+];
+
+/** Kept for compatibility; the footer now uses FOOTER_COLUMNS only. */
+export const FOOTER_MENUS: { title: string; href: string; overviewLabel: string; links: { label: string; href: string }[] }[] = [];
 
 export const FOOTER_COLUMNS = [
+  ...DIVISIONS.map((d) => ({
+    title: d.name,
+    links: divisionLinks(d.services).map((l) => ({ label: l.label, href: l.href })),
+  })),
   {
-    title: 'Services',
-    links: SERVICES.map((s) => ({ label: s.navLabel, href: `/services/${s.slug}` })),
-  },
-  {
-    title: 'Solutions',
-    links: SOLUTIONS.map((s) => ({ label: s.navLabel, href: `/solutions/${s.slug}` })),
-  },
-  {
-    title: 'Products and marketplace',
+    title: 'Company',
     links: [
-      ...PRODUCTS.map((p) => ({ label: p.name, href: `/products/${p.slug}` })),
-      { label: 'Marketplace', href: '/marketplace' },
+      { label: 'About', href: '/about' },
+      { label: 'Work', href: '/portfolio' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Contact', href: '/contact' },
+      { label: 'Investors', href: '/investors' },
+      { label: 'Advertise with us', href: '/advertise' },
     ],
   },
   {
     title: 'Resources',
     links: [
       { label: 'Pricing', href: '/pricing' },
-      { label: 'Rough estimate', href: '/estimate' },
+      { label: 'Get an estimate', href: '/estimate' },
       { label: 'Answers', href: '/answers' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Portfolio', href: '/portfolio' },
-      { label: 'Investors', href: '/investors' },
-      { label: 'Advertise with us', href: '/advertise' },
-      { label: 'Contact', href: '/contact' },
+      { label: 'Solutions by industry', href: '/solutions' },
+      { label: 'Products', href: '/products' },
+      { label: 'Marketplace', href: '/marketplace' },
+      { label: 'Privacy policy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
     ],
   },
 ];

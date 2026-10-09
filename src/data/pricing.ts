@@ -1,81 +1,23 @@
 import type { RegionCode } from './regions';
 import { ENTERPRISE_PRICE_TABLES } from './pricing-enterprise';
 import { SERVICE_ORDER } from './services';
+import { SPECIALIST_QUOTE_NOTE } from './rates';
 
 /**
- * CMS model: priceTable (service x region)
- * Every figure below comes from section 6 of the specification.
- * `plus: true` renders a trailing "+" on the high end.
- * `null` means "quoted per job" for that region.
+ * Price tables per service, built from the owner rate card in ./rates.ts.
+ * One price list in US dollars: every region code carries the same value, so
+ * components that look up `values[code]` keep working without multipliers.
+ *
+ * Row kinds:
+ *  - project  fixed-scope build, quoted from the range after scoping
+ *  - hourly   hourly rate for the role
+ *  - resource dedicated person, up to 160 hours a month
+ *  - support  starting monthly price with a stated starting scope
+ *  - example  worked example (truck dispatch), not a price
  */
-export type Range = [number, number];
-
-export interface PriceRow {
-  id: string;
-  label: string;
-  note?: string;
-  unit: 'one-time' | 'monthly' | 'weekly' | 'hourly' | 'per-lead' | 'per-appointment' | 'per-unit';
-  plus?: Partial<Record<RegionCode, boolean>>;
-  values: Record<RegionCode, Range | null>;
-  /** Region-specific footnote, e.g. London agency rates. */
-  footnotes?: Partial<Record<RegionCode, string>>;
-}
-
-/** Regions authored by hand in section 6 of the spec. */
-type AuthoredRegion = 'US' | 'UK' | 'CA' | 'AU' | 'EU';
-
-type AuthoredRow = Omit<PriceRow, 'values'> & {
-  values: Record<AuthoredRegion, Range | null> & Partial<Record<RegionCode, Range | null>>;
-};
-
-type AuthoredTable = Omit<PriceTable, 'rows'> & { rows: AuthoredRow[] };
-
-/**
- * Gulf and Asia tables are authored in USD from the US row: Gulf enterprise
- * rates track US levels, Asia sits about 10% below. Services not offered in a
- * region (truck dispatch, engine supply) carry explicit nulls instead.
- */
-const DERIVED_FACTOR: Partial<Record<RegionCode, number>> = { GCC: 1.0, APAC: 0.9 };
-const NOT_OFFERED: Record<string, RegionCode[]> = {
-  'truck-dispatch': ['GCC', 'APAC'],
-  'auto-engines': ['GCC', 'APAC'],
-};
-
-function tidyValue(n: number) {
-  if (n >= 100000) return Math.round(n / 5000) * 5000;
-  if (n >= 10000) return Math.round(n / 1000) * 1000;
-  if (n >= 1000) return Math.round(n / 100) * 100;
-  return Math.round(n / 5) * 5;
-}
-
-function completeTable(t: AuthoredTable): PriceTable {
-  return {
-    ...t,
-    rows: t.rows.map((row) => {
-      const values = { ...row.values } as Record<RegionCode, Range | null>;
-      const plus = { ...(row.plus ?? {}) };
-      for (const [code, factor] of Object.entries(DERIVED_FACTOR) as [RegionCode, number][]) {
-        if (values[code] !== undefined) continue;
-        if (NOT_OFFERED[t.service]?.includes(code)) {
-          values[code] = null;
-          continue;
-        }
-        const us = row.values.US;
-        values[code] = us ? [tidyValue(us[0] * factor), tidyValue(us[1] * factor)] : null;
-        if (row.plus?.US) plus[code] = true;
-      }
-      return { ...row, values, plus };
-    }),
-  };
-}
-
-export interface PriceTable {
-  service: string;
-  title: string;
-  intro: string;
-  rows: PriceRow[];
-  disclaimer?: string;
-}
+export { usd, PLUS, rateCardRows, resourceRows, project, supportRow } from './price-rows';
+export type { Range, RowKind, PriceRow, PriceTable } from './price-rows';
+import { usd, PLUS, rateCardRows, resourceRows, project, supportRow, type Range, type PriceRow, type PriceTable } from './price-rows';
 
 export const UNIT_LABEL: Record<PriceRow['unit'], string> = {
   'one-time': 'project',
@@ -87,269 +29,112 @@ export const UNIT_LABEL: Record<PriceRow['unit'], string> = {
   'per-unit': 'supplied and installed',
 };
 
-const BASE_PRICE_TABLES: AuthoredTable[] = [
+const BASE_PRICE_TABLES: PriceTable[] = [
   {
     service: 'web-development',
     title: 'Web and app development',
     intro:
-      'Fixed-scope builds are quoted as a project. Ongoing work and staff augmentation run on the published hourly rate.',
+      'Fixed-scope builds are priced from the range below after a written scope. Ongoing and ad-hoc work is billed by the hour or through a monthly development package.',
     rows: [
-      {
-        id: 'landing-page',
-        label: 'Landing page',
-        note: 'Single page, copy polish, one form, analytics',
-        unit: 'one-time',
-        values: { US: [500, 1500], UK: [500, 1500], CA: [800, 2500], AU: [800, 2500], EU: [500, 2000] },
-      },
-      {
-        id: 'business-site',
-        label: 'Small business site, 5-10 pages',
-        note: 'CMS, blog, contact flows, on-page SEO',
-        unit: 'one-time',
-        values: { US: [2000, 5000], UK: [3000, 8000], CA: [4000, 12000], AU: [3000, 10000], EU: [3000, 10000] },
-      },
-      {
-        id: 'agency-build',
-        label: 'Custom agency build',
-        note: 'Bespoke design system, motion, integrations',
-        unit: 'one-time',
-        plus: { US: true, AU: true },
-        values: { US: [5000, 15000], UK: [8000, 30000], CA: [10000, 40000], AU: [8000, 25000], EU: [8000, 35000] },
-      },
-      {
-        id: 'ecommerce',
-        label: 'E-commerce store',
-        note: 'Catalogue, checkout, payments, fulfilment hooks',
-        unit: 'one-time',
-        plus: { US: true, AU: true },
-        values: { US: [5000, 20000], UK: [8000, 40000], CA: [12000, 50000], AU: [10000, 50000], EU: [10000, 45000] },
-      },
-      {
-        id: 'web-app',
-        label: 'Web app or portal',
-        note: 'Auth, roles, dashboards, third-party APIs',
-        unit: 'one-time',
-        plus: { AU: true },
-        values: {
-          US: [15000, 75000],
-          UK: [25000, 120000],
-          CA: [40000, 180000],
-          AU: [30000, 150000],
-          EU: [30000, 150000],
-        },
-      },
-      {
-        id: 'app-mvp',
-        label: 'Mobile app MVP',
-        note: 'iOS and Android, core journey only',
-        unit: 'one-time',
-        values: { US: [15000, 35000], UK: [40000, 80000], CA: [35000, 80000], AU: [40000, 90000], EU: [40000, 90000] },
-      },
-      {
-        id: 'app-mid',
-        label: 'Mid-complexity app',
-        note: 'Offline sync, payments, back office',
-        unit: 'one-time',
-        values: {
-          US: [35000, 80000],
-          UK: [60000, 150000],
-          CA: [80000, 200000],
-          AU: [80000, 200000],
-          EU: [60000, 150000],
-        },
-      },
-      {
-        id: 'app-enterprise',
-        label: 'Enterprise or AI app',
-        note: 'Scale, compliance, model integration',
-        unit: 'one-time',
-        plus: { US: true, UK: true, CA: true, AU: true },
-        values: {
-          US: [80000, 80000],
-          UK: [150000, 150000],
-          CA: [200000, 200000],
-          AU: [200000, 200000],
-          EU: [150000, 400000],
-        },
-      },
-      {
-        id: 'dev-hourly',
-        label: 'Developer hourly rate',
-        unit: 'hourly',
-        values: { US: [35, 55], UK: [50, 75], CA: [90, 130], AU: [90, 120], EU: [40, 80] },
-        footnotes: {
-          UK: 'London agency rates run 80-180 GBP per hour.',
-          EU: 'Eastern Europe 40-80 EUR; Western Europe 90-200 EUR.',
-        },
-      },
+      project('landing-page', 'Landing page', 'Single page, copy polish, one form, analytics', [500, 1500]),
+      project('business-site', 'Small business site, 5-10 pages', 'CMS, blog, contact flows, on-page SEO', [2000, 5000]),
+      project('agency-build', 'Custom agency build', 'Bespoke design system, motion, integrations', [5000, 15000], true),
+      project('ecommerce', 'E-commerce store', 'Catalogue, checkout, payments, fulfilment hooks', [5000, 20000], true),
+      project('web-app', 'Web app or portal', 'Auth, roles, dashboards, third-party APIs', [15000, 75000]),
+      project('app-mvp', 'Mobile app MVP', 'iOS and Android, core journey only', [15000, 35000]),
+      project('app-mid', 'Mid-complexity app', 'Offline sync, payments, back office', [35000, 80000]),
+      project('app-enterprise', 'Enterprise or AI app', 'Scale, compliance, model integration', [80000, 80000], true),
+      ...rateCardRows('web-development'),
     ],
+    disclaimer: 'Hosting, domains, paid plugins, app-store fees and third-party APIs are separate.',
   },
   {
     service: 'lead-generation',
     title: 'Lead generation',
-    intro:
-      'Most accounts run a monthly retainer. Per-lead and per-appointment pricing is available once volume is proven.',
-    rows: [
-      {
-        id: 'retainer',
-        label: 'Lead generation retainer',
-        note: 'Outbound, copy, data, sequencing, reporting',
-        unit: 'monthly',
-        values: { US: [1500, 5000], UK: [2000, 10000], CA: [3000, 15000], AU: [3000, 15000], EU: [2000, 12000] },
-      },
-      {
-        id: 'per-lead',
-        label: 'Per qualified lead',
-        note: 'Meets the agreed qualification criteria',
-        unit: 'per-lead',
-        values: { US: [75, 250], UK: [120, 450], CA: [200, 700], AU: [200, 700], EU: [120, 500] },
-      },
-      {
-        id: 'per-appointment',
-        label: 'Per booked appointment',
-        note: 'Held meeting on your calendar',
-        unit: 'per-appointment',
-        values: { US: [150, 400], UK: [250, 700], CA: [400, 1000], AU: [400, 1000], EU: [250, 800] },
-      },
-    ],
+    intro: 'A monthly support allocation for research and outreach. Lead counts are not guaranteed.',
+    rows: supportRow('lead-generation', 'retainer'),
+    disclaimer: 'Paid data, outreach tools and sending infrastructure are separate. We do not guarantee lead counts or revenue.',
   },
   {
     service: 'ads-optimization',
     title: 'Ads optimization and design',
-    intro: 'Management is billed as a flat monthly fee or 10-20% of ad spend, whichever suits the account better.',
+    intro: 'Management is a monthly fee by scope. Ad spend is paid by you directly to the platform.',
     rows: [
-      {
-        id: 'management',
-        label: 'Ads management',
-        note: 'Or 10-20% of ad spend',
-        unit: 'monthly',
-        values: { US: [400, 1500], UK: [500, 2500], CA: [800, 3500], AU: [800, 3500], EU: [600, 3000] },
-      },
-      {
-        id: 'setup',
-        label: 'Ads setup and tracking',
-        note: 'Account build, conversion tracking, GTM',
-        unit: 'one-time',
-        values: { US: [300, 1000], UK: [250, 1500], CA: [600, 2500], AU: [600, 2500], EU: [500, 2000] },
-      },
-      {
-        id: 'creative-pack',
-        label: 'Ad creative pack, 5 statics with copy',
-        unit: 'one-time',
-        values: { US: [200, 600], UK: [250, 1200], CA: [400, 2000], AU: [400, 2000], EU: [300, 1500] },
-      },
+      ...supportRow('ads-optimization', 'management'),
+      { id: 'setup', label: 'Ads setup and tracking', note: 'Account build, conversion tracking, GTM', unit: 'one-time', kind: 'project', values: usd([300, 1000]) },
+      { id: 'creative-pack', label: 'Ad creative pack, 5 statics with copy', unit: 'one-time', kind: 'project', values: usd([200, 600]) },
     ],
+    disclaimer: 'Ad spend is not included. We do not guarantee leads, sales or revenue increases.',
   },
   {
     service: 'adsense-management',
     title: 'AdSense revenue management',
-    intro:
-      'Billed per site, as a flat monthly fee or 15-30% of the revenue uplift we create above your trailing three-month baseline.',
-    rows: [
-      {
-        id: 'per-site',
-        label: 'AdSense management, per site',
-        note: 'Or 15-30% of revenue uplift',
-        unit: 'monthly',
-        values: { US: [200, 800], UK: [500, 2500], CA: [500, 2500], AU: [500, 2500], EU: [500, 2500] },
-      },
-    ],
-    disclaimer:
-      'This is our own rate card, not a market benchmark. No public pricing survey exists for AdSense revenue management.',
+    intro: 'A monthly review and optimisation recommendations, per site.',
+    rows: supportRow('adsense-management', 'per-site'),
+    disclaimer: 'We do not guarantee AdSense approval or revenue increases. Google sets AdSense policies and revenue share.',
   },
   {
     service: 'truck-dispatch',
     title: 'Truck dispatch',
     intro:
-      'A percentage of weekly gross, for carriers running OTR. No flat rate, no setup fee, no monthly subscription and no long-term contract. Your final percentage is discussed with each carrier before service begins.',
+      "The fee is a percentage of the truck's weekly gross (OTR): semi trucks 5%, hotshots 8%, box trucks and straight trucks 10%. No flat rate, no setup fee, no monthly subscription and no extra charges. The dollar figures below are examples only.",
     rows: [
       {
         id: 'semi',
-        label: 'Semi trucks: dry van, reefer, flatbed, step deck, power only, 5% of weekly gross',
-        note: 'Typical weekly gross USD 8,000-10,000, OTR',
+        label: 'Semi trucks (dry van, reefer, flatbed, step deck, power only): 5%',
+        note: 'Example: 5% of USD 8,000-10,000 weekly gross',
         unit: 'weekly',
-        values: { US: [400, 500], UK: [400, 500], CA: [400, 500], AU: [400, 500], EU: [400, 500] },
+        kind: 'example',
+        values: usd([400, 500]),
       },
       {
         id: 'hotshot',
-        label: 'Hotshot trucks, 8% of weekly gross',
-        note: 'Typical weekly gross USD 7,000-9,000, OTR',
+        label: 'Hotshot trucks: 8%',
+        note: 'Example: 8% of USD 7,000-9,000 weekly gross',
         unit: 'weekly',
-        values: { US: [560, 720], UK: [560, 720], CA: [560, 720], AU: [560, 720], EU: [560, 720] },
+        kind: 'example',
+        values: usd([560, 720]),
       },
       {
         id: 'box-truck',
-        label: 'Box trucks and straight trucks, 10% of weekly gross',
-        note: 'Typical weekly gross USD 7,000-9,000, OTR',
+        label: 'Box trucks and straight trucks: 10%',
+        note: 'Example: 10% of USD 7,000-9,000 weekly gross',
         unit: 'weekly',
-        values: { US: [700, 900], UK: [700, 900], CA: [700, 900], AU: [700, 900], EU: [700, 900] },
+        kind: 'example',
+        values: usd([700, 900]),
       },
     ],
     disclaimer:
-      'Weekly figures are the percentage applied to typical OTR weekly gross, in USD per truck. Local and regional work is quoted separately. Final percentage is discussed with each carrier. Gross and earnings are not guaranteed.',
+      'Examples assume typical OTR weekly gross per truck; your fee is the percentage of what your truck actually grosses. Local and regional work is quoted separately. Final percentage is confirmed in the dispatch agreement. Gross and earnings are not guaranteed.',
   },
   {
     service: 'qa-testing',
     title: 'Quality assurance and testing',
-    intro: 'Hourly for short engagements, managed monthly for embedded QA.',
+    intro: 'Hourly for short engagements, a monthly retainer for regular testing, or a dedicated QA engineer.',
     rows: [
-      {
-        id: 'qa-hourly',
-        label: 'QA engineer hourly',
-        unit: 'hourly',
-        values: { US: [25, 45], UK: [50, 90], CA: [80, 130], AU: [80, 130], EU: [35, 85] },
-        footnotes: { EU: 'Eastern Europe 35-85 EUR; Western Europe 90-200 EUR.' },
-      },
-      {
-        id: 'qa-managed',
-        label: 'Managed QA team',
-        note: 'Dedicated testers, sprint cadence, reporting',
-        unit: 'monthly',
-        values: { US: [2500, 6000], UK: [3200, 6500], CA: [5000, 9500], AU: [5000, 9500], EU: [3000, 7500] },
-      },
+      ...rateCardRows('qa-testing').map((r) => (r.id === 'qa-retainer' ? { ...r, id: 'qa-managed' } : r)),
+      ...resourceRows(['qa-manual', 'qa-automation']),
     ],
+    disclaimer: 'Device-cloud, test-tool and CI licences are separate.',
   },
   {
     service: 'auto-engines',
     title: 'Auto engines',
-    intro: 'Supplied and installed, including core return handling and warranty registration.',
+    intro:
+      'Supplied and installed, including core return handling and warranty registration. Engine supply is priced separately from all other services.',
     rows: [
-      {
-        id: 'used',
-        label: 'Used engine',
-        note: 'Tested, mileage-verified, warranty options',
-        unit: 'per-unit',
-        values: { US: [2600, 4500], UK: [2860, 5400], CA: [2990, 5175], AU: [2990, 5175], EU: null },
-      },
-      {
-        id: 'reman',
-        label: 'Remanufactured engine',
-        note: 'Rebuilt to OEM specification',
-        unit: 'per-unit',
-        values: { US: [4000, 6500], UK: [4400, 7800], CA: [4600, 7475], AU: [4600, 7475], EU: null },
-      },
-      {
-        id: 'crate-euro',
-        label: 'Crate, truck or European engine',
-        unit: 'per-unit',
-        values: { US: [6000, 12000], UK: [6600, 14400], CA: [6900, 13800], AU: [6900, 13800], EU: null },
-      },
-      {
-        id: 'hd-diesel',
-        label: 'Heavy-duty diesel',
-        unit: 'per-unit',
-        plus: { US: true, UK: true, CA: true, AU: true },
-        values: { US: [12000, 25000], UK: [13200, 30000], CA: [13800, 28750], AU: [13800, 28750], EU: null },
-      },
+      { id: 'used', label: 'Used engine', note: 'Tested, mileage-verified, warranty options', unit: 'per-unit', kind: 'unit', values: usd([2600, 4500]) },
+      { id: 'reman', label: 'Remanufactured engine', note: 'Rebuilt to OEM specification', unit: 'per-unit', kind: 'unit', values: usd([4000, 6500]) },
+      { id: 'crate-euro', label: 'Crate, truck or European engine', unit: 'per-unit', kind: 'unit', values: usd([6000, 12000]) },
+      { id: 'hd-diesel', label: 'Heavy-duty diesel', unit: 'per-unit', kind: 'unit', values: usd([12000, 25000]), plus: PLUS },
     ],
-    disclaimer:
-      'European engines are quoted per vehicle. Core charges are refunded when the old unit is returned.',
+    disclaimer: 'European engines are quoted per vehicle. Core charges are refunded when the old unit is returned.',
   },
 ];
 
 /** Every table, in the same order as the services across the site. */
 export const PRICE_TABLES: PriceTable[] = SERVICE_ORDER.map((slug) =>
-  [...BASE_PRICE_TABLES.map(completeTable), ...ENTERPRISE_PRICE_TABLES].find((t) => t.service === slug),
+  [...BASE_PRICE_TABLES, ...ENTERPRISE_PRICE_TABLES].find((t) => t.service === slug),
 ).filter((t): t is PriceTable => Boolean(t));
 
 export const PRICE_TABLE_MAP: Record<string, PriceTable> = PRICE_TABLES.reduce(
@@ -360,6 +145,21 @@ export const PRICE_TABLE_MAP: Record<string, PriceTable> = PRICE_TABLES.reduce(
 export function getPriceRow(service: string, rowId: string): PriceRow | undefined {
   return PRICE_TABLE_MAP[service]?.rows.find((r) => r.id === rowId);
 }
+
+/** Lowest published price for a service, used for "from" figures on cards. */
+export function startingPrice(service: string): { row: PriceRow; value: number } | null {
+  const table = PRICE_TABLE_MAP[service];
+  if (!table) return null;
+  let best: { row: PriceRow; value: number } | null = null;
+  for (const row of table.rows) {
+    const v = row.values.US;
+    if (!v || row.kind === 'example') continue;
+    if (!best || v[0] < best.value) best = { row, value: v[0] };
+  }
+  return best;
+}
+
+export { SPECIALIST_QUOTE_NOTE };
 
 /** Dispatch percentage models (OTR, no flat rate), used by the service page and the calculators. */
 export const DISPATCH_MODELS = [
@@ -396,27 +196,22 @@ export function dispatchPercentLabel(p: Range): string {
 }
 
 export const DISPATCH_DISCLAIMER =
-  'OTR operations only. No flat rate, no setup fee. Final percentage is discussed with each carrier; gross and earnings are not guaranteed.';
+  'OTR operations only. No flat rate, no setup fee, no extra charges. Final percentage is confirmed in the dispatch agreement; gross and earnings are not guaranteed.';
+
+/** Legacy: no region is scaled any more. Kept so older imports compile. */
+export const DERIVED_REGIONS: RegionCode[] = [];
 
 /**
- * Regions whose figures were scaled from US and UK benchmarks rather than
- * measured directly. Flagged on the pricing page per the specification.
+ * Market research used when the owner set the rate card. These are external
+ * benchmarks, NOT Texas Solutions prices; the pricing page labels them so.
  */
-export const DERIVED_REGIONS: RegionCode[] = ['CA', 'EU', 'GCC', 'APAC'];
-
-/** Source list rendered on the pricing page. */
 export const PRICE_SOURCES = [
-  { label: 'GoodFirms website development cost survey 2026', href: 'https://www.goodfirms.co/resources/website-construction-cost-survey' },
-  { label: 'Webfoundr US website design cost 2026', href: 'https://webfoundr.com/blog/web-design/how-much-does-website-design-cost-in-the-usa-in-2026/' },
-  { label: 'Fireart app development rates', href: 'https://fireart.studio/blog/app-development-cost/' },
-  { label: 'Upstack offshore software development rates', href: 'https://upstackstudio.com/blog/offshore-software-development-rate-by-country/' },
-  { label: 'Belkins lead generation pricing', href: 'https://belkins.io/blog/lead-generation-pricing' },
-  { label: 'Space-O AI chatbot development cost', href: 'https://www.spaceotechnologies.com/blog/ai-chatbot-development-cost/' },
-  { label: 'Naveck app cost guide 2026', href: 'https://www.naveck.com/blog/mobile-app-development-cost-guide/' },
-  { label: 'YourGrowthPartner B2B lead generation pricing', href: 'https://yourgrowthpartner.io/blog/b2b-lead-generation-agency-pricing/' },
-  { label: 'AgencyPro PPC management cost 2026', href: 'https://agencypro.app/blog/how-much-does-ppc-management-cost' },
-  { label: 'Google AdSense Help revenue share', href: 'https://support.google.com/adsense/answer/180195?hl=en' },
-  { label: 'iDispatchHub truck dispatcher fees 2026', href: 'https://idispatchhub.com/truck-dispatcher-fees/' },
-  { label: 'GigaTester QA outsourcing rates 2026', href: 'https://gigatester.com/qa-outsourcing-budget/' },
-  { label: 'RepairMath engine replacement cost 2026', href: 'https://repairmath.com/repair/engine-replacement/' },
+  { label: 'Upstack: offshore software development rates by country', href: 'https://upstackstudio.com/blog/offshore-software-development-rate-by-country/' },
+  { label: 'GoodFirms: website development cost survey', href: 'https://www.goodfirms.co/resources/website-construction-cost-survey' },
+  { label: 'Fireart: app development rates', href: 'https://fireart.studio/blog/app-development-cost/' },
+  { label: 'Space-O: AI chatbot development cost', href: 'https://www.spaceotechnologies.com/blog/ai-chatbot-development-cost/' },
+  { label: 'Belkins: lead generation pricing', href: 'https://belkins.io/blog/lead-generation-pricing' },
+  { label: 'GigaTester: QA outsourcing rates', href: 'https://gigatester.com/qa-outsourcing-budget/' },
+  { label: 'iDispatchHub: truck dispatcher fees', href: 'https://idispatchhub.com/truck-dispatcher-fees/' },
+  { label: 'RepairMath: engine replacement cost', href: 'https://repairmath.com/repair/engine-replacement/' },
 ];

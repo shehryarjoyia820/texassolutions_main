@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!item) return {};
   return pageMeta({
     title: `${item.name} — Marketplace`,
-    description: item.summary,
+    description: `${item.summary} ${item.name} from Texas Solutions: scope, what is included and how to request it, priced in US dollars.`,
     path: `/marketplace/${item.slug}`,
   });
 }

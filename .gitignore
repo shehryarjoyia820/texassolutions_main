@@ -19,3 +19,6 @@ yarn-error.log*
 dev.cmd
 
 .vercel
+
+# local QA evidence (screenshots)
+docs/evidence/

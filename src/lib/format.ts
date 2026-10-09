@@ -68,10 +68,9 @@ export function tidyRange([low, high]: Range): Range {
   return [tidy(low), tidy(high)];
 }
 
+// Rounds to the nearest $10 so sums of rate-card prices stay exact
+// (e.g. 3,000 + 4,500 + 1,600 + 2,400 = 11,500, not 12,000).
 function tidy(n: number): number {
-  if (n >= 100000) return Math.round(n / 5000) * 5000;
-  if (n >= 10000) return Math.round(n / 1000) * 1000;
-  if (n >= 1000) return Math.round(n / 100) * 100;
   if (n >= 100) return Math.round(n / 10) * 10;
   return Math.round(n);
 }

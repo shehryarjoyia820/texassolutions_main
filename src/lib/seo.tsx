@@ -128,16 +128,17 @@ export function organizationSchema() {
     legalName: SITE.legalName,
     url: SITE.url,
     description: SITE.description,
-    foundingDate: String(SITE.founded),
     telephone: SITE.phone,
     email: SITE.email,
     founder: { '@type': 'Person', name: SITE.ceo, jobTitle: 'Owner and CEO' },
-    sameAs: SITE.social.map((s) => s.href),
-    address: OFFICES.map((o) => ({
+    // Only offices with a confirmed street address are published.
+    address: OFFICES.filter((o) => o.address.length > 0).map((o) => ({
       '@type': 'PostalAddress',
-      streetAddress: o.address.slice(1).join(', '),
+      streetAddress: o.address.slice(1, -1).join(', ') || o.address[0],
       addressLocality: o.city,
-      addressCountry: o.country,
+      addressRegion: 'TX',
+      postalCode: '79701',
+      addressCountry: 'US',
     })),
     contactPoint: [
       {
@@ -159,20 +160,21 @@ export function localBusinessSchema() {
     image: `${SITE.url}/og/default.png`,
     url: SITE.url,
     telephone: SITE.phone,
-    priceRange: '$$-$$$$',
+    priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: hq.address.slice(1).join(', '),
+      streetAddress: '401 W Kentucky Ave',
       addressLocality: hq.city,
       addressRegion: 'TX',
+      postalCode: '79701',
       addressCountry: 'US',
     },
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-        opens: '08:00',
-        closes: '19:00',
+        opens: '09:00',
+        closes: '17:00',
       },
     ],
   };

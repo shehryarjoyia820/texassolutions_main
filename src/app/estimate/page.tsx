@@ -5,22 +5,22 @@ import { Container, Section, NoteBox } from '@/components/ui';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
-  title: 'Rough Estimate calculator',
+  title: 'Estimate calculator',
   description:
-    'Seven questions and you have a low, likely and high range in US dollars, with the breakdown of how we got there and a PDF you can keep.',
+    'A few questions and you have a low, likely and high range in US dollars, with the breakdown of how we got there and a PDF you can keep.',
   path: '/estimate',
 });
 
 export default function EstimatePage() {
   return (
     <>
-      <JsonLd data={breadcrumbSchema([{ label: 'Rough Estimate', href: '/estimate' }])} />
+      <JsonLd data={breadcrumbSchema([{ label: 'Estimate', href: '/estimate' }])} />
 
       <PageHero
-        eyebrow="Rough Estimate"
+        eyebrow="Estimate"
         title="A real number, before anyone calls you"
-        body="Seven steps. You get a low, likely and high range in US dollars, the assumptions we used and a line-item breakdown. Nothing is sent anywhere until you choose to."
-        trail={[{ label: 'Rough Estimate' }]}
+        body="Six short steps. You get a low, likely and high range in US dollars, the assumptions we used and a line-item breakdown. Nothing is sent anywhere until you choose to."
+        trail={[{ label: 'Estimate' }]}
       />
 
       <Suspense

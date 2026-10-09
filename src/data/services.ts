@@ -28,7 +28,7 @@ export interface SubService {
 }
 
 export interface PackageTier {
-  name: 'Starter' | 'Growth' | 'Pro';
+  name: 'Starter' | 'Growth' | 'Pro' | 'Product Team';
   tagline: string;
   /** Row id in the service price table that this tier quotes from. */
   priceRow: string;
@@ -779,7 +779,7 @@ const BASE_SERVICES: Service[] = [
     heroVisual: 'Bugs caught by a checklist',
     interactive: 'coverage-builder',
     interactiveTitle: 'Test coverage checklist builder',
-    startingPriceRow: 'qa-hourly',
+    startingPriceRow: 'qa-manual-hourly',
     problem: {
       title: 'Releases that need a held breath',
       body: 'Testing happens at the end, by whoever is free, against a checklist in a spreadsheet. Regressions reach production, hotfixes land on Friday nights and nobody can say what coverage actually exists.',
@@ -823,7 +823,7 @@ const BASE_SERVICES: Service[] = [
       'Framework handover and documentation',
     ],
     packages: [
-      { name: 'Starter', tagline: 'Manual coverage on the critical paths.', priceRow: 'qa-hourly', anchor: 'low', features: ['Test plan and case library', 'Manual regression per release', 'Defect reporting', 'Release sign-off', 'Up to 40 hours a month'] },
+      { name: 'Starter', tagline: 'Manual coverage on the critical paths.', priceRow: 'qa-manual-hourly', anchor: 'low', features: ['Test plan and case library', 'Manual regression per release', 'Defect reporting', 'Release sign-off', 'Up to 40 hours a month'] },
       { name: 'Growth', tagline: 'Automated regression in your pipeline.', priceRow: 'qa-managed', anchor: 'mid', popular: true, features: ['Automation framework setup', 'Regression suite build', 'CI integration', 'API test coverage', 'Manual exploratory sessions', 'Monthly coverage report'] },
       { name: 'Pro', tagline: 'Embedded QA team with performance and security.', priceRow: 'qa-managed', anchor: 'high', features: ['Dedicated QA squad', 'Full automation ownership', 'Performance and load testing', 'Security testing', 'Mobile device lab', 'QA lead in your planning'] },
     ],

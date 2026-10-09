@@ -374,7 +374,7 @@ export function MiniEstimate() {
             </p>
             <h2 className="text-display-sm">Get a number in ten seconds</h2>
             <p className="mt-4 leading-relaxed text-fg-muted">
-              Pick a service and roughly where your scope sits. The full calculator asks seven questions and
+              Pick a service and roughly where your scope sits. The full calculator asks a few questions and
               gives you a proper breakdown, a range bar and a PDF.
             </p>
 
@@ -701,12 +701,12 @@ export function CtaBand() {
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-display-md">Start with a number, not a sales call</h2>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-fg-muted">
-            Seven questions, a real range in US dollars, and the breakdown of how we got there. If it does
+            A few questions, a real range in US dollars, and the breakdown of how we got there. If it does
             not fit your budget, you have lost four minutes rather than an afternoon.
           </p>
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonLink href="/estimate" size="lg" icon={ArrowRight} magnetic trackLabel="Get a Rough Estimate" trackLocation="cta-band">
-              Get a Rough Estimate
+            <ButtonLink href="/estimate" size="lg" icon={ArrowRight} magnetic trackLabel="Get an Estimate" trackLocation="cta-band">
+              Get an Estimate
             </ButtonLink>
             <ButtonLink href="/contact" size="lg" variant="secondary">
               Talk to us instead

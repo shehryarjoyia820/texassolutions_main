@@ -1,14 +1,97 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Check, Loader2, Send, ShieldCheck } from 'lucide-react';
 import { SERVICES } from '@/data/services';
 import { SITE } from '@/data/site';
-import { useRegion } from './providers';
-import { submitForm, HONEYPOT_FIELD, CONSENT_WORDING, PRIVACY_WORDING, type FormName } from '@/lib/forms';
+import {
+  submitForm,
+  readCaptchaToken,
+  HONEYPOT_FIELD,
+  HCAPTCHA_FIELD,
+  ENQUIRY_CONSENT_WORDING,
+  MARKETING_CONSENT_WORDING,
+  PRIVACY_WORDING,
+  type FormName,
+} from '@/lib/forms';
 import { cn } from '@/lib/utils';
 import { Button, NoteBox } from './ui';
+import { useHCaptcha } from './forms/hcaptcha';
+import { contextFields, describeContext, parseContactContext, type ContactContext } from './forms/contact-context';
+
+/* ------------------------------------------------------------------ */
+/*  Field errors, shared between FormShell and the field primitives    */
+/* ------------------------------------------------------------------ */
+
+type FieldErrors = Record<string, string>;
+
+const FieldErrorContext = createContext<{ errors: FieldErrors; clear: (id: string) => void }>({
+  errors: {},
+  clear: () => {},
+});
+
+function useFieldError(id: string) {
+  const ctx = useContext(FieldErrorContext);
+  return { error: ctx.errors[id], clear: () => ctx.clear(id) };
+}
+
+const controlBase =
+  'w-full rounded-xl border bg-bg text-sm outline-none transition-colors placeholder:text-fg-subtle focus:border-accent focus-visible:ring-2 focus-visible:ring-accent/40';
+
+function controlClass(error?: string) {
+  return cn(controlBase, error ? 'border-danger' : 'border-line');
+}
+
+function describedBy(...ids: (string | undefined | false)[]) {
+  const out = ids.filter(Boolean).join(' ');
+  return out || undefined;
+}
+
+function FieldLabel({
+  htmlFor,
+  label,
+  required,
+  showOptional = true,
+}: {
+  htmlFor: string;
+  label: string;
+  required?: boolean;
+  showOptional?: boolean;
+}) {
+  return (
+    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium">
+      {label}
+      {required ? (
+        <>
+          <span className="ml-1 text-accent" aria-hidden>
+            *
+          </span>
+          <span className="sr-only"> (required)</span>
+        </>
+      ) : (
+        showOptional && <span className="ml-1 font-normal text-fg-subtle">(optional)</span>
+      )}
+    </label>
+  );
+}
+
+function FieldError({ id, error }: { id: string; error?: string }) {
+  if (!error) return null;
+  return (
+    <p id={id} className="mt-1.5 text-xs font-medium text-danger">
+      {error}
+    </p>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /*  Primitives                                                         */
@@ -25,6 +108,9 @@ export function Field({
   onChange,
   className,
   autoComplete,
+  errorMessage,
+  showOptional,
+  inputMode,
 }: {
   id: string;
   label: string;
@@ -36,25 +122,44 @@ export function Field({
   onChange: (v: string) => void;
   className?: string;
   autoComplete?: string;
+  /** Message shown when a required value is missing. */
+  errorMessage?: string;
+  /** Append "(optional)" to the label of non-required fields. Default true. */
+  showOptional?: boolean;
+  inputMode?: 'text' | 'email' | 'tel' | 'numeric' | 'url';
 }) {
+  const { error, clear } = useFieldError(id);
+  const hintId = hint ? `${id}-hint` : undefined;
+  const errorId = `${id}-error`;
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-medium">
-        {label}
-        {required && <span className="ml-1 text-accent">*</span>}
-      </label>
+      <FieldLabel htmlFor={id} label={label} required={required} showOptional={showOptional} />
       <input
         id={id}
         name={id}
         type={type}
         required={required}
+        aria-required={required || undefined}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy(hintId, error && errorId)}
+        data-label={label}
+        data-error={errorMessage}
         placeholder={placeholder}
         value={value}
         autoComplete={autoComplete}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-12 w-full rounded-xl border border-line bg-bg px-4 text-sm outline-none transition-colors placeholder:text-fg-subtle focus:border-accent"
+        inputMode={inputMode}
+        onChange={(e) => {
+          onChange(e.target.value);
+          if (error) clear();
+        }}
+        className={cn(controlClass(error), 'h-12 px-4')}
       />
-      {hint && <p className="mt-1.5 text-xs text-fg-subtle">{hint}</p>}
+      {hint && (
+        <p id={hintId} className="mt-1.5 text-xs text-fg-subtle">
+          {hint}
+        </p>
+      )}
+      <FieldError id={errorId} error={error} />
     </div>
   );
 }
@@ -68,6 +173,8 @@ export function TextArea({
   onChange,
   rows = 5,
   className,
+  errorMessage,
+  showOptional,
 }: {
   id: string;
   label: string;
@@ -77,23 +184,33 @@ export function TextArea({
   onChange: (v: string) => void;
   rows?: number;
   className?: string;
+  errorMessage?: string;
+  showOptional?: boolean;
 }) {
+  const { error, clear } = useFieldError(id);
+  const errorId = `${id}-error`;
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-medium">
-        {label}
-        {required && <span className="ml-1 text-accent">*</span>}
-      </label>
+      <FieldLabel htmlFor={id} label={label} required={required} showOptional={showOptional} />
       <textarea
         id={id}
         name={id}
         required={required}
+        aria-required={required || undefined}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy(error && errorId)}
+        data-label={label}
+        data-error={errorMessage}
         rows={rows}
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full resize-y rounded-xl border border-line bg-bg px-4 py-3 text-sm outline-none transition-colors placeholder:text-fg-subtle focus:border-accent"
+        onChange={(e) => {
+          onChange(e.target.value);
+          if (error) clear();
+        }}
+        className={cn(controlClass(error), 'resize-y px-4 py-3')}
       />
+      <FieldError id={errorId} error={error} />
     </div>
   );
 }
@@ -106,6 +223,9 @@ export function Select({
   onChange,
   options,
   className,
+  errorMessage,
+  showOptional,
+  hint,
 }: {
   id: string;
   label: string;
@@ -114,20 +234,31 @@ export function Select({
   onChange: (v: string) => void;
   options: { value: string; label: string }[];
   className?: string;
+  errorMessage?: string;
+  showOptional?: boolean;
+  hint?: string;
 }) {
+  const { error, clear } = useFieldError(id);
+  const hintId = hint ? `${id}-hint` : undefined;
+  const errorId = `${id}-error`;
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-medium">
-        {label}
-        {required && <span className="ml-1 text-accent">*</span>}
-      </label>
+      <FieldLabel htmlFor={id} label={label} required={required} showOptional={showOptional} />
       <select
         id={id}
         name={id}
         required={required}
+        aria-required={required || undefined}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy(hintId, error && errorId)}
+        data-label={label}
+        data-error={errorMessage}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-12 w-full rounded-xl border border-line bg-bg px-4 text-sm outline-none transition-colors focus:border-accent"
+        onChange={(e) => {
+          onChange(e.target.value);
+          if (error) clear();
+        }}
+        className={cn(controlClass(error), 'h-12 px-4')}
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>
@@ -135,6 +266,12 @@ export function Select({
           </option>
         ))}
       </select>
+      {hint && (
+        <p id={hintId} className="mt-1.5 text-xs text-fg-subtle">
+          {hint}
+        </p>
+      )}
+      <FieldError id={errorId} error={error} />
     </div>
   );
 }
@@ -160,37 +297,81 @@ export function ConsentCheckbox({
   id,
   checked,
   onChange,
-  wording = CONSENT_WORDING,
+  wording = ENQUIRY_CONSENT_WORDING,
   required = true,
+  errorMessage = 'Please tick this box so we can reply to your enquiry.',
 }: {
   id: string;
   checked: boolean;
   onChange: (v: boolean) => void;
   wording?: string;
   required?: boolean;
+  errorMessage?: string;
 }) {
+  const { error, clear } = useFieldError(id);
+  const errorId = `${id}-error`;
   return (
-    <label htmlFor={id} className="flex cursor-pointer gap-3 rounded-xl border border-line bg-bg-soft p-4">
-      <input
-        id={id}
-        name={id}
-        type="checkbox"
-        required={required}
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 h-4 w-4 shrink-0 accent-[rgb(var(--accent))]"
-      />
-      <span className="text-xs leading-relaxed text-fg-muted">{wording}</span>
-    </label>
+    <div>
+      <label
+        htmlFor={id}
+        className={cn(
+          'flex min-h-[44px] cursor-pointer items-start gap-3 rounded-xl border bg-bg-soft p-4 focus-within:border-accent',
+          error ? 'border-danger' : 'border-line',
+        )}
+      >
+        <input
+          id={id}
+          name={id}
+          type="checkbox"
+          required={required}
+          aria-required={required || undefined}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy(error && errorId)}
+          data-error={errorMessage}
+          checked={checked}
+          onChange={(e) => {
+            onChange(e.target.checked);
+            if (error) clear();
+          }}
+          className="mt-0.5 h-5 w-5 shrink-0 accent-[rgb(var(--accent))]"
+        />
+        <span className="text-sm leading-relaxed text-fg-muted">
+          {wording}
+          {required && (
+            <>
+              <span className="ml-1 text-accent" aria-hidden>
+                *
+              </span>
+              <span className="sr-only"> (required)</span>
+            </>
+          )}
+        </span>
+      </label>
+      <FieldError id={errorId} error={error} />
+    </div>
   );
 }
 
-export function SpamNotice() {
+/** Visitor-facing spam protection line. Only claims hCaptcha when the form shows it. */
+export function SpamNotice({ captcha = false }: { captcha?: boolean }) {
   return (
     <p className="flex items-start gap-2 text-xs text-fg-subtle">
       <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden />
-      Protected by rate limiting and a bot challenge. Add your Cloudflare Turnstile or reCAPTCHA key in the
-      environment file to enable the visible challenge.
+      {captcha ? (
+        <span>
+          Spam protection by hCaptcha. Its{' '}
+          <a href="https://www.hcaptcha.com/privacy" className="underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+            privacy policy
+          </a>{' '}
+          and{' '}
+          <a href="https://www.hcaptcha.com/terms" className="underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+            terms
+          </a>{' '}
+          apply.
+        </span>
+      ) : (
+        <span>Protected against automated spam.</span>
+      )}
     </p>
   );
 }
@@ -200,12 +381,19 @@ export function SpamNotice() {
 /* ------------------------------------------------------------------ */
 
 function SuccessPanel({ title, body }: { title: string; body: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
   return (
     <motion.div
+      ref={ref}
+      tabIndex={-1}
+      role="status"
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: 'spring', stiffness: 220, damping: 22 }}
-      className="rounded-2xl border border-success/35 bg-success/10 p-8 text-center"
+      className="rounded-2xl border border-success/35 bg-success/10 p-8 text-center outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
     >
       <motion.span
         initial={{ scale: 0 }}
@@ -228,6 +416,61 @@ function SuccessPanel({ title, body }: { title: string; body: string }) {
   );
 }
 
+function ContactFallback() {
+  return (
+    <>
+      email{' '}
+      <a href={`mailto:${SITE.email}`} className="text-accent underline underline-offset-4">
+        {SITE.email}
+      </a>{' '}
+      or call{' '}
+      <a href={SITE.phoneHref} className="text-accent underline underline-offset-4">
+        {SITE.phone}
+      </a>
+      .
+    </>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Validation                                                         */
+/* ------------------------------------------------------------------ */
+
+type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+
+const PHONE_RE = /^\+?[0-9\s().-]{7,20}$/;
+
+/** Validates every visible control in DOM order and returns messages keyed by id. */
+function validateControls(form: HTMLFormElement): { errors: FieldErrors; first: Control | null } {
+  const errors: FieldErrors = {};
+  let first: Control | null = null;
+  for (const node of Array.from(form.elements)) {
+    if (!(node instanceof HTMLInputElement || node instanceof HTMLSelectElement || node instanceof HTMLTextAreaElement)) continue;
+    const el = node as Control;
+    if (!el.id || el.disabled || el.type === 'hidden' || el.name === HONEYPOT_FIELD || el.name === HCAPTCHA_FIELD) continue;
+
+    const label = el.dataset.label || 'This field';
+    const value = el.value.trim();
+    let msg = '';
+    if (el instanceof HTMLInputElement && el.type === 'checkbox') {
+      if (el.required && !el.checked) msg = el.dataset.error || 'Please tick this box to continue.';
+    } else if (el.required && !value) {
+      msg = el.dataset.error || `${label.replace(/\?$/, '')} is required.`;
+    } else if (value && el.type === 'email' && (!el.validity.valid || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))) {
+      msg = 'Enter a valid email address, like name@company.com.';
+    } else if (value && el.type === 'tel' && !PHONE_RE.test(value)) {
+      msg = 'Enter a valid phone number: digits, spaces and an optional leading +.';
+    } else if (!el.validity.valid) {
+      msg = el.validationMessage;
+    }
+    if (msg) {
+      errors[el.id] = msg;
+      if (!first) first = el;
+    }
+  }
+  return { errors, first };
+}
+
 /* ------------------------------------------------------------------ */
 /*  Generic form wrapper                                               */
 /* ------------------------------------------------------------------ */
@@ -242,6 +485,9 @@ export function FormShell({
   disabled,
   className,
   footer,
+  captcha = false,
+  beforeSubmit,
+  onSuccess,
 }: {
   formName: FormName;
   fields: Record<string, unknown>;
@@ -252,9 +498,78 @@ export function FormShell({
   disabled?: boolean;
   className?: string;
   footer?: ReactNode;
+  /** Render the Web3Forms hCaptcha widget and send its token. */
+  captcha?: boolean;
+  /** Return a message to stop the submission (e.g. a duplicate request). */
+  beforeSubmit?: () => string | null;
+  onSuccess?: () => void;
 }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [captchaError, setCaptchaError] = useState('');
+  const sendingRef = useRef(false);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const hc = useHCaptcha(captcha);
+  const captchaId = `${formName}-captcha`;
+
+  const errorCount = Object.keys(errors).length + (captchaError ? 1 : 0);
+  const sending = state === 'sending';
+
+  const clear = (id: string) =>
+    setErrors((e) => {
+      if (!(id in e)) return e;
+      const next = { ...e };
+      delete next[id];
+      return next;
+    });
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (sendingRef.current || state === 'done' || disabled) return;
+    const form = e.currentTarget;
+
+    const { errors: found, first } = validateControls(form);
+    let token = '';
+    let capErr = '';
+    if (captcha) {
+      token = readCaptchaToken(form);
+      if (!token && hc.status === 'ready') capErr = 'Please complete the "I am human" check before sending.';
+      if (!token && hc.status === 'loading') capErr = 'The spam check is still loading. Please wait a moment and try again.';
+    }
+    setErrors(found);
+    setCaptchaError(capErr);
+    if (first) {
+      first.focus();
+      return;
+    }
+    if (capErr) {
+      hc.containerRef.current?.focus();
+      return;
+    }
+
+    const blocked = beforeSubmit?.();
+    if (blocked) {
+      setState('error');
+      setMessage(blocked);
+      return;
+    }
+
+    sendingRef.current = true;
+    setState('sending');
+    setMessage('');
+    const res = await submitForm({ form: formName, fields, captchaToken: token || undefined });
+    sendingRef.current = false;
+    if (res.ok) {
+      setState('done');
+      onSuccess?.();
+    } else {
+      setState('error');
+      setMessage(res.message);
+      if (captcha) hc.reset(); // tokens are single use
+      statusRef.current?.focus();
+    }
+  }
 
   return (
     <AnimatePresence mode="wait">
@@ -265,34 +580,63 @@ export function FormShell({
           key="form"
           exit={{ opacity: 0, y: -8 }}
           className={cn('relative space-y-5', className)}
-          noValidate={false}
-          onSubmit={async (e) => {
-            e.preventDefault();
-            setState('sending');
-            const res = await submitForm({ form: formName, fields });
-            if (res.ok) {
-              setState('done');
-            } else {
-              setState('error');
-              setMessage(res.message);
-            }
-          }}
+          noValidate
+          aria-busy={sending || undefined}
+          onSubmit={handleSubmit}
         >
-          {children}
+          <FieldErrorContext.Provider value={{ errors, clear }}>{children}</FieldErrorContext.Provider>
 
-          {state === 'error' && (
-            <NoteBox tone="warn">
-              {message} You can also email{' '}
-              <a href={`mailto:${SITE.email}`} className="text-accent underline underline-offset-4">
-                {SITE.email}
-              </a>{' '}
-              or call {SITE.phone}.
-            </NoteBox>
+          {captcha && (
+            <div className="space-y-2">
+              <div
+                ref={hc.containerRef}
+                id={captchaId}
+                tabIndex={-1}
+                aria-describedby={captchaError ? `${captchaId}-error` : undefined}
+                className="h-captcha min-h-[78px] outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                data-captcha="true"
+              />
+              {hc.status === 'loading' && <p className="text-xs text-fg-subtle">Loading the spam check…</p>}
+              {hc.status === 'failed' && (
+                <p role="alert" className="rounded-lg border border-warn/30 bg-warn/5 p-3 text-xs leading-relaxed text-fg-muted">
+                  The spam check could not load (a privacy extension or network filter may be blocking it). You can
+                  still try sending, or contact us directly: <ContactFallback />
+                </p>
+              )}
+              {captchaError && (
+                <p id={`${captchaId}-error`} className="text-xs font-medium text-danger">
+                  {captchaError}
+                </p>
+              )}
+              <SpamNotice captcha />
+            </div>
           )}
 
+          {/* Announced to screen readers whenever validation or sending fails. */}
+          <div ref={statusRef} tabIndex={-1} role="alert" aria-live="assertive" className="outline-none">
+            {errorCount > 0 && (
+              <p className="rounded-lg border border-danger/40 bg-danger/5 p-3 text-sm text-fg">
+                {errorCount === 1 ? 'Please fix the highlighted field.' : `Please fix the ${errorCount} highlighted fields.`}
+              </p>
+            )}
+            {state === 'error' && message && (
+              <NoteBox tone="warn">
+                {message} You can also <ContactFallback />
+              </NoteBox>
+            )}
+          </div>
+
           <div className="flex flex-wrap items-center gap-4">
-            <Button type="submit" size="lg" disabled={state === 'sending' || disabled} icon={state === 'sending' ? Loader2 : Send} iconRight>
-              {state === 'sending' ? 'Sending' : submitLabel}
+            <Button
+              type="submit"
+              size="lg"
+              disabled={sending || disabled}
+              aria-disabled={sending || disabled || undefined}
+              icon={sending ? Loader2 : Send}
+              iconRight
+              className={sending ? '[&>svg]:animate-spin' : undefined}
+            >
+              {sending ? 'Sending…' : submitLabel}
             </Button>
             {footer}
           </div>
@@ -306,75 +650,182 @@ export function FormShell({
 /*  Contact form                                                       */
 /* ------------------------------------------------------------------ */
 
-const BUDGETS = [
-  { value: '', label: 'Select a range' },
-  { value: 'under-5k', label: 'Under 5,000' },
-  { value: '5k-15k', label: '5,000 to 15,000' },
-  { value: '15k-50k', label: '15,000 to 50,000' },
-  { value: '50k-150k', label: '50,000 to 150,000' },
-  { value: 'over-150k', label: 'Over 150,000' },
-  { value: 'recurring', label: 'Monthly retainer' },
-  { value: 'unsure', label: 'Not sure yet' },
+const DISPATCH_BUDGET = 'Truck dispatch (percentage of weekly gross)';
+const NOT_SURE = 'Not sure yet';
+
+/** Values are the visible labels so the email reads plainly. */
+const GENERAL_BUDGETS = [
+  'Under US$1,000 (one-time project)',
+  'US$1,000–5,000 (one-time)',
+  'US$5,000–15,000 (one-time)',
+  'US$15,000+ (one-time)',
+  'Monthly: under US$1,000/month',
+  'Monthly: US$1,000–4,000/month',
+  'Monthly: US$4,000+/month',
+  DISPATCH_BUDGET,
+  NOT_SURE,
+];
+
+const ENGINE_BUDGETS = [
+  'Under US$3,000 per engine',
+  'US$3,000–6,000 per engine',
+  'US$6,000–12,000 per engine',
+  'US$12,000+ per engine',
+  NOT_SURE,
 ];
 
 const CONTACT_TIMES = [
-  { value: 'any', label: 'Any time' },
-  { value: 'morning', label: 'Morning, my time zone' },
-  { value: 'afternoon', label: 'Afternoon, my time zone' },
-  { value: 'evening', label: 'Evening, my time zone' },
+  { value: '', label: 'No preference' },
+  { value: 'Morning (my time zone)', label: 'Morning, my time zone' },
+  { value: 'Afternoon (my time zone)', label: 'Afternoon, my time zone' },
+  { value: 'Evening (my time zone)', label: 'Evening, my time zone' },
 ];
 
+const SERVICE_OPTIONS = [
+  { value: '', label: 'Select a service' },
+  ...SERVICES.map((s) => ({ value: s.slug, label: s.name })),
+  { value: 'several', label: 'Several of these' },
+  { value: 'unsure', label: 'Not sure yet' },
+];
+const SERVICE_VALUES = new Set(SERVICE_OPTIONS.map((o) => o.value).filter(Boolean));
+
+function budgetOptionsFor(service: string): string[] | null {
+  if (service === 'truck-dispatch') return null;
+  if (service === 'auto-engines') return ENGINE_BUDGETS;
+  return GENERAL_BUDGETS;
+}
+
 export function ContactForm({ defaultService = '' }: { defaultService?: string }) {
-  const { code } = useRegion();
   const [values, setValues] = useState({
     name: '',
     email: '',
     phone: '',
-    company: '',
-    service: defaultService,
-    region: code,
+    service: SERVICE_VALUES.has(defaultService) ? defaultService : '',
     budget: '',
     message: '',
-    preferredTime: 'any',
+    preferredTime: '',
   });
-  const [consent, setConsent] = useState(false);
+  const [enquiryConsent, setEnquiryConsent] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [honey, setHoney] = useState('');
+  const [context, setContext] = useState<ContactContext>({});
+
+  // Context from links such as /contact?service=truck-dispatch&package=growth
+  useEffect(() => {
+    const ctx = parseContactContext(window.location.search);
+    setContext(ctx);
+    if (ctx.service && SERVICE_VALUES.has(ctx.service)) {
+      const svc = ctx.service;
+      setValues((s) => ({ ...s, service: svc }));
+    }
+  }, []);
 
   const set = (k: keyof typeof values) => (v: string) => setValues((s) => ({ ...s, [k]: v }));
+  const setService = (v: string) =>
+    setValues((s) => {
+      const opts = budgetOptionsFor(v);
+      return { ...s, service: v, budget: opts && opts.includes(s.budget) ? s.budget : '' };
+    });
+
+  const budgetOptions = budgetOptionsFor(values.service);
+  const summary = describeContext(context, (slug) => SERVICES.find((s) => s.slug === slug)?.name);
+  const hiddenContext = contextFields(context);
 
   return (
     <FormShell
       formName="contact"
-      fields={{ ...values, consent, [HONEYPOT_FIELD]: honey }}
+      captcha
+      fields={{
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        service: values.service,
+        budget: budgetOptions ? values.budget : DISPATCH_BUDGET,
+        message: values.message,
+        preferred_contact_time: values.preferredTime,
+        enquiry_consent: enquiryConsent ? 'yes' : 'no',
+        marketing_consent: marketingConsent ? 'yes' : 'no',
+        ...hiddenContext,
+        [HONEYPOT_FIELD]: honey,
+      }}
       submitLabel="Send enquiry"
-      disabled={!consent}
       successTitle="Enquiry received"
-      successBody="A named person will reply within four business hours. You will also get a confirmation email with a copy of what you sent."
+      successBody="A named person will reply within four business hours, by email or phone as you prefer."
       footer={<p className="text-xs text-fg-subtle">Typical first reply: under 4 business hours.</p>}
     >
       <Honeypot value={honey} onChange={setHoney} />
 
+      {summary.length > 0 && (
+        <div className="rounded-xl border border-accent/30 bg-accent/5 p-4 text-sm" aria-labelledby="ctx-summary-title">
+          <p id="ctx-summary-title" className="font-medium">
+            You are asking about:
+          </p>
+          <ul className="mt-1.5 space-y-0.5 text-fg-muted">
+            {summary.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+          {Object.entries(hiddenContext).map(([k, v]) => (
+            <input key={k} type="hidden" name={k} value={v} />
+          ))}
+        </div>
+      )}
+
+      <p className="text-xs text-fg-subtle">
+        Fields marked <span className="text-accent" aria-hidden>*</span>
+        <span className="sr-only">with an asterisk</span> are required.
+      </p>
+
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field id="name" label="Name" required value={values.name} onChange={set('name')} autoComplete="name" />
-        <Field id="email" label="Email" type="email" required value={values.email} onChange={set('email')} autoComplete="email" />
-        <Field id="phone" label="Phone" type="tel" value={values.phone} onChange={set('phone')} autoComplete="tel" />
-        <Field id="company" label="Company" value={values.company} onChange={set('company')} autoComplete="organization" />
+        <Field
+          id="name"
+          label="Name"
+          required
+          errorMessage="Please enter your name."
+          value={values.name}
+          onChange={set('name')}
+          autoComplete="name"
+        />
+        <Field
+          id="email"
+          label="Email"
+          type="email"
+          required
+          errorMessage="Please enter your email address."
+          value={values.email}
+          onChange={set('email')}
+          autoComplete="email"
+          inputMode="email"
+        />
+        <Field id="phone" label="Phone" type="tel" value={values.phone} onChange={set('phone')} autoComplete="tel" inputMode="tel" />
 
         <Select
           id="service"
           label="Which service?"
           required
+          errorMessage="Please choose a service, or pick “Not sure yet”."
           value={values.service}
-          onChange={set('service')}
-          options={[
-            { value: '', label: 'Select a service' },
-            ...SERVICES.map((s) => ({ value: s.slug, label: s.name })),
-            { value: 'several', label: 'Several of these' },
-            { value: 'unsure', label: 'Not sure yet' },
-          ]}
+          onChange={setService}
+          options={SERVICE_OPTIONS}
         />
 
-        <Select id="budget" label="Budget range" value={values.budget} onChange={set('budget')} options={BUDGETS} />
+        {budgetOptions ? (
+          <Select
+            id="budget"
+            label={values.service === 'auto-engines' ? 'Budget per engine' : 'Budget'}
+            value={values.budget}
+            onChange={set('budget')}
+            options={[{ value: '', label: 'Select a range' }, ...budgetOptions.map((b) => ({ value: b, label: b }))]}
+          />
+        ) : (
+          <div>
+            <p className="mb-1.5 block text-sm font-medium">Budget</p>
+            <p className="flex min-h-12 items-center rounded-xl border border-line bg-bg-soft px-4 py-3 text-sm text-fg-muted">
+              Dispatch fee is a percentage of weekly gross — no budget needed.
+            </p>
+          </div>
+        )}
+
         <Select
           id="preferredTime"
           label="Preferred contact time"
@@ -388,15 +839,22 @@ export function ContactForm({ defaultService = '' }: { defaultService?: string }
         id="message"
         label="What do you need?"
         required
+        errorMessage="Please tell us briefly what you need."
         rows={6}
         placeholder="Tell us the situation rather than the solution. What is not working, and what would good look like?"
         value={values.message}
         onChange={set('message')}
       />
 
-      <ConsentCheckbox id="consent" checked={consent} onChange={setConsent} />
+      <ConsentCheckbox id="enquiry_consent" checked={enquiryConsent} onChange={setEnquiryConsent} />
+      <ConsentCheckbox
+        id="marketing_consent"
+        required={false}
+        checked={marketingConsent}
+        onChange={setMarketingConsent}
+        wording={MARKETING_CONSENT_WORDING}
+      />
       <p className="text-xs leading-relaxed text-fg-subtle">{PRIVACY_WORDING}</p>
-      <SpamNotice />
     </FormShell>
   );
 }
@@ -418,8 +876,7 @@ export function EnquiryForm({
   successTitle?: string;
   successBody?: string;
 }) {
-  const { code } = useRegion();
-  const [values, setValues] = useState({ name: '', email: '', phone: '', message: '', region: code, subject });
+  const [values, setValues] = useState({ name: '', email: '', phone: '', message: '', subject });
   const [consent, setConsent] = useState(false);
   const [honey, setHoney] = useState('');
   const set = (k: keyof typeof values) => (v: string) => setValues((s) => ({ ...s, [k]: v }));
@@ -429,7 +886,6 @@ export function EnquiryForm({
       formName={formName}
       fields={{ ...values, consent, [HONEYPOT_FIELD]: honey }}
       submitLabel={submitLabel}
-      disabled={!consent}
       successTitle={successTitle}
       successBody={successBody}
     >
@@ -475,8 +931,7 @@ export function GatedDownloadForm({ title, resource }: { title: string; resource
           formName="gated-download"
           fields={{ ...values, consent, [HONEYPOT_FIELD]: honey }}
           submitLabel="Email me the download"
-          disabled={!consent}
-          successTitle="On its way"
+              successTitle="On its way"
           successBody="Check your inbox for the download link. It does not expire."
         >
           <Honeypot value={honey} onChange={setHoney} />
@@ -520,7 +975,6 @@ export function JobApplicationForm({ roles }: { roles: { slug: string; title: st
       formName="job-application"
       fields={{ ...values, consent, [HONEYPOT_FIELD]: honey }}
       submitLabel="Send application"
-      disabled={!consent}
       successTitle="Application received"
       successBody="We read every application ourselves and reply either way, usually within five working days."
     >
@@ -578,7 +1032,6 @@ export function InvestorForm() {
       formName="investor-enquiry"
       fields={{ ...values, consent, [HONEYPOT_FIELD]: honey }}
       submitLabel="Send enquiry"
-      disabled={!consent}
       successTitle="Enquiry received"
       successBody="Investment enquiries go directly to the managing director and are answered within two business days."
     >
@@ -628,7 +1081,6 @@ export function MediaKitForm() {
       formName="media-kit"
       fields={{ ...values, consent, [HONEYPOT_FIELD]: honey }}
       submitLabel="Request the media kit"
-      disabled={!consent}
       successTitle="Media kit on its way"
       successBody="The PDF and the current rate card arrive by email, usually within the hour during business days."
     >

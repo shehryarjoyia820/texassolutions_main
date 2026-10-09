@@ -199,7 +199,7 @@ async function sendAutoReply(form: string, to: string, fields: Record<string, un
   const name = typeof fields.name === 'string' ? fields.name.split(' ')[0] : 'there';
   const subject =
     form === 'estimate'
-      ? 'Your rough estimate from Texas Solutions'
+      ? 'Your estimate from Texas Solutions'
       : form === 'booking'
         ? 'Your consultation is booked'
         : 'We received your enquiry';

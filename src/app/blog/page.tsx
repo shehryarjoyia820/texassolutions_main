@@ -53,7 +53,7 @@ export default function BlogPage() {
       <CtaSection
         title="Want this applied to your account?"
         body="Reading about a tracking rebuild is useful. Having one done is more useful. Start with a range and a conversation."
-        primary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
+        primary={{ href: '/estimate', label: 'Get an Estimate' }}
         secondary={{ href: '/contact', label: 'Ask a question' }}
       />
     </>

@@ -51,7 +51,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <ButtonLink href="/estimate" size="lg" variant="service" arrow magnetic>
-            Get a Rough Estimate
+            Get an Estimate
           </ButtonLink>
           <ButtonLink href="/contact" size="lg" variant="secondary">
             Talk to us
@@ -174,8 +174,8 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
 
       <CtaSection
         title={`Ready to price a ${solution.navLabel.toLowerCase()} engagement?`}
-        body="The calculator covers every service in this solution. Answer seven questions and you have a range in US dollars."
-        primary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
+        body="The calculator covers every service in this solution. Answer a few questions and you have a range in US dollars."
+        primary={{ href: '/estimate', label: 'Get an Estimate' }}
         secondary={{ href: '/contact', label: 'Book a consultation' }}
       />
     </div>

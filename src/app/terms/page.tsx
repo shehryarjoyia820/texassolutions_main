@@ -1,13 +1,13 @@
 import { SITE, OFFICES } from '@/data/site';
 import { PageHero } from '@/components/page-shell';
 import { ScrollProgress } from '@/components/motion';
-import { Container, Section, NoteBox } from '@/components/ui';
+import { Container, Section } from '@/components/ui';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 
 export const metadata = pageMeta({
   title: 'Terms of service',
   description:
-    'The terms that govern use of texassolutions.co, our published pricing, the Rough Estimate calculator and our service agreements.',
+    'The terms that govern use of texassolutions.co, our published pricing, the Estimate calculator and our service agreements.',
   path: '/terms',
 });
 
@@ -28,12 +28,6 @@ export default function TermsPage() {
 
       <Section>
         <Container>
-          <NoteBox tone="warn" className="mx-auto mb-10 max-w-prose">
-            This is a thorough working draft written by the development team. It must be reviewed by a
-            qualified lawyer in each market before launch. Do not publish it as final legal text without that
-            review.
-          </NoteBox>
-
           <div className="prose-ts mx-auto">
             <h2>1. Who these terms are with</h2>
             <p>
@@ -44,7 +38,7 @@ export default function TermsPage() {
             <h2>2. Estimates are not quotes</h2>
             <p>
               Every price on this site, including the tables on the pricing page, the starting prices on
-              service pages and the output of the Rough Estimate calculator, is a range published for guidance.
+              service pages and the output of the Estimate calculator, is a range published for guidance.
               It is an invitation to discuss work, not an offer capable of acceptance and not a binding quote.
             </p>
             <p>
@@ -117,8 +111,8 @@ export default function TermsPage() {
 
             <h2>8. No guarantee of results</h2>
             <p>
-              Case studies and metrics on this site describe outcomes achieved for specific clients in specific
-              circumstances. They are not a prediction or a promise of what your engagement will produce.
+              Case studies and metrics on this site are illustrative examples, not client results. They are not
+              a prediction or a promise of what your engagement will produce.
               Revenue, ranking, lead volume, freight rates and advertising performance depend on factors
               outside our control.
             </p>
@@ -164,9 +158,8 @@ export default function TermsPage() {
             <h2>14. Governing law</h2>
             <p>
               These terms are governed by the laws of the State of Texas, United States, and the courts of
-              Harris County, Texas have exclusive jurisdiction, except where the law of your country of
-              residence gives you the right to bring proceedings elsewhere. Engagements contracted through our
-              UK, Canadian or Australian entities may specify local law in the service agreement.
+              Midland County, Texas have exclusive jurisdiction, except where the law of your country of
+              residence gives you the right to bring proceedings elsewhere.
             </p>
 
             <h2>15. Contact</h2>

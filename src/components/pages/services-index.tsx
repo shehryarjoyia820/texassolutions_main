@@ -24,7 +24,7 @@ export function ServicesIndex({ services }: { services: Service[] }) {
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <ButtonLink href="/estimate" size="lg" icon={ArrowRight} magnetic>
-            Get a Rough Estimate
+            Get an Estimate
           </ButtonLink>
           <ButtonLink href="/pricing" size="lg" variant="secondary">
             See every price table

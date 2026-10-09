@@ -41,8 +41,8 @@ const STEPS = [
   'Sub-type',
   'Scope',
   'Timeline',
-  'Your details',
-  'Your range',
+  'Your estimate',
+  'Send it (optional)',
 ] as const;
 
 export function EstimateWizard() {
@@ -106,6 +106,8 @@ export function EstimateWizard() {
       case 4:
         return Boolean(timeline);
       case 5:
+        return Boolean(result && !result.unavailable);
+      case 6:
         return Boolean(contact.name && contact.email && consent);
       default:
         return false;
@@ -113,7 +115,7 @@ export function EstimateWizard() {
   })();
 
   const next = async () => {
-    if (step === 5) {
+    if (step === 6) {
       await handleSubmit();
       return;
     }
@@ -143,11 +145,8 @@ export function EstimateWizard() {
     setSending(false);
     if (res.ok) {
       setSubmitted(true);
-      setStep(6);
     } else {
-      // The range is still worth showing even if the lead did not reach the CRM.
       setSubmitError(res.message);
-      setStep(6);
     }
   };
 
@@ -203,7 +202,37 @@ export function EstimateWizard() {
                 />
               )}
 
-              {step === 5 && (
+              {step === 5 && result && (
+                <StepResult
+                  result={result}
+                  region={region}
+                  submitted={false}
+                  submitError=""
+                  contact={contact}
+                  answers={answers}
+                  onReset={reset}
+                />
+              )}
+
+              {step === 6 && submitted && (
+                <div className="text-center" role="status">
+                  <h2 className="text-display-sm">Estimate sent</h2>
+                  <p className="mx-auto mt-3 max-w-lg text-fg-muted">
+                    Thank you. A copy of this estimate is with our team and a specialist will reply within one
+                    business day. You can still go back to the estimate or change your answers.
+                  </p>
+                  <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                    <Button variant="secondary" onClick={() => setStep(5)} icon={ArrowLeft} iconRight={false}>
+                      Back to my estimate
+                    </Button>
+                    <Button variant="ghost" onClick={reset} icon={RotateCcw} iconRight={false}>
+                      Start a new estimate
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {step === 6 && !submitted && (
                 <StepContact
                   contact={contact}
                   onChange={setContact}
@@ -216,21 +245,16 @@ export function EstimateWizard() {
                 />
               )}
 
-              {step === 6 && result && (
-                <StepResult
-                  result={result}
-                  region={region}
-                  submitted={submitted}
-                  submitError={submitError}
-                  contact={contact}
-                  answers={answers}
-                  onReset={reset}
-                />
-              )}
             </motion.div>
           </AnimatePresence>
 
-          {step < 6 && (
+          {!(step === 6 && submitted) && (
+            <>
+            {step === 6 && submitError && (
+              <p role="alert" className="border-t border-line bg-bg-soft px-6 pt-4 text-sm text-danger sm:px-9">
+                {submitError} Your estimate is still on the previous step.
+              </p>
+            )}
             <div className="flex items-center justify-between gap-4 border-t border-line bg-bg-soft px-6 py-5 sm:px-9">
               <Button
                 variant="ghost"
@@ -251,10 +275,19 @@ export function EstimateWizard() {
                   </span>
                 )}
                 <Button onClick={next} disabled={!canAdvance || sending} icon={sending ? Loader2 : ArrowRight} iconRight>
-                  {step === 5 ? (sending ? 'Calculating' : 'See my range') : 'Continue'}
+                  {step === 4
+                    ? 'See my estimate'
+                    : step === 5
+                      ? 'Send me this estimate'
+                      : step === 6
+                        ? sending
+                          ? 'Sending'
+                          : 'Send to Texas Solutions'
+                        : 'Continue'}
                 </Button>
               </div>
             </div>
+            </>
           )}
         </div>
 
@@ -471,7 +504,7 @@ function QuestionField({
   if (q.type === 'select') {
     const current = (value as string) ?? q.defaultValue;
     return (
-      <fieldset>
+      <fieldset className="min-w-0">
         <legend className="text-sm font-medium">{q.label}</legend>
         {q.help && <p className="mt-1 text-xs text-fg-subtle">{q.help}</p>}
         <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -500,7 +533,7 @@ function QuestionField({
     const toggle = (v: string) =>
       onChange(current.includes(v) ? current.filter((x) => x !== v) : [...current, v]);
     return (
-      <fieldset>
+      <fieldset className="min-w-0">
         <legend className="text-sm font-medium">{q.label}</legend>
         {q.help && <p className="mt-1 text-xs text-fg-subtle">{q.help}</p>}
         <div className="mt-3 flex flex-wrap gap-2">
@@ -676,8 +709,8 @@ function StepContact({
   return (
     <div className="relative">
       <StepHeading
-        title="Where should we send it?"
-        body="You will see the range on the next screen either way. These details let us email you a copy and follow up with a proper quote if you want one."
+        title="Send this estimate to us (optional)"
+        body="Only if you want a specialist to follow up with a written quote. Your estimate stays on the previous step either way."
       />
       <Honeypot value={honey} onChange={onHoney} />
 
@@ -704,7 +737,7 @@ function StepContact({
 
       {result && !result.unavailable && (
         <div className="mt-6 rounded-xl border border-accent/25 bg-accent/5 p-5">
-          <p className="text-xs uppercase tracking-wider text-fg-subtle">Your range so far</p>
+          <p className="text-xs uppercase tracking-wider text-fg-subtle">The estimate you are sending</p>
           <p className="mt-1.5 font-display text-2xl font-semibold text-accent">
             {formatRange([result.low, result.high], region, { compact: true })}
             <span className="ml-2 text-sm font-normal text-fg-subtle">
@@ -765,7 +798,7 @@ function StepResult({
   return (
     <div style={service ? ({ ['--svc' as string]: service.accent } as React.CSSProperties) : undefined}>
       <div className="text-center">
-        <p className="eyebrow mb-3 justify-center">Your rough estimate</p>
+        <p className="eyebrow mb-3 justify-center">Your estimate</p>
         <h2 className="text-display-sm">
           {service?.name} · {config?.subTypes.find((s) => s.id === result.subType)?.label}
         </h2>

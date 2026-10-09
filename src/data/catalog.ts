@@ -684,7 +684,7 @@ export const MARKETPLACE_ITEMS: MarketplaceItem[] = [
     description:
       'A list built against your written ideal customer profile, enriched, email-verified and deduplicated against your CRM, ready for your own outbound or ours.',
     priceService: 'lead-generation',
-    priceRow: 'per-lead',
+    priceRow: 'retainer',
     tags: ['Data', 'Outbound', 'Verified'],
     highlights: ['Built to your ICP', 'Email verification', 'CRM deduplication', 'Suppression respected'],
     service: 'lead-generation',

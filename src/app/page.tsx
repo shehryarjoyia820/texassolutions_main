@@ -1,18 +1,7 @@
 import { Hero } from '@/components/home/hero';
-import { ServicesScroll } from '@/components/home/services-scroll';
-import {
-  TrustBar,
-  IndustrySwitcher,
-  EngagementModels,
-  MiniEstimate,
-  HowItWorks,
-  CaseStudiesCarousel,
-  TestimonialsBlock,
-  HomeFaq,
-  CtaBand,
-} from '@/components/home/sections';
+import { HowItWorks, HomeFaq, CtaBand } from '@/components/home/sections';
+import { TrustFacts, ServiceGroups, PackagesTeaser } from '@/components/home/service-groups';
 import { SITE_FAQS } from '@/data/company';
-import { HomeSeoSection } from '@/components/home/seo-section';
 import { BlogTeaser } from '@/components/home/blog-teaser';
 import { JsonLd, faqSchema, pageMeta, speakableSchema, websiteSchema } from '@/lib/seo';
 
@@ -39,15 +28,10 @@ export default function HomePage() {
     <>
       <JsonLd data={[websiteSchema(), faqSchema(SITE_FAQS), speakableSchema('/', 'Texas Solutions')]} />
       <Hero />
-      <TrustBar />
-      <ServicesScroll />
-      <IndustrySwitcher />
-      <EngagementModels />
-      <MiniEstimate />
-      <HomeSeoSection />
+      <TrustFacts />
+      <ServiceGroups />
+      <PackagesTeaser />
       <HowItWorks />
-      <CaseStudiesCarousel />
-      <TestimonialsBlock />
       <BlogTeaser />
       <HomeFaq />
       <CtaBand />

@@ -171,8 +171,8 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
 
       <CtaSection
         title="Turn the reading into a number"
-        body="The calculator uses the same published ranges referenced in these articles. Seven questions and you have a figure in US dollars."
-        primary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
+        body="The calculator uses the same published ranges referenced in these articles. A few questions and you have a figure in US dollars."
+        primary={{ href: '/estimate', label: 'Get an Estimate' }}
         secondary={{ href: '/contact', label: 'Talk to someone' }}
       />
     </div>

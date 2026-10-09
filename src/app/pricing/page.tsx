@@ -1,6 +1,7 @@
 import { PRICE_TABLES, PRICE_SOURCES } from '@/data/pricing';
 import { SERVICES } from '@/data/services';
 import { PricingTables } from '@/components/pages/pricing-tables';
+import { RateCard } from '@/components/pages/rate-card';
 import { PageHero, CtaSection } from '@/components/page-shell';
 import { Container, Section, SectionHeading, NoteBox } from '@/components/ui';
 import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
@@ -8,7 +9,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Pricing — every service, in US dollars',
   description:
-    'Published US-dollar price ranges for all thirteen service lines, with the sources behind each figure and the ones we derived rather than measured.',
+    'Texas Solutions pricing in US dollars: hourly rates, dedicated monthly resources, development packages, monthly plans and fixed-scope project ranges for all thirteen service lines.',
   path: '/pricing',
 });
 
@@ -19,10 +20,12 @@ export default function PricingPage() {
 
       <PageHero
         eyebrow="Pricing"
-        title="Every number we publish, in one place"
-        body="One US-dollar price list, thirteen service lines, and the sources underneath. Where a figure is derived rather than measured, the page says so."
+        title="Our prices, in one place"
+        body="One US-dollar price list for every client: hourly rates, dedicated resources, development packages, monthly plans and project ranges. The same figures feed every service page and the estimate calculator."
         trail={[{ label: 'Pricing' }]}
       />
+
+      <RateCard />
 
       <PricingTables tables={PRICE_TABLES} services={SERVICES} />
 
@@ -30,9 +33,9 @@ export default function PricingPage() {
       <Section tone="soft">
         <Container>
           <SectionHeading
-            eyebrow="Sources"
-            title="Where these benchmarks come from"
-            body="Published market surveys and rate guides, listed so you can check them yourself rather than take our word for it."
+            eyebrow="Market research"
+            title="External benchmarks (not our prices)"
+            body="Third-party surveys and rate guides we reviewed when setting our rates. They describe the wider market, not what Texas Solutions charges; our prices are the tables above."
           />
           <ul className="mt-10 grid gap-2 sm:grid-cols-2">
             {PRICE_SOURCES.map((s) => (
@@ -50,17 +53,17 @@ export default function PricingPage() {
           </ul>
 
           <NoteBox tone="warn" className="mt-8">
-            One honest caveat. The AdSense management row is our own rate card, not a market benchmark, because
-            no public pricing survey exists for that service, and should be treated as indicative.
+            Every price on this page is our own rate card. No public pricing survey exists for AdSense management, so
+            there is no external benchmark for that line.
           </NoteBox>
         </Container>
       </Section>
 
       <CtaSection
         title="Turn a table into your number"
-        body="The calculator reads these exact tables and narrows the range once it knows your scope and timeline."
-        primary={{ href: '/estimate', label: 'Get a Rough Estimate' }}
-        secondary={{ href: '/contact', label: 'Ask about a figure' }}
+        body="The calculator reads these exact tables and shows the estimate, with every line item, before asking for any contact details."
+        primary={{ href: '/estimate', label: 'Get an Estimate' }}
+        secondary={{ href: '/contact', label: 'Talk to a Specialist' }}
       />
     </>
   );

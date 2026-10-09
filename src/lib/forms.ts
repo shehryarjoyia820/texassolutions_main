@@ -26,8 +26,13 @@ export interface SubmitPayload {
   fields: Record<string, unknown>;
   /** Marketing attribution captured from the URL and referrer. */
   attribution?: Record<string, string>;
-  /** Anti-spam token from Turnstile or reCAPTCHA, when configured. */
+  /** Legacy anti-spam token field (unused by Web3Forms). */
   token?: string;
+  /**
+   * hCaptcha response from the Web3Forms widget (field `h-captcha-response`).
+   * Read it from the form element with readCaptchaToken().
+   */
+  captchaToken?: string;
 }
 
 export interface SubmitResult {
@@ -50,6 +55,16 @@ export function captureAttribution(): Record<string, string> {
     if (v) out[key] = v;
   }
   return out;
+}
+
+/** Name of the field hCaptcha writes its token into, as Web3Forms expects it. */
+export const HCAPTCHA_FIELD = 'h-captcha-response';
+
+/** Reads the hCaptcha token from a form that contains the Web3Forms widget. */
+export function readCaptchaToken(form: HTMLFormElement | null | undefined): string {
+  if (!form) return '';
+  const el = form.querySelector<HTMLTextAreaElement | HTMLInputElement>(`[name="${HCAPTCHA_FIELD}"]`);
+  return el?.value?.trim() ?? '';
 }
 
 /** Honeypot field name, checked server-side and client-side. */
@@ -114,7 +129,7 @@ const FORM_TITLES: Record<FormName, string> = {
   'media-kit': 'Media kit request',
   'gated-download': 'Download request',
   'marketplace-enquiry': 'Marketplace enquiry',
-  booking: 'Consultation booking',
+  booking: 'Consultation time request',
 };
 
 function flatten(value: unknown): string {
@@ -140,6 +155,8 @@ async function submitToWeb3Forms(payload: SubmitPayload, attribution: Record<str
     if (text) data[k] = text;
   }
   for (const [k, v] of Object.entries(attribution)) data[`source_${k}`] = v;
+  const captcha = payload.captchaToken || (typeof f[HCAPTCHA_FIELD] === 'string' ? (f[HCAPTCHA_FIELD] as string) : '');
+  if (captcha) data[HCAPTCHA_FIELD] = captcha;
 
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
@@ -147,9 +164,16 @@ async function submitToWeb3Forms(payload: SubmitPayload, attribution: Record<str
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(data),
     });
-    const json = (await res.json().catch(() => ({}))) as { success?: boolean };
+    const json = (await res.json().catch(() => ({}))) as { success?: boolean; message?: string };
     if (!res.ok || !json.success) {
-      return { ok: false, message: 'We could not send that. Please call us or email info@texassolutions.co.', fallback: true };
+      const captchaProblem = /captcha/i.test(json.message ?? '');
+      return {
+        ok: false,
+        message: captchaProblem
+          ? 'The spam check did not go through. Please complete it again and resend, or call or email us instead.'
+          : 'We could not send that. Please call us or email info@texassolutions.co.',
+        fallback: true,
+      };
     }
     trackFormSubmit(payload.form);
     return { ok: true, message: 'Thank you. We will be in touch shortly.' };
@@ -158,8 +182,15 @@ async function submitToWeb3Forms(payload: SubmitPayload, attribution: Record<str
   }
 }
 
-export const CONSENT_WORDING =
-  'By submitting this form you agree to be contacted about your enquiry by phone, text message and email. Message and data rates may apply. Consent is not a condition of purchase and you can opt out at any time.';
+/** Required consent: contact about this enquiry only. No SMS, no marketing. */
+export const ENQUIRY_CONSENT_WORDING = 'I agree to be contacted about this enquiry by email or phone.';
+
+/** Optional, unticked by default, sent separately as marketing_consent. */
+export const MARKETING_CONSENT_WORDING =
+  'Send me occasional updates and offers (optional). You can unsubscribe at any time.';
+
+/** @deprecated Kept for older imports; same as ENQUIRY_CONSENT_WORDING. */
+export const CONSENT_WORDING = ENQUIRY_CONSENT_WORDING;
 
 export const PRIVACY_WORDING =
   'We use the details you provide to respond to your enquiry and, where you have agreed, to send occasional updates. See our privacy policy for how we store and delete this data.';

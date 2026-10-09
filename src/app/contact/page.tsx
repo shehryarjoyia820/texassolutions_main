@@ -11,7 +11,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Contact us',
   description:
-    'Talk to a named person rather than a queue. Contact form, consultation booking with a time-zone picker, offices across five countries and a 24/7 dispatch line.',
+    'Talk to a named person rather than a queue. Contact form, consultation time requests in your own time zone, offices across five countries and a 24/7 dispatch line.',
   path: '/contact',
 });
 
@@ -68,7 +68,7 @@ export default function ContactPage() {
                 body="The more concrete the problem, the more useful the first reply. Nobody here needs a formal brief."
               />
               <div className="mt-8 rounded-2xl border border-line bg-bg-elev p-6 sm:p-8">
-                <Suspense fallback={<p className="text-sm text-fg-subtle">Loading form…</p>}>
+                <Suspense fallback={<p role="status" className="text-sm text-fg-subtle">Loading form…</p>}>
                   <ContactFormPanel />
                 </Suspense>
               </div>
@@ -87,7 +87,7 @@ export default function ContactPage() {
           <SectionHeading
             eyebrow="Offices"
             title="Five locations, four time zones"
-            body="Dispatch is covered across Houston and Lahore, which is how the desk stays open overnight."
+            body="Dispatch is run from Midland, Texas with after-hours support from our Lahore team, which is how the desk stays open overnight."
           />
           <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {OFFICES.map((o) => (

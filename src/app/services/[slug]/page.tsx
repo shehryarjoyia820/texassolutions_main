@@ -1,3 +1,4 @@
+import { mergeFaqs } from '@/lib/faqs';
 import { notFound } from 'next/navigation';
 import { SERVICES, getService } from '@/data/services';
 import { SERVICE_SEO } from '@/data/seo-content';
@@ -41,7 +42,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <JsonLd
         data={[
           serviceSchema({ ...service, keywords: seo?.keywords }),
-          faqSchema([...service.faqs, ...(seo?.faqs ?? [])]),
+          faqSchema(mergeFaqs(service.faqs, seo?.faqs)),
           howToSchema(`How ${service.name.toLowerCase()} works at Texas Solutions`, service.process),
           speakableSchema(path, seo?.metaTitle ?? service.name),
           breadcrumbSchema([

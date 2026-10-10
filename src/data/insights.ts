@@ -65,7 +65,7 @@ export const INSIGHTS: Insight[] = [
         'Data migration: moving years of records from legacy systems is often underestimated.',
       ] },
       { t: 'h2', text: 'Fixed price, time and materials, or a dedicated team?' },
-      { t: 'p', text: 'Fixed price suits well-defined scopes such as a website or an MVP. Time and materials suits evolving products. A dedicated team suits long-running product development, with mid-level engineers at about US$3,500 to US$5,000 a month and senior engineers at US$5,000 to US$7,000.' },
+      { t: 'p', text: 'Fixed price suits well-defined scopes such as a website or an MVP. Time and materials suits evolving products. A dedicated team suits long-running product development, with our published rates at US$3,000 a month for a mid-level developer and US$4,500 for a senior developer (up to 160 hours each).' },
       { t: 'h2', text: 'How to avoid overpaying' },
       { t: 'ol', items: [
         'Write down the outcome you need, not a feature list.',
@@ -159,9 +159,9 @@ export const INSIGHTS: Insight[] = [
     service: 'dedicated-teams',
     tags: ['Hire developers', 'Dedicated team', 'Staff augmentation', 'Offshore development'],
     body: [
-      { t: 'p', text: 'Short answer: dedicated full-time offshore engineers cost about US$2,500 to US$3,500 a month for juniors, US$3,500 to US$5,000 for mid-level, US$5,000 to US$7,000 for seniors and US$6,500 to US$9,000 for tech leads. Expect to add 10% to 15% for full overlap with your working hours.' },
+      { t: 'p', text: 'Short answer: our published monthly rates for a dedicated engineer (up to 160 hours a month) are US$2,000 for a junior developer, US$3,000 for mid-level, US$4,500 for senior and US$5,500 for a tech lead or architect. Extended time-zone overlap can carry a premium, which we explain and confirm in a written quote before work starts.' },
       { t: 'h2', text: 'How much time-zone overlap do you need?' },
-      { t: 'p', text: 'Four hours of overlap is enough for most product teams: standup, planning and a review window. Full overlap with your business hours is available at a premium when a team needs it.' },
+      { t: 'p', text: 'Four hours of overlap is enough for most product teams: standup, planning and a review window. Extended overlap is available when a team needs it, and any premium is confirmed in a written quote first.' },
       { t: 'h2', text: 'Contract terms that matter' },
       { t: 'ul', items: [
         'Intellectual property assigned to you on payment.',

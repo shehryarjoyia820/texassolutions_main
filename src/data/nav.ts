@@ -217,7 +217,7 @@ export const MEGA_MENUS: MegaMenu[] = [
           { label: 'Timeline', href: '/about#timeline', description: 'How thirteen service lines came together.' },
           { label: 'Leadership', href: '/about#leadership', description: 'Who is accountable for what.' },
           { label: 'Certifications and partners', href: '/about#certifications', description: 'Badges, and their current status.' },
-          { label: 'Offices', href: '/about#offices', description: 'Five locations across four time zones.' },
+          { label: 'Offices', href: '/about#offices', description: 'Midland, Texas and our Lahore team.' },
           { label: 'Corporate responsibility', href: '/about#csr', description: 'Driver welfare, apprenticeships, recycling.' },
         ],
       },

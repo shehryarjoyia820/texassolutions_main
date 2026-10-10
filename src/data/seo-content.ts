@@ -324,7 +324,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'software team augmentation',
     ],
     quickAnswer:
-      'Texas Solutions provides dedicated development teams and IT staff augmentation: named software engineers, QA engineers, DevOps engineers and designers who work only on your product, in your tools and time zone. Mid-level engineers start at about US$3,500 a month and senior engineers at US$5,000, with the first engineers starting in one to two weeks.',
+      'Texas Solutions provides dedicated development teams and IT staff augmentation: named software engineers, QA engineers, DevOps engineers and designers who work only on your product, in your tools and time zone. Junior developers are US$2,000 a month, mid-level US$3,000, senior US$4,500 and tech leads US$5,500, each for up to 160 hours, with the first engineers usually starting in one to two weeks.',
     guideTitle: 'Hiring a dedicated development team: costs, models and pitfalls',
     guide: [
       {
@@ -345,7 +345,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does it cost to hire dedicated developers?',
         paragraphs: [
-          'Monthly rates for full-time dedicated engineers run from about US$2,500 to US$3,500 for junior, US$3,500 to US$5,000 for mid-level, US$5,000 to US$7,000 for senior and US$6,500 to US$9,000 for tech leads and architects. Full working-hours overlap with your team adds around 10% to 15%.',
+          'Our published monthly rates for a dedicated engineer (up to 160 hours a month) are US$2,000 for a junior developer, US$3,000 for mid-level, US$4,500 for senior and US$5,500 for a tech lead or architect. Rates assume your work runs in our normal working hours with a daily overlap window. Extended overlap, onsite work or specialist requirements can carry a premium, which is explained and confirmed in a written quote before work starts.',
         ],
       },
       {
@@ -357,9 +357,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     ],
     faqs: [
       { q: 'How fast can a dedicated developer start?', a: 'Usually within one to two weeks: a shortlist in three to seven days, your interviews, then onboarding. A full squad of four to six engineers typically takes three to four weeks.' },
-      { q: 'Which time zones do your developers cover?', a: 'We guarantee at least four hours of overlap with your working day, and full overlap with your business hours is available at a small premium.' },
-      { q: 'Who owns the code a dedicated team writes?', a: 'You do. Intellectual property is assigned to you in the contract and all code is committed to your repositories.' },
-      { q: 'Can we scale the team up or down?', a: 'Yes, with thirty days notice. Most clients start with two or three engineers and grow once velocity and quality are proven.' },
+      { q: 'Can we scale the team up or down?', a: 'Yes, with thirty days notice. You can start with one engineer and add people once you are happy with the pace and quality.' },
     ],
   },
 

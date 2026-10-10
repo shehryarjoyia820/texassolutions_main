@@ -3,6 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import { SITE_FAQS } from '@/data/company';
 import { SERVICES } from '@/data/services';
 import { SERVICE_SEO } from '@/data/seo-content';
+import { mergeFaqs } from '@/lib/faqs';
 import { PageHero, CtaSection } from '@/components/page-shell';
 import { Container, Section } from '@/components/ui';
 import { JsonLd, breadcrumbSchema, faqSchema, pageMeta } from '@/lib/seo';
@@ -35,7 +36,7 @@ function buildGroups(): Group[] {
       id: s.slug,
       title: s.name,
       href: `/services/${s.slug}`,
-      items: [...(SERVICE_SEO[s.slug]?.faqs ?? []), ...s.faqs],
+      items: mergeFaqs(s.faqs, SERVICE_SEO[s.slug]?.faqs),
     });
   }
   return groups;
@@ -106,7 +107,7 @@ export default function AnswersPage() {
 
       <CtaSection
         title="Your question not here?"
-        body="Ask it on the contact form and a named person replies within four business hours."
+        body="Ask it on the contact form and a named person replies within one business day."
         primary={{ href: '/contact', label: 'Ask a question' }}
         secondary={{ href: '/estimate', label: 'Get an Estimate' }}
       />

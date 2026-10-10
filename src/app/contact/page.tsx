@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Clock, Handshake, LifeBuoy, Mail, MapPin, Megaphone, Phone } from 'lucide-react';
 import { OFFICES, SITE } from '@/data/site';
 import { PageHero } from '@/components/page-shell';
-import { Container, Section, SectionHeading, NoteBox, ButtonLink, ArrowLink } from '@/components/ui';
+import { Container, Section, SectionHeading, ButtonLink, ArrowLink } from '@/components/ui';
 import { ContactFormPanel } from '@/components/pages/contact-form-panel';
 import { BookingWidget } from '@/components/booking';
 import { RevealGroup, RevealItem } from '@/components/motion';
@@ -23,7 +23,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="Talk to a person, not a queue"
-        body="Every enquiry reaches a named person. First reply within four business hours, and the dispatch line answers around the clock in under ninety seconds."
+        body="Every enquiry reaches a named person, with a first reply within one business day. Carriers can reach the truck dispatch desk 24/7."
         trail={[{ label: 'Contact us' }]}
       >
         <div className="grid gap-3 sm:grid-cols-3">
@@ -86,7 +86,7 @@ export default function ContactPage() {
         <Container>
           <SectionHeading
             eyebrow="Offices"
-            title="Five locations, four time zones"
+            title="Midland, Texas and our Lahore team"
             body="Dispatch is run from Midland, Texas with after-hours support from our Lahore team, which is how the desk stays open overnight."
           />
           <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -119,10 +119,6 @@ export default function ContactPage() {
             ))}
           </RevealGroup>
 
-          <NoteBox className="mt-8">
-            An embedded map is added once the exact suite numbers are confirmed for each location. Directions
-            are sent with every meeting confirmation in the meantime.
-          </NoteBox>
         </Container>
       </Section>
 
@@ -134,8 +130,9 @@ export default function ContactPage() {
               <LifeBuoy className="h-6 w-6 text-accent" aria-hidden />
               <h2 className="mt-4 font-display text-lg font-semibold">Support</h2>
               <p className="mt-2 text-sm leading-relaxed text-fg-muted">
-                Existing clients: critical production incidents get a response within one hour, any day.
-                Standard tickets are resolved within two business days.
+                Existing clients: support requests are handled in business hours (9am to 5pm US Central,
+                Monday to Friday). Faster or out-of-hours incident response applies only where your support
+                plan or agreement includes it.
               </p>
               <a
                 href={`mailto:${SITE.supportEmail}`}

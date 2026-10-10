@@ -750,8 +750,8 @@ export function ContactForm({ defaultService = '' }: { defaultService?: string }
       }}
       submitLabel="Send enquiry"
       successTitle="Enquiry received"
-      successBody="A named person will reply within four business hours, by email or phone as you prefer."
-      footer={<p className="text-xs text-fg-subtle">Typical first reply: under 4 business hours.</p>}
+      successBody="A named person will reply within one business day, by email or phone as you prefer."
+      footer={<p className="text-xs text-fg-subtle">First reply within one business day.</p>}
     >
       <Honeypot value={honey} onChange={setHoney} />
 

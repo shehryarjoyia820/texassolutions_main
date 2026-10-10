@@ -26,6 +26,7 @@ import { ServiceInteractive } from './service-widgets';
 import { cn } from '@/lib/utils';
 import type { ServiceSeo } from '@/data/seo-content';
 import { QuickAnswer, SeoGuide } from './seo-blocks';
+import { mergeFaqs } from '@/lib/faqs';
 
 export function ServiceDetail({
   service,
@@ -199,7 +200,7 @@ export function ServiceDetail({
           <SectionHeading
             eyebrow="What is inside"
             title={`${service.subServices.length} ways we run ${service.navLabel.toLowerCase()}`}
-            body="Each one has its own page with what is delivered and what it targets in search."
+            body="Each one has its own page explaining what is delivered and how it is priced."
           />
 
           <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -465,7 +466,7 @@ export function ServiceDetail({
               eyebrow="Frequently asked questions"
               title={`${service.navLabel}: your questions answered`}
             />
-            <Accordion items={[...service.faqs, ...(seo?.faqs ?? [])]} defaultOpen={0} />
+            <Accordion items={mergeFaqs(service.faqs, seo?.faqs)} defaultOpen={0} />
           </div>
         </Container>
       </Section>

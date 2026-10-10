@@ -210,7 +210,7 @@ async function sendAutoReply(form: string, to: string, fields: Record<string, un
     html: `<div style="font-family:sans-serif;font-size:15px;line-height:1.6;color:#12182a">
       <p>Hi ${escapeHtml(name)},</p>
       <p>Thanks for getting in touch with Texas Solutions. A named person on the relevant team has your
-      message and will reply within four business hours on a working day.</p>
+      message and will reply within one business day.</p>
       <p>If it is urgent, call us on (838) 910-3147. The dispatch desk is staffed around the clock.</p>
       <p style="color:#667;font-size:13px">Any figures we have shown you are ranges for guidance only and are
       not a binding quote. Final pricing is confirmed after a consultation.</p>

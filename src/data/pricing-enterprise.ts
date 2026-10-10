@@ -85,7 +85,7 @@ export const ENTERPRISE_PRICE_TABLES: PriceTable[] = [
       'Each person is dedicated to your work for up to 160 working hours a month. Monthly rates reflect reserved capacity and may be lower than ad-hoc hourly billing.',
     rows: resourceRows(MONTHLY_RESOURCES.map((r) => r.id)),
     disclaimer:
-      'A project manager is not included and is quoted separately if needed. Hours above an allocation are billed at the hourly rate for the role, only with your written approval.',
+      'A project manager is not included and is quoted separately if needed.',
   },
 ];
 

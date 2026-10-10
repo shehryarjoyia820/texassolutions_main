@@ -6,6 +6,7 @@ import { SmoothScroll } from '@/components/motion';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { CookieBanner } from '@/components/cookie-banner';
+import { ChatWidget } from '@/components/chat/chat-widget';
 import { SITE } from '@/data/site';
 import { JsonLd, organizationSchema, localBusinessSchema } from '@/lib/seo';
 import { HeadCodes } from '@/components/head-codes';
@@ -108,6 +109,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </main>
             <Footer />
             <CookieBanner />
+            <ChatWidget />
           </SmoothScroll>
         </Providers>
       </body>

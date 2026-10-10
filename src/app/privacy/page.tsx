@@ -96,10 +96,24 @@ export default function PrivacyPage() {
               makes the consent banner appear again.
             </p>
 
+            <h2 id="chat-assistant">Website chat assistant</h2>
+            <p>
+              The chat assistant on this site is an AI system, not a person. Before a chat starts we ask for your
+              name and email (phone, company and website are optional) and your acknowledgement of this notice.
+              We use them to answer your questions and to follow up on your enquiry.
+            </p>
+            <ul>
+              <li>Your details and the full conversation are stored in our database and emailed to {SITE.email} so the team can follow up.</li>
+              <li>Messages are sent to our AI provider, Google (Gemini API), to generate replies. Do not share passwords, payment details or other sensitive information in the chat.</li>
+              <li>Marketing emails are sent only if you tick the separate, optional marketing box.</li>
+              <li>Chat records are kept with other enquiries (see How long we keep it). To see or delete yours, email {SITE.email} with the lead ID shown in our reply.</li>
+              <li>AI answers can be wrong. Prices it gives are our published rates or rough estimates; a final price is only confirmed in writing.</li>
+            </ul>
+
             <h2>Who we share it with</h2>
             <p>We do not sell personal information. We share it only with:</p>
             <ul>
-              <li><strong>Service providers</strong> who process data on our behalf under contract: our CRM, email delivery provider, hosting provider, analytics providers and spam protection service.</li>
+              <li><strong>Service providers</strong> who process data on our behalf under contract: our CRM, email delivery provider, hosting and database providers, analytics providers, spam protection service and our AI provider for the chat assistant.</li>
               <li><strong>Professional advisers</strong> such as accountants and lawyers, where necessary.</li>
               <li><strong>Authorities</strong>, where we are legally required to do so.</li>
             </ul>

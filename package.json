@@ -11,6 +11,7 @@
     "build:static": "node scripts/build-static.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "1.0.2",
     "clsx": "2.1.1",
     "framer-motion": "11.15.0",
     "gsap": "3.12.5",

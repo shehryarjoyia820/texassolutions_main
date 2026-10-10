@@ -22,3 +22,5 @@ dev.cmd
 
 # local QA evidence (screenshots)
 docs/evidence/
+.api-parked/
+.admin-parked/

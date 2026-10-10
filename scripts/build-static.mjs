@@ -14,15 +14,17 @@ import { existsSync, renameSync, rmSync, cpSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const root = process.cwd();
-const apiDir = resolve(root, 'src/app/api');
-const parked = resolve(root, '.api-parked');
-
-let moved = false;
+// Server-only routes: the form/chat API and the chatbot admin run on Vercel only.
+const SERVER_DIRS = [
+  [resolve(root, 'src/app/api'), resolve(root, '.api-parked')],
+  [resolve(root, 'src/app/admin'), resolve(root, '.admin-parked')],
+];
+const movedDirs = [];
 
 function restore() {
-  if (moved && existsSync(parked)) {
-    renameSync(parked, apiDir);
-    moved = false;
+  while (movedDirs.length) {
+    const [dir, parked] = movedDirs.pop();
+    if (existsSync(parked)) renameSync(parked, dir);
   }
 }
 
@@ -33,11 +35,12 @@ process.on('SIGINT', () => {
 });
 
 try {
-  if (existsSync(apiDir)) {
+  for (const [dir, parked] of SERVER_DIRS) {
+    if (!existsSync(dir)) continue;
     if (existsSync(parked)) rmSync(parked, { recursive: true, force: true });
-    renameSync(apiDir, parked);
-    moved = true;
-    console.log('• Parked src/app/api for the static export');
+    renameSync(dir, parked);
+    movedDirs.push([dir, parked]);
+    console.log(`• Parked ${dir.slice(root.length + 1)} for the static export`);
   }
 
   rmSync(resolve(root, 'out'), { recursive: true, force: true });

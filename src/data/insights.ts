@@ -127,7 +127,7 @@ export const INSIGHTS: Insight[] = [
     service: 'qa-testing',
     tags: ['QA outsourcing', 'Test automation', 'Software testing cost'],
     body: [
-      { t: 'p', text: 'Short answer: outsourced QA engineers cost about US$25 to US$45 an hour with an offshore team, depending on seniority and specialism. A managed QA team costs roughly US$2,500 to US$6,000 a month. The best value usually comes from automating regression tests and keeping skilled manual testers for new features.' },
+      { t: 'p', text: 'Short answer: our published QA rates are US$12 to US$18 an hour for manual testing and US$18 to US$28 for QA automation. A manual QA retainer starts at US$300 a month for up to 20 hours, and a dedicated QA engineer is US$1,600 to US$2,800 a month. The best value usually comes from automating regression tests and keeping skilled manual testers for new features.' },
       { t: 'h2', text: 'Which QA engagement model fits?' },
       { t: 'ul', items: [
         'Project-based testing: a defined release or product launch.',

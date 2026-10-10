@@ -448,7 +448,7 @@ const BASE_SERVICES: Service[] = [
       { q: 'What counts as a qualified lead?', a: 'Whatever we agree in writing before launch, usually a combination of company size, sector, geography, role seniority and a stated need. If a lead does not meet the criteria, it does not get billed.' },
       { q: 'Will cold email damage our domain reputation?', a: 'Not if it is done properly. We send from dedicated domains that are separate from your main one, authenticate them with SPF, DKIM and DMARC, warm them for several weeks and ramp volume only while deliverability holds.' },
       { q: 'How long before we see meetings?', a: 'Domain warming takes two to three weeks, so the first meetings usually land in week four or five. Meaningful volume data arrives around week eight.' },
-      { q: 'Do you work per lead or on a retainer?', a: 'Most accounts start on a retainer because it lets us invest in deliverability and testing. Once volume and quality are proven, we can move to per qualified lead or per booked appointment.' },
+      { q: 'Do you work per lead or on a retainer?', a: 'We work on a monthly support plan priced by hours, starting at US$600 a month for up to 40 hours. Any other arrangement is agreed and quoted in writing before work starts.' },
       { q: 'Are you compliant with GDPR and CAN-SPAM?', a: 'Yes. Outreach covered by GDPR runs on legitimate interest with clear opt-out, records of the basis for contact and honoured suppression lists, and all sending follows CAN-SPAM identification and opt-out rules.' },
     ],
     metrics: [
@@ -547,7 +547,7 @@ const BASE_SERVICES: Service[] = [
       ],
     },
     faqs: [
-      { q: 'Do you charge a flat fee or a percentage of spend?', a: 'Either. Flat monthly fees suit accounts with steady budgets; 10 to 20 percent of ad spend suits accounts that scale seasonally. We recommend whichever costs you less at your current spend.' },
+      { q: 'Do you charge a flat fee or a percentage of spend?', a: 'A flat monthly fee. Ads management starts at US$300 a month for one platform and up to three campaigns, and larger accounts are quoted in writing. Ad spend is separate and paid directly by you.' },
       { q: 'Who owns the ad accounts?', a: 'You do. We work inside your accounts with delegated access. If we part ways, you keep every campaign, audience and piece of creative.' },
       { q: 'How quickly will cost per acquisition come down?', a: 'Tracking fixes show up within days. Structural changes need two to four weeks of data. Creative-driven gains usually land in month two or three once enough variants have been tested.' },
       { q: 'What is the minimum ad spend you work with?', a: 'Around $3,000 a month per platform. Below that there is not enough data to optimise on and the management fee eats too much of the budget.' },
@@ -649,12 +649,12 @@ const BASE_SERVICES: Service[] = [
     faqs: [
       { q: 'Will you get our AdSense account approved?', a: 'We audit against the publisher policies before applying and fix what would cause a rejection. We cannot guarantee approval because Google makes that decision, but a pre-application audit removes the common causes.' },
       { q: 'Does adding more ad units increase revenue?', a: 'Usually not past a point. More units lower the value of each impression, hurt Core Web Vitals and push readers away, which cuts sessions. We optimise revenue per session, which often means fewer units.' },
-      { q: 'How is your fee calculated?', a: 'Either a flat monthly fee per site, or 15 to 30 percent of the revenue uplift above your trailing three-month baseline. The baseline is agreed in writing before we start.' },
+      { q: 'How is your fee calculated?', a: 'A flat monthly fee per site, starting at US$200 a month for one site with a monthly review. Additional sites and larger scopes are quoted in writing.' },
       { q: 'What happens if we get a policy strike?', a: 'We audit the flagged content, write the remediation, make the fixes and support the appeal. Ongoing monitoring is included so new content is checked before it becomes a problem.' },
       { q: 'Is this pricing a market benchmark?', a: 'No. It is our own rate card. No public pricing survey exists for AdSense revenue management, and we would rather say so than imply a benchmark that does not exist.' },
     ],
     metrics: [
-      { label: 'Typical RPM uplift', value: '35-80%' },
+      { label: 'Fee basis', value: 'Flat, per site' },
       { label: 'Audit turnaround', value: '7 days' },
       { label: 'Reporting', value: 'Per unit' },
     ],

@@ -132,14 +132,24 @@ export function organizationSchema() {
     email: SITE.email,
     founder: { '@type': 'Person', name: SITE.ceo, jobTitle: 'Owner and CEO' },
     // Only offices with a confirmed street address are published.
-    address: OFFICES.filter((o) => o.address.length > 0).map((o) => ({
-      '@type': 'PostalAddress',
-      streetAddress: o.address.slice(1, -1).join(', ') || o.address[0],
-      addressLocality: o.city,
-      addressRegion: 'TX',
-      postalCode: '79701',
-      addressCountry: 'US',
-    })),
+    address: OFFICES.filter((o) => o.address.length > 0).map((o) =>
+      o.region === 'US'
+        ? {
+            '@type': 'PostalAddress',
+            streetAddress: o.address.slice(1, -1).join(', ') || o.address[0],
+            addressLocality: o.city,
+            addressRegion: 'TX',
+            postalCode: '79701',
+            addressCountry: 'US',
+          }
+        : {
+            '@type': 'PostalAddress',
+            streetAddress: o.address[0],
+            addressLocality: o.city,
+            addressRegion: 'Punjab',
+            addressCountry: o.region,
+          },
+    ),
     contactPoint: [
       {
         '@type': 'ContactPoint',

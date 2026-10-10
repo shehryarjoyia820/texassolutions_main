@@ -32,7 +32,7 @@ export interface Office {
   focus: string;
 }
 
-/** CMS model: office. The Midland office is the only office. */
+/** CMS model: office. US office in Midland, delivery office in Lahore. */
 export const OFFICES: Office[] = [
   {
     city: 'Midland',
@@ -47,7 +47,7 @@ export const OFFICES: Office[] = [
     city: 'Lahore',
     country: 'Pakistan',
     region: 'PK',
-    address: [],
+    address: ['297-C Block, PIA Main Boulevard', 'Lahore, Pakistan'],
     timezone: 'Asia/Karachi',
     focus: 'Delivery team (engineering, QA and after-hours dispatch support)',
   },

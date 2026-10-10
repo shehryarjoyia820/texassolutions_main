@@ -2,7 +2,6 @@ import { Hero } from '@/components/home/hero';
 import { HowItWorks, HomeFaq, CtaBand } from '@/components/home/sections';
 import { TrustFacts, ServiceGroups, PackagesTeaser } from '@/components/home/service-groups';
 import { SITE_FAQS } from '@/data/company';
-import { BlogTeaser } from '@/components/home/blog-teaser';
 import { JsonLd, faqSchema, pageMeta, speakableSchema, websiteSchema } from '@/lib/seo';
 
 export const metadata = pageMeta({
@@ -32,7 +31,6 @@ export default function HomePage() {
       <ServiceGroups />
       <PackagesTeaser />
       <HowItWorks />
-      <BlogTeaser />
       <HomeFaq />
       <CtaBand />
     </>

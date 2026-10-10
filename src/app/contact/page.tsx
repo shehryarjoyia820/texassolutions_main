@@ -86,8 +86,8 @@ export default function ContactPage() {
         <Container>
           <SectionHeading
             eyebrow="Offices"
-            title="Midland, Texas and our Lahore team"
-            body="Dispatch is run from Midland, Texas with after-hours support from our Lahore team, which is how the desk stays open overnight."
+            title="Midland, Texas and Lahore, Pakistan"
+            body="Dispatch is run from Midland, Texas with after-hours support from our Lahore office, which is how the desk stays open overnight."
           />
           <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {OFFICES.map((o) => (

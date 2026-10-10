@@ -176,7 +176,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'qa-testing',
     metaTitle: 'Software Testing & QA Services | Test Automation, Performance & Mobile App Testing',
     metaDescription:
-      'Software testing and QA outsourcing: test automation with Playwright, Selenium and Cypress, manual testing, performance and load testing, API testing, mobile app testing and QA staff augmentation. From US$25 an hour.',
+      'Software testing and QA outsourcing: test automation with Playwright, Selenium and Cypress, manual testing, performance and load testing, API testing, mobile app testing and QA staff augmentation. Manual QA from US$12 an hour, QA automation from US$18.',
     keywords: [
       'software testing services',
       'QA testing services',
@@ -193,7 +193,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'software QA company',
     ],
     quickAnswer:
-      'Texas Solutions provides software testing and QA services including test automation with Playwright, Selenium and Cypress, manual and exploratory testing, performance and load testing, API testing, mobile app testing and QA staff augmentation. QA engineers start at US$25 an hour, and managed QA teams at US$2,500 a month, with the test suite built in your repository.',
+      'Texas Solutions provides software testing and QA services including test automation with Playwright, Selenium and Cypress, manual and exploratory testing, performance and load testing, API testing, mobile app testing and QA staff augmentation. Manual QA costs US$12 to US$18 an hour and QA automation US$18 to US$28, a manual QA retainer starts at US$300 a month for up to 20 hours, and a dedicated QA engineer is US$1,600 a month, with the test suite built in your repository.',
     guideTitle: 'Software QA and testing: how to choose a QA partner',
     guide: [
       {
@@ -220,7 +220,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does QA outsourcing cost?',
         paragraphs: [
-          'Hourly QA rates run about US$25 to US$45 depending on seniority and specialism. A managed QA team costs roughly US$2,500 to US$6,000 a month. Building an automation framework with the first ten to thirty journeys usually lands in the managed range for one to three months.',
+          'Our published rates are US$12 to US$18 an hour for manual QA and US$18 to US$28 for QA automation. A manual QA retainer starts at US$300 a month for up to 20 testing hours; a dedicated manual QA engineer is US$1,600 a month and a QA automation engineer US$2,800 a month, each for up to 160 hours. Building an automation framework with the first ten to thirty journeys is scoped and quoted in writing.',
         ],
       },
       {
@@ -491,10 +491,10 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'lead-generation',
     metaTitle: 'B2B Lead Generation Services | Outbound, Cold Email & Appointment Setting',
     metaDescription:
-      'B2B lead generation agency: outbound campaigns, cold email, LinkedIn outreach, appointment setting and verified data. Retainers from US$1,500 a month, or pay per qualified lead.',
+      'B2B lead generation agency: outbound campaigns, cold email, LinkedIn outreach, appointment setting and verified data. Lead-generation support from US$600 a month for up to 40 hours.',
     keywords: ['B2B lead generation services', 'lead generation agency', 'cold email agency', 'appointment setting services', 'LinkedIn lead generation', 'outbound sales agency', 'pay per lead'],
     quickAnswer:
-      'Texas Solutions runs B2B lead generation: outbound campaigns across cold email, LinkedIn and phone, appointment setting and verified contact data. Retainers start at about US$1,500 a month, with per-qualified-lead pricing from US$75 once volume is proven.',
+      'Texas Solutions runs B2B lead generation: outbound campaigns across cold email, LinkedIn and phone, appointment setting and verified contact data. Lead-generation support starts at US$600 a month for up to 40 research and outreach-support hours; data, tools and ad spend are billed separately and lead numbers are not guaranteed.',
     guideTitle: 'B2B lead generation that produces meetings, not lists',
     guide: [
       {
@@ -505,7 +505,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       },
     ],
     faqs: [
-      { q: 'How much does B2B lead generation cost?', a: 'Retainers typically run US$1,500 to US$5,000 a month. Per qualified lead pricing runs about US$75 to US$250, and per booked appointment US$150 to US$400.' },
+      { q: 'How much does B2B lead generation cost?', a: 'Our lead-generation support starts at US$600 a month for up to 40 hours of research and outreach support. Paid data, outreach tools and ad spend are separate. We do not guarantee a number of leads or meetings.' },
     ],
   },
 
@@ -514,10 +514,10 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'ads-optimization',
     metaTitle: 'PPC Management & Ad Creative | Google Ads, Meta Ads, LinkedIn & TikTok',
     metaDescription:
-      'PPC and paid social management: Google Ads, Meta, LinkedIn and TikTok campaigns, account audits, conversion tracking and ad creative design. From US$400 a month or 10-20% of spend.',
+      'PPC and paid social management: Google Ads, Meta, LinkedIn and TikTok campaigns, account audits, conversion tracking and ad creative design. Management from US$300 a month for one platform and up to 3 campaigns; ad spend is separate.',
     keywords: ['PPC management services', 'Google Ads management agency', 'Meta ads agency', 'LinkedIn ads agency', 'ad creative design services', 'conversion tracking setup', 'PPC audit'],
     quickAnswer:
-      'Texas Solutions manages paid advertising on Google Ads, Meta, LinkedIn and TikTok, with account audits, server-side conversion tracking and monthly ad creative. Management costs about US$400 to US$1,500 a month or 10% to 20% of ad spend, whichever is lower for you.',
+      'Texas Solutions manages paid advertising on Google Ads, Meta, LinkedIn and TikTok, with account audits, server-side conversion tracking and monthly ad creative. Ads management starts at US$300 a month for one platform and up to three campaigns, account setup and tracking is a one-time US$300 to US$1,000, and ad spend is paid directly by you.',
     guideTitle: 'Paid advertising management: fix measurement first',
     guide: [
       {
@@ -528,7 +528,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       },
     ],
     faqs: [
-      { q: 'How much does PPC management cost?', a: 'Typically US$400 to US$1,500 a month, or 10% to 20% of ad spend. Setup and tracking is usually a one-time US$300 to US$1,000.' },
+      { q: 'How much does PPC management cost?', a: 'Our ads management starts at US$300 a month for one platform and up to three campaigns. Setup and tracking is a one-time US$300 to US$1,000. Ad spend is separate and paid directly by you.' },
     ],
   },
 
@@ -540,7 +540,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'Google AdSense revenue management for publishers: approval, ad placement optimisation, RPM and CTR tuning, policy compliance, Core Web Vitals and header bidding advice.',
     keywords: ['AdSense management service', 'increase AdSense RPM', 'AdSense optimization', 'AdSense approval service', 'AdSense policy compliance', 'publisher ad revenue optimization'],
     quickAnswer:
-      'Texas Solutions manages Google AdSense revenue for publishers: policy compliance, ad placement and density tuning, RPM optimisation, Core Web Vitals and header bidding advice. Management costs US$200 to US$800 per site a month, or 15% to 30% of the revenue uplift above an agreed baseline.',
+      'Texas Solutions manages Google AdSense revenue for publishers: policy compliance, ad placement and density tuning, RPM optimisation, Core Web Vitals and header bidding advice. AdSense management starts at US$200 a month for one site, with a monthly review and optimisation recommendations. AdSense approval and revenue are not guaranteed.',
     guideTitle: 'How to raise AdSense revenue without hurting your readers',
     guide: [
       {

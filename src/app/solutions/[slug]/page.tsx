@@ -79,8 +79,9 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
             <aside className="lg:sticky lg:top-28 lg:self-start">
               <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
                 <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle">
-                  Outcomes to expect
+                  What we aim for
                 </p>
+                <p className="mt-1 text-xs text-fg-subtle">Targets, not guarantees. Results depend on your starting point.</p>
                 <dl className="mt-4 space-y-4">
                   {solution.outcomes.map((o) => (
                     <div key={o.label} className="border-b border-svc/15 pb-4 last:border-0 last:pb-0">
@@ -143,7 +144,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
           <Reveal>
             <div className="grid gap-8 rounded-2xl border border-svc/25 bg-svc/5 p-7 sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
               <div>
-                <p className="eyebrow mb-4 text-svc">Proof</p>
+                <p className="eyebrow mb-4 text-svc">Illustrative example — not a client result</p>
                 <h2 className="text-display-sm">{solution.proof.headline}</h2>
                 <p className="mt-4 leading-relaxed text-fg-muted">{solution.proof.body}</p>
                 <ArrowLink href="/blog?kind=Case+study" className="mt-6">
@@ -153,7 +154,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
               <dl className="grid gap-4">
                 {solution.proof.metrics.map((m) => (
                   <div key={m.label} className="rounded-xl border border-line bg-bg-elev p-5">
-                    <dt className="text-xs text-fg-subtle">{m.label}</dt>
+                    <dt className="text-xs text-fg-subtle">Example target: {m.label}</dt>
                     <dd className="mt-1.5 font-display text-xl font-semibold text-svc">{m.value}</dd>
                   </div>
                 ))}

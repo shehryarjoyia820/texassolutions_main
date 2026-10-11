@@ -1,5 +1,8 @@
 import type { RegionCode } from './regions';
 import { ENTERPRISE_ESTIMATE_CONFIG } from './estimate-config-enterprise';
+import { RCM_MODELS, RCM_TERMS } from './rates';
+
+const pct = (p: [number, number]) => `${Math.round(p[0] * 100)}-${Math.round(p[1] * 100)}%`;
 
 /**
  * CMS model: estimateQuestionSet
@@ -407,6 +410,52 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
     outputNotes: [
       'Parts and labour are shown separately in the breakdown.',
       'Nothing is ordered until the VIN match is confirmed in writing.',
+    ],
+  },
+
+  {
+    service: 'revenue-cycle-management',
+    billing: 'monthly',
+    regions: ['US', 'UK', 'CA', 'AU', 'EU', 'GCC', 'APAC'],
+    subTypeLabel: 'What kind of practice?',
+    defaultDurationMonths: 12,
+    durationOptions: [1, 6, 12],
+    subTypes: RCM_MODELS.map((m) => ({
+      id: m.id,
+      label: `${m.short} practice`,
+      description: `${pct(m.percent)} of net monthly collections`,
+      priceRow: `rcm-${m.id}`,
+    })),
+    questions: [
+      {
+        id: 'collections',
+        type: 'number',
+        label: 'Net monthly collections',
+        help: 'What the practice actually collects in a month after adjustments. Use a three-month average. The fee is a percentage of this figure.',
+        min: 5000,
+        max: 500000,
+        step: 5000,
+        defaultValue: 50000,
+        currency: true,
+        unit: 'per month',
+      },
+      {
+        id: 'extras',
+        type: 'multi',
+        label: 'Also needed',
+        help: 'These are quoted separately after the billing review.',
+        defaultValue: [],
+        options: [
+          { value: 'credentialing', label: 'Credentialing and payer enrollment' },
+          { value: 'coding-audit', label: 'Coding audit' },
+          { value: 'prior-auth', label: 'Prior authorization' },
+        ],
+      },
+    ],
+    disclaimer: RCM_TERMS,
+    outputNotes: [
+      'Fee = your percentage x net monthly collections. Collections are not guaranteed.',
+      'Please do not enter or send patient information. A billing review uses summary reports only.',
     ],
   },
 ];

@@ -82,7 +82,7 @@ export const MEGA_MENUS: MegaMenu[] = [
     label: 'Services',
     href: '/services',
     overviewLabel: 'All services',
-    overviewDescription: 'Thirteen service lines, each with its own pricing and sub-services.',
+    overviewDescription: 'Fourteen service lines, each with its own pricing and sub-services.',
     wide: true,
     columns: [
       {
@@ -95,7 +95,7 @@ export const MEGA_MENUS: MegaMenu[] = [
       },
       {
         title: 'Operations and revenue',
-        links: pick(['truck-dispatch', 'ads-optimization', 'adsense-management']),
+        links: pick(['truck-dispatch', 'revenue-cycle-management', 'ads-optimization', 'adsense-management']),
       },
     ],
     featured: {
@@ -138,7 +138,7 @@ export const MEGA_MENUS: MegaMenu[] = [
     columns: [
       {
         links: [
-          { label: 'Our difference', href: '/why-texas-solutions#difference', description: 'Thirteen service lines, one accountable contact.' },
+          { label: 'Our difference', href: '/why-texas-solutions#difference', description: 'Fourteen service lines, one accountable contact.' },
           { label: 'Process', href: '/why-texas-solutions#process', description: 'From first enquiry to reporting cadence.' },
           { label: 'Guarantees and SLAs', href: '/why-texas-solutions#guarantees', description: 'Response times, reporting and notice periods.' },
           { label: 'Security and compliance', href: '/why-texas-solutions#security', description: 'How we handle and retain your data.' },
@@ -214,7 +214,7 @@ export const MEGA_MENUS: MegaMenu[] = [
       {
         links: [
           { label: 'Story', href: '/about#story', description: 'From a two-person dispatch desk in 2019.' },
-          { label: 'Timeline', href: '/about#timeline', description: 'How thirteen service lines came together.' },
+          { label: 'Timeline', href: '/about#timeline', description: 'How fourteen service lines came together.' },
           { label: 'Leadership', href: '/about#leadership', description: 'Who is accountable for what.' },
           { label: 'Certifications and partners', href: '/about#certifications', description: 'Badges, and their current status.' },
           { label: 'Offices', href: '/about#offices', description: 'Midland, Texas and Lahore, Pakistan.' },
@@ -301,7 +301,7 @@ export const HEADER_MENUS: MegaMenu[] = [
     label: 'Services',
     href: '/services',
     overviewLabel: 'View all services',
-    overviewDescription: 'Thirteen service lines in three divisions, each with its own page and prices.',
+    overviewDescription: 'Fourteen service lines in four divisions, each with its own page and prices.',
     wide: true,
     columns: DIVISIONS.map((d) => ({ title: d.name, links: divisionLinks(d.services) })),
     featured: {

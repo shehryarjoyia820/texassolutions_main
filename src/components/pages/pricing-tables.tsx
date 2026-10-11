@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import type { PriceTable } from '@/data/pricing';
-import { DISPATCH_MODELS, dispatchPercentLabel } from '@/data/pricing';
+import { DISPATCH_MODELS, dispatchPercentLabel, pctLabel } from '@/data/pricing';
+import { RCM_MODELS } from '@/data/rates';
 import type { Service } from '@/data/services';
 import { FullPriceTable, ServicePriceTable } from '@/components/price-table';
 import { Container, Section, SectionHeading, NoteBox, ArrowLink } from '@/components/ui';
@@ -67,6 +68,18 @@ export function PricingTables({ tables, services }: { tables: PriceTable[]; serv
                             OTR only, no flat rate. Typical weekly gross USD {m.typicalGross[0].toLocaleString()}–
                             {m.typicalGross[1].toLocaleString()} per truck.
                           </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {table.service === 'revenue-cycle-management' && (
+                    <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                      {RCM_MODELS.map((m) => (
+                        <div key={m.id} className="rounded-xl border border-svc/25 bg-svc/5 p-5">
+                          <p className="text-sm font-medium">{m.label}</p>
+                          <p className="mt-2 font-display text-2xl font-semibold text-svc">{pctLabel(m.percent)} of net collections</p>
+                          <p className="mt-1 text-xs text-fg-subtle">Per month, no setup fee. Final percentage confirmed after a free billing review.</p>
                         </div>
                       ))}
                     </div>

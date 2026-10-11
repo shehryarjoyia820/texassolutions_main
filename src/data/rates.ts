@@ -185,3 +185,44 @@ export const PRICE_TERMS = {
 
 export const PREMIUMS_NOTE =
   'Onsite delivery, extended time-zone overlap or specialist requirements (for example regulated-industry compliance) can carry a premium. Any premium is explained and quoted in writing before work starts.';
+
+/* ------------------------------------------------------------------ */
+/*  Medical and dental revenue cycle management (RCM)                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * RCM is priced as a percentage of net monthly collections, separately from
+ * every other service. Final percentage is confirmed after a billing review.
+ */
+export interface RcmModel {
+  id: 'medical' | 'dental';
+  label: string;
+  short: string;
+  /** Low and high percentage of net monthly collections. */
+  percent: Range;
+  /** Example monthly collections used for the illustrative fee. */
+  exampleCollections: number;
+}
+
+export const RCM_MODELS: RcmModel[] = [
+  { id: 'medical', label: 'Medical practice RCM', short: 'Medical', percent: [0.04, 0.07], exampleCollections: 50000 },
+  { id: 'dental', label: 'Dental practice RCM', short: 'Dental', percent: [0.05, 0.08], exampleCollections: 40000 },
+];
+
+export const RCM_INCLUDES = [
+  'Insurance eligibility and benefits verification',
+  'Charge entry and claim submission',
+  'Payment posting (ERA and EOB)',
+  'Denial management and appeals',
+  'Accounts receivable follow-up',
+  'Patient statements and balance follow-up',
+  'Monthly collections and AR reporting',
+];
+
+export const RCM_TERMS =
+  'Percentage of net monthly collections (what is actually collected after adjustments), not gross charges. ' +
+  'Credentialing and payer enrollment, standalone coding audits and prior-authorization-only work are quoted separately. ' +
+  'The final percentage depends on specialty, claim volume and payer mix and is confirmed in writing after a free billing review.';
+
+export const RCM_DATA_NOTE =
+  'Please do not send patient names, records or other protected health information through this website, its forms or its chat. Secure data-handling arrangements are agreed with your practice during onboarding.';

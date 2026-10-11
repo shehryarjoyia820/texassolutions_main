@@ -14,7 +14,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Why Texas Solutions',
   description:
-    'Thirteen service lines under one contract, published pricing in US dollars, thirty days notice and accounts that stay in your name. Service commitments in the agreement and a straight comparison against agencies and in-house.',
+    'Fourteen service lines under one contract, published pricing in US dollars, thirty days notice and accounts that stay in your name. Service commitments in the agreement and a straight comparison against agencies and in-house.',
   path: '/why-texas-solutions',
 });
 

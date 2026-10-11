@@ -30,7 +30,7 @@ export function Footer() {
         </div>
 
         {/* ---- link columns ---- */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-[1.3fr_repeat(5,minmax(0,1fr))]">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-[1.3fr_repeat(6,minmax(0,1fr))]">
           <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="inline-flex items-center" aria-label={`${SITE.name} home`}>
               <Logo size="lg" />

@@ -30,6 +30,53 @@ export interface Insight {
 
 export const INSIGHTS: Insight[] = [
   {
+    slug: 'medical-dental-billing-services-cost',
+    kind: 'Guide',
+    title: 'How much do medical and dental billing services cost? Outsourced RCM pricing explained',
+    excerpt:
+      'Percentage of collections, per-claim and flat-fee pricing for outsourced medical billing and dental billing, what is usually included, and the questions to ask before you sign.',
+    date: '2026-10-11',
+    readingMinutes: 8,
+    author: 'Texas Solutions RCM team',
+    authorRole: 'Medical and dental billing',
+    service: 'revenue-cycle-management',
+    tags: ['Medical billing services', 'Dental billing services', 'Revenue cycle management', 'Billing outsourcing cost'],
+    body: [
+      { t: 'p', text: 'Short answer: most outsourced medical billing and dental billing companies charge a percentage of collections. Published industry guides put the common range at roughly 4% to 10% of collections, with most practices paying in the middle of that band and complex specialties paying more. Texas Solutions charges 4-7% of net monthly collections for medical practices and 5-8% for dental practices, with no setup fee.' },
+      { t: 'h2', text: 'The three common pricing models' },
+      { t: 'table', head: ['Model', 'How it works', 'Suits'], rows: [
+        ['Percentage of collections', 'A share of what the practice collects each month', 'Most practices; the fee follows results'],
+        ['Per claim', 'A flat fee for each claim submitted', 'High volume, simple claims'],
+        ['Flat monthly fee', 'A fixed monthly amount for an agreed scope', 'Predictable, steady volume'],
+      ] },
+      { t: 'h2', text: 'Collections or charges: check the denominator' },
+      { t: 'p', text: 'A percentage of net collections (money actually received after adjustments) is very different from the same percentage of gross charges. Always ask which figure the fee is calculated on. Our fee is based on net collections.' },
+      { t: 'h2', text: 'What a full RCM service should include' },
+      { t: 'ul', items: [
+        'Insurance eligibility and benefits verification before the visit',
+        'Coding review and charge entry',
+        'Claim scrubbing and electronic submission',
+        'Payment posting from ERAs and EOBs',
+        'Denial management and appeals',
+        'Accounts receivable follow-up by payer and age',
+        'Patient statements and a monthly report',
+      ] },
+      { t: 'p', text: 'Credentialing and payer enrollment, standalone coding audits and prior authorization are often priced separately. Ask for them to be listed in the agreement.' },
+      { t: 'h2', text: 'Medical vs dental billing costs' },
+      { t: 'p', text: 'Dental billing depends heavily on benefit breakdowns, frequency limits and claim attachments, which is why dental percentages often sit slightly higher than general medical billing. Medical billing carries more coding and prior authorization work in specialties such as cardiology or orthopedics.' },
+      { t: 'h2', text: 'Questions to ask before you sign' },
+      { t: 'ol', items: [
+        'Is the percentage on net collections or gross charges?',
+        'What is included, and what is billed separately?',
+        'Is there a setup fee, minimum monthly fee or long contract?',
+        'Who works our account, and how do we reach them?',
+        'What do we receive each month: claims, denials, collections and AR by age?',
+        'How is patient information accessed and protected, and what is agreed in writing?',
+      ] },
+      { t: 'p', text: 'Want a figure for your practice? Use the fee calculator on our medical and dental billing page, or ask for a free billing review based on summary reports only. Please do not send patient information through this website.' },
+    ],
+  },
+  {
     slug: 'custom-software-development-cost-2026',
     kind: 'Guide',
     title: 'How much does custom software development cost in 2026? Websites, web apps, SaaS and mobile apps',

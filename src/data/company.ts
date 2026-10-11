@@ -135,7 +135,7 @@ export const ENGAGEMENT_MODELS: EngagementModel[] = [
 /* ------------------------------------------------------------------ */
 
 export const PROOF_POINTS = [
-  { value: 13, suffix: '', label: 'Service lines under one contract', body: 'Web, QA, leads and engines, enterprise IT from AI to cybersecurity, plus dispatch, ads and AdSense, with one account contact across all of them.' },
+  { value: 14, suffix: '', label: 'Service lines under one contract', body: 'Web, QA, leads and engines, enterprise IT from AI to cybersecurity, medical and dental billing, plus dispatch, ads and AdSense, with one account contact across all of them.' },
   { value: 1, suffix: '', label: 'Published price list', body: 'One set of US dollar ranges for every client, with no pricing by location.' },
   { value: 24, suffix: '/7', label: 'Dispatch desk coverage', body: 'Overnight and weekend cover for breakdowns, delivery issues and next-day booking.' },
   { value: 30, suffix: ' days', label: 'Notice period, never longer', body: 'No multi-year lock-in on any service. If we are not earning the fee you should be able to leave.' },
@@ -158,7 +158,7 @@ export const COMPARISON = {
   columns: ['Texas Solutions', 'Typical agency', 'In-house'],
   rows: [
     { label: 'Time to start', values: ['Days', '4-8 weeks', '3-6 months to hire'] },
-    { label: 'Services covered', values: ['All thirteen under one contract', 'One or two specialisms', 'Whatever you hire for'] },
+    { label: 'Services covered', values: ['All fourteen under one contract', 'One or two specialisms', 'Whatever you hire for'] },
     { label: 'Contract lock-in', values: ['30 days notice', '6-12 month minimum', 'Employment commitment'] },
     { label: 'Who owns the accounts', values: ['You, always', 'Often the agency', 'You'] },
     { label: 'Published pricing', values: ['One public US dollar price list', 'Quoted after discovery calls', 'Not applicable'] },

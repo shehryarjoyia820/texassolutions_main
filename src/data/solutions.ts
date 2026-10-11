@@ -109,14 +109,15 @@ export const SOLUTIONS: Solution[] = [
     slug: 'healthcare',
     name: 'Healthcare',
     navLabel: 'Healthcare',
-    summary: 'Patient-facing sites, compliant intake and careful paid acquisition.',
+    summary: 'Medical and dental billing (RCM), patient-facing sites, careful intake and paid acquisition.',
     promise: 'More booked appointments, without a compliance headache.',
     description:
       'Healthcare marketing lives inside rules that most agencies learn the hard way. We build intake flows that handle patient data properly and run acquisition inside platform health policy.',
     icon: 'HeartPulse',
     accentHex: '#22C55E',
-    services: ['web-development', 'cybersecurity', 'data-analytics', 'ai-machine-learning', 'ads-optimization', 'lead-generation', 'qa-testing'],
+    services: ['revenue-cycle-management', 'web-development', 'cybersecurity', 'data-analytics', 'ai-machine-learning', 'ads-optimization', 'lead-generation', 'qa-testing'],
     painPoints: [
+      'Claims denied and never appealed, AR aging past 90 days',
       'Intake forms emailing patient data in the clear',
       'Ad accounts flagged under health advertising policy',
       'Booking journeys that lose people on mobile',
@@ -128,6 +129,7 @@ export const SOLUTIONS: Solution[] = [
       { label: 'Policy standing', value: 'Clean', note: 'Reviewed against platform health policy' },
     ],
     playbook: [
+      { title: 'Get claims paid', body: 'Eligibility checked before the visit, clean claims, every denial worked and aged AR followed up, priced as a percentage of collections.' },
       { title: 'Handle data properly', body: 'Encrypted transport and storage, role-based access, retention rules and an audit trail on intake.' },
       { title: 'Stage the intake', body: 'Split long forms into short steps with save-and-resume, which is where most mobile abandonment comes from.' },
       { title: 'Advertise inside the rules', body: 'Campaigns reviewed against health advertising policy before launch, with restricted audience handling.' },
@@ -143,7 +145,7 @@ export const SOLUTIONS: Solution[] = [
       ],
     },
     faqs: [
-      { q: 'Are you a HIPAA business associate?', a: 'We can sign a business associate agreement for engagements that touch protected health information, and we scope those projects so the minimum necessary data passes through systems we control. Your counsel should review the agreement.' },
+      { q: 'How do you handle patient information?', a: 'Patient information stays in your systems and is accessed through accounts you control. Data-handling terms for each engagement are agreed in writing during onboarding, and your counsel should review them. Please do not send patient information through this website.' },
       { q: 'Can we advertise health services on Meta and Google?', a: 'Within their health policies, yes. Targeting restrictions apply and some claims are prohibited outright. We review campaigns against current policy before launch.' },
     ],
     keyword: 'healthcare digital marketing agency',

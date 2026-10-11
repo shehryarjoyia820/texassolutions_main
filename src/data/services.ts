@@ -1,4 +1,5 @@
 import { ENTERPRISE_SERVICES } from './services-enterprise';
+import { RCM_SERVICE } from './services-rcm';
 
 /**
  * CMS models: service, subService, package, faq, caseStudy
@@ -15,7 +16,8 @@ export type InteractiveKind =
   | 'coverage-builder'
   | 'engine-finder'
   | 'ballpark'
-  | 'team-builder';
+  | 'team-builder'
+  | 'rcm-fee';
 
 export interface SubService {
   slug: string;
@@ -36,6 +38,8 @@ export interface PackageTier {
   anchor: 'low' | 'mid' | 'high';
   features: string[];
   popular?: boolean;
+  /** Shown instead of a dollar figure (percentage-priced services). */
+  priceLabel?: { value: string; unit: string };
 }
 
 export interface ProcessStep {
@@ -985,11 +989,12 @@ export const SERVICE_ORDER = [
   'cybersecurity',
   'dedicated-teams',
   'truck-dispatch',
+  'revenue-cycle-management',
   'ads-optimization',
   'adsense-management',
 ];
 
-const ALL_SERVICES = [...BASE_SERVICES, ...ENTERPRISE_SERVICES];
+const ALL_SERVICES = [...BASE_SERVICES, ...ENTERPRISE_SERVICES, RCM_SERVICE];
 
 export const SERVICES: Service[] = SERVICE_ORDER.map((slug) => {
   const found = ALL_SERVICES.find((s) => s.slug === slug);

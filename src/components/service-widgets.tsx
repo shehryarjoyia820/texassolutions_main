@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, GripVertical, Search, TrendingUp } from 'lucide-react';
-import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP, UNIT_LABEL, dispatchPercentLabel } from '@/data/pricing';
-import { MONTHLY_RESOURCES, SUPPORT_PLANS } from '@/data/rates';
+import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP, UNIT_LABEL, dispatchPercentLabel, pctLabel } from '@/data/pricing';
+import { MONTHLY_RESOURCES, RCM_INCLUDES, RCM_MODELS, RCM_TERMS, SUPPORT_PLANS } from '@/data/rates';
 import { SERVICE_MAP } from '@/data/services';
 import { MARKETPLACE_ITEMS } from '@/data/catalog';
 import { TemplatePreview } from './template-preview';
@@ -36,6 +36,8 @@ export function ServiceInteractive({ kind, slug }: { kind: InteractiveKind; slug
       return <BallparkPicker slug={slug} />;
     case 'team-builder':
       return <TeamBuilder />;
+    case 'rcm-fee':
+      return <RcmFeeCalculator />;
     default:
       return (
         <ButtonLink href={`/estimate?service=${slug}`} icon={ArrowRight}>
@@ -421,6 +423,81 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
             Build a full estimate
           </ButtonLink>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  RCM fee calculator (percentage of net collections)                 */
+/* ================================================================== */
+
+export function RcmFeeCalculator() {
+  const { code } = useRegion();
+  const [practice, setPractice] = useState<(typeof RCM_MODELS)[number]['id']>('medical');
+  const model = RCM_MODELS.find((m) => m.id === practice)!;
+  const [collections, setCollections] = useState(model.exampleCollections);
+  const monthly: [number, number] = [Math.round(collections * model.percent[0]), Math.round(collections * model.percent[1])];
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+      <div className="space-y-6 rounded-2xl border border-line bg-bg-soft p-6">
+        <div>
+          <span className="mb-2.5 block text-sm font-medium">Practice type</span>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {RCM_MODELS.map((m) => (
+              <button
+                key={m.id}
+                onClick={() => {
+                  setPractice(m.id);
+                  setCollections(m.exampleCollections);
+                }}
+                aria-pressed={practice === m.id}
+                className={cn(
+                  'rounded-xl border p-3.5 text-left text-sm transition-colors',
+                  practice === m.id ? 'border-svc bg-svc/10' : 'border-line hover:border-svc/40',
+                )}
+              >
+                <span className="block font-medium">{m.short}</span>
+                <span className="block text-xs text-fg-subtle">{pctLabel(m.percent)} of net collections</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <Slider
+          id="rcm-collections"
+          label="Net monthly collections"
+          value={collections}
+          min={5000}
+          max={500000}
+          step={5000}
+          onChange={setCollections}
+          display={formatMoney(collections, code)}
+        />
+        <p className="-mt-3 text-xs text-fg-subtle">Use your average over the last three months, after adjustments.</p>
+      </div>
+
+      <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
+        <div className="rounded-xl border border-success/45 bg-success/10 p-4">
+          <p className="text-xs uppercase tracking-wider text-fg-subtle">{pctLabel(model.percent)} of net collections</p>
+          <p className="mt-1.5 font-display text-2xl font-semibold">{formatRange(monthly, code)}</p>
+          <p className="text-xs text-fg-subtle">USD per month, estimated</p>
+        </div>
+        <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-fg-subtle">Included in full RCM</p>
+        <ul className="mt-2 space-y-1.5">
+          {RCM_INCLUDES.map((f) => (
+            <li key={f} className="flex gap-2 text-sm text-fg-muted">
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-svc" aria-hidden />
+              {f}
+            </li>
+          ))}
+        </ul>
+        <NoteBox tone="warn" className="mt-4 text-xs">
+          {RCM_TERMS} Results and collections are not guaranteed.
+        </NoteBox>
+        <ButtonLink href="/contact?service=revenue-cycle-management" variant="service" icon={ArrowRight} className="mt-5 w-full">
+          Ask for a free billing review
+        </ButtonLink>
       </div>
     </div>
   );

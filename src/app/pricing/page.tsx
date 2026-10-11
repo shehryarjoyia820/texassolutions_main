@@ -9,7 +9,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Pricing — every service, in US dollars',
   description:
-    'Texas Solutions pricing in US dollars: hourly rates, dedicated monthly resources, development packages, monthly plans and fixed-scope project ranges for all thirteen service lines.',
+    'Texas Solutions pricing in US dollars: hourly rates, dedicated monthly resources, development packages, monthly plans and fixed-scope project ranges for all fourteen service lines.',
   path: '/pricing',
 });
 

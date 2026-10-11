@@ -102,7 +102,7 @@ export function IndustrySwitcher() {
           <SectionHeading
             eyebrow="Built for your industry"
             title="Pick your world and watch the page change"
-            body="The same thirteen services get bought very differently depending on who you are. Choose an industry to see what we actually do for them."
+            body="The same fourteen services get bought very differently depending on who you are. Choose an industry to see what we actually do for them."
           />
           <Tabs
             tabs={featured.map((s) => ({ id: s.slug, label: s.navLabel }))}
@@ -171,13 +171,13 @@ export function IndustrySwitcher() {
               </div>
 
               <div className="flex-1 rounded-xl border border-svc/25 bg-svc/5 p-6">
-                <p className="eyebrow mb-3 text-svc">Proof</p>
+                <p className="eyebrow mb-3 text-svc">Illustrative example — not a client result</p>
                 <p className="font-display text-lg font-semibold">{solution.proof.headline}</p>
                 <p className="mt-2 text-sm leading-relaxed text-fg-muted">{solution.proof.body}</p>
                 <dl className="mt-5 space-y-2.5">
                   {solution.proof.metrics.map((m) => (
                     <div key={m.label} className="flex items-baseline justify-between gap-4 text-sm">
-                      <dt className="text-fg-subtle">{m.label}</dt>
+                      <dt className="text-fg-subtle">Example target: {m.label}</dt>
                       <dd className="text-right font-medium">{m.value}</dd>
                     </div>
                   ))}

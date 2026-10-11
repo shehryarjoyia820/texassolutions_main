@@ -1,5 +1,6 @@
 'use client';
 
+import { RCM_DATA_NOTE } from '@/data/rates';
 import {
   createContext,
   useContext,
@@ -690,7 +691,7 @@ const SERVICE_OPTIONS = [
 const SERVICE_VALUES = new Set(SERVICE_OPTIONS.map((o) => o.value).filter(Boolean));
 
 function budgetOptionsFor(service: string): string[] | null {
-  if (service === 'truck-dispatch') return null;
+  if (service === 'truck-dispatch' || service === 'revenue-cycle-management') return null;
   if (service === 'auto-engines') return ENGINE_BUDGETS;
   return GENERAL_BUDGETS;
 }
@@ -845,6 +846,9 @@ export function ContactForm({ defaultService = '' }: { defaultService?: string }
         value={values.message}
         onChange={set('message')}
       />
+      {values.service === 'revenue-cycle-management' && (
+        <p className="-mt-2 rounded-lg bg-bg-soft px-3 py-2 text-xs text-fg-muted">{RCM_DATA_NOTE}</p>
+      )}
 
       <ConsentCheckbox id="enquiry_consent" checked={enquiryConsent} onChange={setEnquiryConsent} />
       <ConsentCheckbox

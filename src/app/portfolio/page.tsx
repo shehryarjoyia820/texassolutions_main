@@ -10,7 +10,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Portfolio',
   description:
-    'Illustrative examples for all thirteen service lines, showing the kind of result each service targets. These are examples, not client results.',
+    'Illustrative examples for all fourteen service lines, showing the kind of result each service targets. These are examples, not client results.',
   path: '/portfolio',
 });
 

@@ -3,7 +3,7 @@ import * as Icons from 'lucide-react';
 import { ArrowRight, ChevronDown, type LucideIcon } from 'lucide-react';
 import { SERVICES } from '@/data/services';
 import { DIVISIONS, DIVISIONS_INTRO, PRIORITY_SERVICES } from '@/data/divisions';
-import { PRICE_TABLE_MAP, UNIT_LABEL, type PriceRow } from '@/data/pricing';
+import { PERCENT_PRICING, PRICE_TABLE_MAP, UNIT_LABEL, type PriceRow } from '@/data/pricing';
 import { TRUST_STATS } from '@/data/company';
 import { formatMoney } from '@/lib/format';
 import { Container, Section, SectionHeading } from '@/components/ui';
@@ -12,7 +12,7 @@ import { DevPackageCards } from '@/components/dev-packages';
 function startPrice(slug: string): string {
   const svc = SERVICES.find((s) => s.slug === slug);
   if (!svc) return '';
-  if (slug === 'truck-dispatch') return '5-10% of weekly gross';
+  if (PERCENT_PRICING[slug]) return PERCENT_PRICING[slug].card;
   const row: PriceRow | undefined = PRICE_TABLE_MAP[slug]?.rows.find((r) => r.id === svc.startingPriceRow);
   const v = row?.values.US;
   if (!row || !v) return 'Quoted per scope';
@@ -56,8 +56,8 @@ export function TrustFacts() {
           ))}
           <div>
             <dt className="text-sm font-medium">Service lines</dt>
-            <dd className="mt-1 font-display text-3xl font-semibold tracking-tight">13</dd>
-            <dd className="mt-0.5 text-xs text-fg-subtle">In three divisions</dd>
+            <dd className="mt-1 font-display text-3xl font-semibold tracking-tight">{SERVICES.length}</dd>
+            <dd className="mt-0.5 text-xs text-fg-subtle">In {DIVISIONS.length} divisions</dd>
           </div>
           <div>
             <dt className="text-sm font-medium">Notice period</dt>
@@ -75,9 +75,9 @@ export function ServiceGroups() {
   return (
     <Section id="services">
       <Container>
-        <SectionHeading eyebrow="What we do" title="Three divisions, one point of contact" body={DIVISIONS_INTRO} />
+        <SectionHeading eyebrow="What we do" title="Four divisions, one point of contact" body={DIVISIONS_INTRO} />
 
-        <ul className="mt-8 grid gap-4 md:grid-cols-3">
+        <ul className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {DIVISIONS.map((d) => (
             <li key={d.id} className="rounded-xl border border-line p-5">
               <p className="font-display text-base font-semibold">{d.name}</p>
@@ -95,10 +95,10 @@ export function ServiceGroups() {
 
         <details className="group mt-8 rounded-2xl border border-line">
           <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden">
-            View all services (13)
+            View all services ({SERVICES.length})
             <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden />
           </summary>
-          <div className="grid gap-6 border-t border-line p-5 md:grid-cols-3">
+          <div className="grid gap-6 border-t border-line p-5 md:grid-cols-2 lg:grid-cols-4">
             {others.map((d) => (
               <div key={d.id}>
                 <p className="text-xs font-semibold uppercase tracking-wider text-fg-subtle">{d.name}</p>

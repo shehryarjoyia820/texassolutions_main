@@ -1,7 +1,7 @@
 import type { RegionCode } from './regions';
 import { ENTERPRISE_PRICE_TABLES } from './pricing-enterprise';
 import { SERVICE_ORDER } from './services';
-import { SPECIALIST_QUOTE_NOTE } from './rates';
+import { SPECIALIST_QUOTE_NOTE, RCM_MODELS, RCM_TERMS } from './rates';
 
 /**
  * Price tables per service, built from the owner rate card in ./rates.ts.
@@ -130,7 +130,55 @@ const BASE_PRICE_TABLES: PriceTable[] = [
     ],
     disclaimer: 'European engines are quoted per vehicle. Core charges are refunded when the old unit is returned.',
   },
+  {
+    service: 'revenue-cycle-management',
+    title: 'Medical and dental revenue cycle management',
+    intro:
+      'A percentage of net monthly collections, so our fee moves with what your practice actually collects. No setup fee. Dollar figures below are worked examples, not prices.',
+    rows: [
+      ...RCM_MODELS.map(
+        (m): PriceRow => ({
+          id: `rcm-${m.id}`,
+          label: `${m.label}: ${pctLabel(m.percent)} of net collections`,
+          note: `Example: ${pctLabel(m.percent)} of USD ${m.exampleCollections.toLocaleString('en-US')} monthly collections`,
+          unit: 'monthly',
+          kind: 'example',
+          values: usd([Math.round(m.exampleCollections * m.percent[0]), Math.round(m.exampleCollections * m.percent[1])]),
+        }),
+      ),
+      { id: 'rcm-credentialing', label: 'Provider credentialing and payer enrollment', note: 'Per provider and payer list', unit: 'one-time', kind: 'project', values: usd(null) },
+      { id: 'rcm-coding-audit', label: 'Coding audit or standalone coding', note: 'ICD-10-CM, CPT, HCPCS or CDT', unit: 'one-time', kind: 'project', values: usd(null) },
+      { id: 'rcm-prior-auth', label: 'Prior authorization only', note: 'Volume-based', unit: 'monthly', kind: 'project', values: usd(null) },
+    ],
+    disclaimer: RCM_TERMS,
+  },
 ];
+
+/** "4-7%" from [0.04, 0.07]. */
+export function pctLabel(p: Range): string {
+  const lo = Math.round(p[0] * 100);
+  const hi = Math.round(p[1] * 100);
+  return lo === hi ? `${lo}%` : `${lo}-${hi}%`;
+}
+
+/**
+ * Services priced as a percentage rather than in dollars. Cards, the service
+ * hero and the price-table notes read this instead of a dollar starting price.
+ */
+export const PERCENT_PRICING: Record<string, { headline: string; unit: string; card: string; note: string }> = {
+  'truck-dispatch': {
+    headline: '5-10%',
+    unit: 'of weekly gross',
+    card: '5-10% of weekly gross',
+    note: 'Semi 5%, hotshot 8%, box truck 10%, OTR. No flat rate or extra charges.',
+  },
+  'revenue-cycle-management': {
+    headline: `${Math.round(RCM_MODELS[0].percent[0] * 100)}-${Math.round(RCM_MODELS[1].percent[1] * 100)}%`,
+    unit: 'of net collections',
+    card: `${Math.round(RCM_MODELS[0].percent[0] * 100)}-${Math.round(RCM_MODELS[1].percent[1] * 100)}% of monthly collections`,
+    note: RCM_MODELS.map((m) => `${m.short} ${pctLabel(m.percent)}`).join(', ') + ' of net monthly collections. No setup fee.',
+  },
+};
 
 /** Every table, in the same order as the services across the site. */
 export const PRICE_TABLES: PriceTable[] = SERVICE_ORDER.map((slug) =>

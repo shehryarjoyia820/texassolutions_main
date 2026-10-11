@@ -9,7 +9,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'About us',
   description:
-    'Texas Solutions runs thirteen service lines from its office in Midland, Texas, with a delivery team in Lahore, Pakistan. Owner and CEO: Shehryar Joyia.',
+    'Texas Solutions runs fourteen service lines from its office in Midland, Texas, with a delivery team in Lahore, Pakistan. Owner and CEO: Shehryar Joyia.',
   path: '/about',
 });
 
@@ -20,7 +20,7 @@ export default function AboutPage() {
 
       <PageHero
         eyebrow="About us"
-        title="One accountable team, thirteen service lines"
+        title="One accountable team, fourteen service lines"
         body="Texas Solutions is run from Midland, Texas, with a delivery team in Lahore, Pakistan. Software, marketing and truck dispatch, with one published price list and a named contact."
         trail={[{ label: 'About us' }]}
       />
@@ -52,7 +52,7 @@ export default function AboutPage() {
                 <dl className="mt-5 space-y-4">
                   {[
                     ['Owner and CEO', 'Shehryar Joyia'],
-                    ['Service lines', 'Thirteen, each with its own agreement'],
+                    ['Service lines', 'Fourteen, each with its own agreement'],
                     ['Office', 'Midland, Texas'],
                     ['Delivery team', 'Lahore, Pakistan'],
                     ['Dispatch desk', '24/7'],
@@ -75,7 +75,7 @@ export default function AboutPage() {
       {MILESTONES.length > 0 && (
       <Section tone="soft" id="timeline">
         <Container>
-          <SectionHeading eyebrow="Timeline" title="How thirteen service lines came together" />
+          <SectionHeading eyebrow="Timeline" title="How fourteen service lines came together" />
           <ol className="relative mt-12 border-l border-line pl-8 sm:pl-10">
             {MILESTONES.map((m, i) => (
               <Reveal key={m.year} delay={i * 0.04} as="li" className="relative pb-10 last:pb-0">

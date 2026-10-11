@@ -26,7 +26,7 @@ export function PriceCell({ row, code }: { row: PriceRow; code: Parameters<typeo
 }
 
 function billedLabel(row: PriceRow) {
-  if (row.kind === 'example') return 'per truck, per week';
+  if (row.kind === 'example') return row.unit === 'monthly' ? 'per month (example)' : 'per truck, per week';
   return UNIT_LABEL[row.unit];
 }
 
@@ -106,7 +106,7 @@ export function ServicePriceTable({
 
       <NoteBox tone="warn" className="mt-4">
         {table.disclaimer ? `${table.disclaimer} ` : ''}
-        {table.service !== 'truck-dispatch' && table.service !== 'auto-engines'
+        {!['truck-dispatch', 'auto-engines', 'revenue-cycle-management'].includes(table.service)
           ? `${PRICE_TERMS.overage} ${PRICE_TERMS.taxes}`
           : PRICE_TERMS.taxes}
       </NoteBox>

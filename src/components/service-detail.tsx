@@ -4,7 +4,7 @@ import Link from 'next/link';
 import * as Icons from 'lucide-react';
 import { ArrowRight, Check, Phone, type LucideIcon } from 'lucide-react';
 import type { Service } from '@/data/services';
-import { PRICE_TABLE_MAP } from '@/data/pricing';
+import { PERCENT_PRICING, PRICE_TABLE_MAP } from '@/data/pricing';
 import { SITE } from '@/data/site';
 import { useRegion } from './providers';
 import { formatMoney, formatRange } from '@/lib/format';
@@ -27,6 +27,13 @@ import { cn } from '@/lib/utils';
 import type { ServiceSeo } from '@/data/seo-content';
 import { QuickAnswer, SeoGuide } from './seo-blocks';
 import { mergeFaqs } from '@/lib/faqs';
+
+/** Lowercase for mid-sentence use, keeping acronyms such as QA, AI, CRM and RCM. */
+const lowerKeepAcronyms = (s: string) =>
+  s
+    .split(' ')
+    .map((w) => (/^[A-Z0-9&/]{2,}$/.test(w.replace(/[()]/g, '')) ? w : w.toLowerCase()))
+    .join(' ');
 
 export function ServiceDetail({
   service,
@@ -97,10 +104,10 @@ export function ServiceDetail({
                 <p className="text-xs uppercase tracking-wider text-fg-subtle">
                   Starting price · US dollars
                 </p>
-                {service.slug === 'truck-dispatch' ? (
+                {PERCENT_PRICING[service.slug] ? (
                   <p className="mt-2 font-display text-[clamp(2rem,4.5vw,2.75rem)] font-semibold leading-none text-svc">
-                    5-10%
-                    <span className="ml-2 font-sans text-base font-normal text-fg-subtle">of weekly gross</span>
+                    {PERCENT_PRICING[service.slug].headline}
+                    <span className="ml-2 font-sans text-base font-normal text-fg-subtle">{PERCENT_PRICING[service.slug].unit}</span>
                   </p>
                 ) : (
                 <p className="mt-2 font-display text-[clamp(2rem,4.5vw,2.75rem)] font-semibold leading-none text-svc">
@@ -121,8 +128,8 @@ export function ServiceDetail({
                 </p>
                 )}
                 <p className="mt-2 text-sm text-fg-muted">
-                  {service.slug === 'truck-dispatch'
-                    ? 'Semi 5%, hotshot 8%, box truck 10%, OTR. No flat rate or extra charges.'
+                  {PERCENT_PRICING[service.slug]
+                    ? PERCENT_PRICING[service.slug].note
                     : [startRow?.label, startRow?.scope].filter(Boolean).join(' · ')}
                 </p>
 
@@ -150,7 +157,7 @@ export function ServiceDetail({
       {seo && (
         <section className="border-b border-line bg-bg-soft py-10">
           <Container>
-            <QuickAnswer question={`What is ${service.name.toLowerCase()} from Texas Solutions?`} answer={seo.quickAnswer} />
+            <QuickAnswer question={`What is ${lowerKeepAcronyms(service.name)} from Texas Solutions?`} answer={seo.quickAnswer} />
           </Container>
         </section>
       )}
@@ -199,7 +206,7 @@ export function ServiceDetail({
         <Container>
           <SectionHeading
             eyebrow="What is inside"
-            title={`${service.subServices.length} ways we run ${service.navLabel.toLowerCase()}`}
+            title={`${service.subServices.length} ways we run ${lowerKeepAcronyms(service.navLabel)}`}
             body="Each one has its own page explaining what is delivered and how it is priced."
           />
 
@@ -254,7 +261,11 @@ export function ServiceDetail({
           <SectionHeading
             eyebrow="Packages"
             title="Three ways to start"
-            body="All prices in US dollars. Project ranges are confirmed in a written proposal after scoping; monthly plans are capacity allocations, not unlimited work."
+            body={
+              PERCENT_PRICING[service.slug]
+                ? 'Priced as a percentage, with no flat fee or setup fee. The final percentage is confirmed in writing.'
+                : 'All prices in US dollars. Project ranges are confirmed in a written proposal after scoping; monthly plans are capacity allocations, not unlimited work.'
+            }
             align="center"
           />
 
@@ -283,6 +294,13 @@ export function ServiceDetail({
                     <h3 className="font-display text-xl font-semibold">{pkg.name}</h3>
                     <p className="mt-1.5 text-sm text-fg-muted">{pkg.tagline}</p>
 
+                    {pkg.priceLabel ? (
+                      <>
+                        <p className="mt-6 font-display text-2xl font-semibold text-svc">{pkg.priceLabel.value}</p>
+                        <p className="mt-1 text-xs text-fg-subtle">{pkg.priceLabel.unit}</p>
+                      </>
+                    ) : (
+                    <>
                     <p className="mt-6 font-display text-2xl font-semibold text-svc">
                       {value === null ? (
                         'Quoted per scope'
@@ -299,7 +317,7 @@ export function ServiceDetail({
                     <p className="mt-1 text-xs text-fg-subtle">
                       USD{' '}
                       {row?.kind === 'example'
-                        ? 'per truck, per week (example)'
+                        ? row.unit === 'monthly' ? 'per month (example)' : 'per truck, per week (example)'
                         : row?.unit === 'monthly'
                           ? 'per month'
                           : row?.unit === 'weekly'
@@ -312,6 +330,8 @@ export function ServiceDetail({
                       {row?.label ? ` · based on: ${row.label}` : ''}
                     </p>
                     {row?.scope && <p className="mt-1 text-xs text-fg-muted">Includes: {row.scope}</p>}
+                    </>
+                    )}
 
                     <ul className="mt-7 flex-1 space-y-2.5">
                       {pkg.features.map((f) => (
@@ -478,7 +498,7 @@ export function ServiceDetail({
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-display-md">Put a number on it</h2>
             <p className="mt-5 text-lg leading-relaxed text-fg-muted">
-              The calculator opens on {service.navLabel.toLowerCase()} already selected. A few questions and you
+              The calculator opens on {lowerKeepAcronyms(service.navLabel)} already selected. A few questions and you
               have a range in US dollars.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -594,7 +614,7 @@ export function SubServiceDetail({
 
               <h2 className="mt-12 text-display-sm">How it fits the rest</h2>
               <p className="mt-4 leading-relaxed text-fg-muted">
-                {sub.name} is one part of {service.name.toLowerCase()}. Most clients combine two or three of
+                {sub.name} is one part of {lowerKeepAcronyms(service.name)}. Most clients combine two or three of
                 these, and the packages on the main service page price them together.
               </p>
               <ArrowLink href={`/services/${service.slug}`} className="mt-5">
@@ -605,7 +625,7 @@ export function SubServiceDetail({
             <aside className="lg:sticky lg:top-28 lg:self-start">
               <div className="rounded-2xl border border-line bg-bg-elev p-6">
                 <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-subtle">
-                  Other {service.navLabel.toLowerCase()} services
+                  Other {lowerKeepAcronyms(service.navLabel)} services
                 </p>
                 <ul className="mt-4 space-y-1">
                   {siblings.map((s) => (
@@ -643,7 +663,7 @@ export function SubServiceDetail({
       <Section tone="soft">
         <Container>
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-            <SectionHeading eyebrow="Questions" title={`About ${service.navLabel.toLowerCase()}`} />
+            <SectionHeading eyebrow="Questions" title={`About ${lowerKeepAcronyms(service.navLabel)}`} />
             <Accordion items={service.faqs.slice(0, 4)} defaultOpen={0} />
           </div>
         </Container>

@@ -1,5 +1,6 @@
 import type { RegionCode } from '@/data/regions';
-import { PRICE_TABLE_MAP, DISPATCH_MODELS, type Range } from '@/data/pricing';
+import { PRICE_TABLE_MAP, DISPATCH_MODELS, pctLabel, type Range } from '@/data/pricing';
+import { RCM_MODELS } from '@/data/rates';
 import {
   ESTIMATE_CONFIG_MAP,
   TIMELINE_MULTIPLIERS,
@@ -219,6 +220,20 @@ export function computeEstimate(input: {
     }
     assumptions.push('A project manager is not included; one can be added and is quoted separately.');
     assumptions.push(`${headcount} dedicated ${headcount === 1 ? 'person' : 'people'}, each up to 160 working hours a month. Extra hours are billed at the role's hourly rate, only with your approval.`);
+  } else if (service === 'revenue-cycle-management') {
+    // Percentage of net monthly collections, from the rate card.
+    const model = RCM_MODELS.find((m) => m.id === subType) ?? RCM_MODELS[0];
+    const collections = Math.max(0, num(answers, 'collections', model.exampleCollections));
+    range = [Math.round(collections * model.percent[0]), Math.round(collections * model.percent[1])];
+    lineItems.push({
+      label: `${model.label}: ${pctLabel(model.percent)} of net collections`,
+      detail: `${pctLabel(model.percent)} x US$${collections.toLocaleString('en-US')} a month`,
+      range: [...range] as Range,
+      kind: 'base',
+    });
+    const extras = list(answers, 'extras');
+    if (extras.length) assumptions.push('Credentialing, coding audits and prior authorization are quoted separately and are not in this figure.');
+    assumptions.push('Final percentage depends on specialty, claim volume and payer mix, and is confirmed in writing after a free billing review.');
   } else {
     lineItems.push({ label: `${base.label} base range`, range: [...range] as Range, kind: 'base' });
   }

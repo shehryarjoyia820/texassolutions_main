@@ -29,7 +29,7 @@ export function Hero() {
       <div className="container-x relative pb-[clamp(2.5rem,6vw,4.5rem)] pt-[clamp(2rem,5vw,3.75rem)]">
         <div className="max-w-3xl">
           <p className="mb-5 inline-flex items-center rounded-full border border-accent/30 bg-accent/5 px-3.5 py-1.5 text-xs font-medium text-accent">
-            Technology · Marketing &amp; Publisher Services · Logistics &amp; Automotive
+            Technology · Marketing · Healthcare RCM · Logistics
           </p>
 
           <h1 className="text-[clamp(2rem,4.6vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.025em]">
@@ -37,8 +37,8 @@ export function Hero() {
           </h1>
 
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
-            Software, AI and QA from our engineering team, marketing and lead generation, and truck dispatch for US
-            carriers. One published price list and one point of contact.
+            Software, AI and QA from our engineering team, marketing and lead generation, medical and dental billing,
+            and truck dispatch for US carriers. One published price list and one point of contact.
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">

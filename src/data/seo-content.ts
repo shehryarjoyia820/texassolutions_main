@@ -577,4 +577,77 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       { q: 'How much does an engine replacement cost?', a: 'A used engine supplied and installed typically costs US$2,600 to US$4,500, a remanufactured engine US$4,000 to US$6,500, and a truck or European engine US$6,000 to US$12,000.' },
     ],
   },
+
+  /* ================================================================ */
+  'revenue-cycle-management': {
+    slug: 'revenue-cycle-management',
+    metaTitle: 'Medical Billing & Dental Billing Services | Revenue Cycle Management (RCM)',
+    metaDescription:
+      'Outsourced medical billing and dental billing services: eligibility verification, coding, claim submission, denial management, AR follow-up and credentialing. Medical RCM 4-7%, dental 5-8% of collections.',
+    keywords: [
+      'medical billing services',
+      'dental billing services',
+      'revenue cycle management services',
+      'medical billing company',
+      'outsourced medical billing',
+      'dental billing company',
+      'dental insurance billing',
+      'RCM services',
+      'medical coding services',
+      'denial management services',
+      'insurance eligibility verification services',
+      'prior authorization services',
+      'provider credentialing services',
+      'medical AR recovery',
+      'medical billing for small practices',
+      'dental billing outsourcing',
+    ],
+    quickAnswer:
+      'Texas Solutions provides outsourced medical billing and dental billing services, also called revenue cycle management (RCM), for US practices: insurance eligibility verification, medical and dental coding, claim submission, payment posting, denial management, AR follow-up and provider credentialing. Medical RCM costs 4-7% and dental RCM 5-8% of net monthly collections, with no setup fee and 30 days notice.',
+    guideTitle: 'Medical and dental billing outsourcing: what RCM covers and what it costs',
+    guide: [
+      {
+        heading: 'What is revenue cycle management?',
+        paragraphs: [
+          'Revenue cycle management (RCM) is everything between booking a patient and the practice being paid: checking insurance, coding the visit, submitting the claim, posting the payment, working denials and following up on unpaid balances. Medical billing is the core of it; outsourced RCM hands the whole cycle to a specialist team.',
+        ],
+        bullets: [
+          'Front end: scheduling data, eligibility and benefits checks, prior authorizations.',
+          'Middle: coding (ICD-10-CM, CPT, HCPCS, CDT), charge entry and claim scrubbing.',
+          'Back end: claim submission, payment posting, denials and appeals, AR and patient balances.',
+        ],
+      },
+      {
+        heading: 'How much do medical billing services cost?',
+        paragraphs: [
+          'Most outsourced billing companies charge a percentage of collections. Published industry guides put the common range at about 4% to 10% of collections, with most practices paying in the middle of that band; complex specialties sit higher. Our rates are 4-7% of net monthly collections for medical practices and 5-8% for dental practices, with no setup fee.',
+          'Always check what the percentage is taken from. A percentage of net collections (money actually received) costs far less than the same percentage of gross charges.',
+        ],
+      },
+      {
+        heading: 'Medical billing vs dental billing',
+        paragraphs: [
+          'Dental claims use CDT codes and the ADA claim form, and depend on benefit breakdowns, frequency limits and attachments such as X-rays and narratives. Medical claims use ICD-10-CM, CPT and HCPCS on the CMS-1500 or UB-04, with more prior authorization and modifier rules. The workflows overlap, but the rules differ enough that each needs people who work that side every day.',
+        ],
+      },
+      {
+        heading: 'Outsourced billing or an in-house biller?',
+        paragraphs: [
+          'An in-house biller costs a salary, benefits, software and cover for leave, and the work stops when they are away. Outsourcing turns that into a percentage of collections, adds a team behind the billing lead and ties the fee to what is collected. In-house can still suit large practices with steady volume and a strong billing manager.',
+        ],
+      },
+      {
+        heading: 'What we need to start',
+        paragraphs: [
+          'A free billing review uses summary reports, such as an AR aging report and a denial summary, never patient records. After the agreement is signed, we work through user accounts you create in your own system and payer portals. Please do not send patient information through this website.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'What is the difference between medical billing and RCM?', a: 'Medical billing is submitting claims and getting them paid. Revenue cycle management covers the whole cycle around it, from eligibility checks and coding before the claim to denials, AR follow-up and patient balances after it.' },
+      { q: 'Do you offer dental insurance billing only, without the full cycle?', a: 'Yes. Starter covers eligibility, claim submission, payment posting and unpaid claim follow-up. Denials, AR recovery and credentialing can be added.' },
+      { q: 'How long does it take to switch billing companies?', a: 'Typically two to four weeks: a billing review, the agreement and system access, then a transition in which current claims are taken over and the oldest AR is prioritised.' },
+      { q: 'Do you handle provider credentialing?', a: 'Yes. Payer enrollment, CAQH upkeep and re-credentialing are quoted per provider and payer list.' },
+    ],
+  },
 };

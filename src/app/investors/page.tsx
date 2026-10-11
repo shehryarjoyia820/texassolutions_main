@@ -8,7 +8,7 @@ import { JsonLd, breadcrumbSchema, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Investors',
   description:
-    'Company overview and investment enquiries for Texas Solutions: thirteen service lines, an office in Midland, Texas and a delivery team in Lahore, Pakistan.',
+    'Company overview and investment enquiries for Texas Solutions: fourteen service lines, an office in Midland, Texas and a delivery team in Lahore, Pakistan.',
   path: '/investors',
 });
 
@@ -32,9 +32,9 @@ export default function InvestorsPage() {
             <div className="prose-ts">
               <h2 className="!mt-0">Company overview</h2>
               <p>
-                Texas Solutions operates thirteen service lines: web and app development, quality assurance,
+                Texas Solutions operates fourteen service lines: web and app development, quality assurance,
                 lead generation and auto engines; enterprise IT across AI, data, cloud, CRM and ERP,
-                cybersecurity and dedicated teams; and truck dispatch, ads and AdSense management. Each line
+                cybersecurity and dedicated teams; medical and dental revenue cycle management; and truck dispatch, ads and AdSense management. Each line
                 carries its own agreements and pricing.
               </p>
               <p>
@@ -57,7 +57,7 @@ export default function InvestorsPage() {
                 <dl className="mt-5 space-y-4">
                   {[
                     ['Owner and CEO', SITE.ceo],
-                    ['Service lines', 'Thirteen'],
+                    ['Service lines', 'Fourteen'],
                     ['Office', office.address.slice(1).join(', ')],
                     ['Delivery team', 'Lahore, Pakistan'],
                   ].map(([k, v]) => (

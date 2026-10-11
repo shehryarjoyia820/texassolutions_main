@@ -1,5 +1,5 @@
 /**
- * The 13 service lines in three business divisions. Used by the header,
+ * The service lines in four business divisions. Used by the header,
  * the homepage, the services index and the footer, so the grouping is the
  * same everywhere.
  */
@@ -34,6 +34,12 @@ export const DIVISIONS: Division[] = [
     services: ['lead-generation', 'ads-optimization', 'adsense-management'],
   },
   {
+    id: 'healthcare',
+    name: 'Healthcare Revenue Cycle',
+    summary: 'Medical and dental billing, coding, eligibility, denials, AR and credentialing for US practices, priced as a percentage of collections.',
+    services: ['revenue-cycle-management'],
+  },
+  {
     id: 'logistics',
     name: 'Logistics & Automotive',
     summary: 'Truck dispatch for US owner-operators and engine supply for fleets, run from our Midland, Texas office.',
@@ -52,4 +58,4 @@ export const PRIORITY_SERVICES = [
 ];
 
 export const DIVISIONS_INTRO =
-  'Texas Solutions is one company with three divisions. Each has its own specialists and price list; clients who use more than one keep a single point of contact.';
+  'Texas Solutions is one company with four divisions. Each has its own specialists and price list; clients who use more than one keep a single point of contact.';

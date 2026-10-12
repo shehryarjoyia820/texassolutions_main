@@ -7,7 +7,7 @@ export function generateStaticParams() {
   return OLD_SLUGS.map((slug) => ({ slug }));
 }
 
-export const metadata = { title: 'Moved', robots: { index: false, follow: true }, alternates: { canonical: '/services' } };
+export const metadata = { title: 'Moved', alternates: { canonical: '/services' } };
 
 export default function MarketMoved() {
   return <MovedPage to="/services" label="our services" />;

@@ -26,8 +26,9 @@ const AI_CRAWLERS = [
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: '*', allow: '/', disallow: ['/api/'] },
-      ...AI_CRAWLERS.map((ua) => ({ userAgent: ua, allow: '/', disallow: ['/api/'] })),
+      // Every crawler may crawl everything; only the admin login page carries a noindex tag.
+      { userAgent: '*', allow: '/' },
+      ...AI_CRAWLERS.map((ua) => ({ userAgent: ua, allow: '/' })),
     ],
     sitemap: `${SITE.url}/sitemap.xml`,
     host: SITE.url,

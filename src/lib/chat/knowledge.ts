@@ -18,6 +18,8 @@ import {
   RCM_INCLUDES,
   RCM_TERMS,
   RCM_DATA_NOTE,
+  RCM_CUSTOM_NOTE,
+  pctLabel,
 } from '@/data/rates';
 import { SITE, OFFICES } from '@/data/site';
 import { SITE_FAQS, HOW_IT_WORKS, GUARANTEES, TRUST_STATS } from '@/data/company';
@@ -199,9 +201,11 @@ export function buildSiteKnowledge(): Draft[] {
     body: [
       ...RCM_MODELS.map(
         (m) =>
-          `- ${m.label}: ${Math.round(m.percent[0] * 100)}-${Math.round(m.percent[1] * 100)}% of net monthly collections ` +
+          `- ${m.label}: ${pctLabel(m.percent)} of net monthly collections (standard rate) ` +
           `(example: on ${usd(m.exampleCollections)} a month, about ${range([m.exampleCollections * m.percent[0], m.exampleCollections * m.percent[1]])} per month)`,
       ),
+      RCM_CUSTOM_NOTE +
+        ' The visitor can enter a proposed percentage in the RCM fee calculator or estimator and send it with the contact form; never accept or confirm a custom rate yourself, say the team will review it.',
       `Full RCM includes: ${RCM_INCLUDES.join('; ')}.`,
       RCM_TERMS,
       RCM_DATA_NOTE,

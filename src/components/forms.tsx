@@ -652,6 +652,7 @@ export function FormShell({
 /* ------------------------------------------------------------------ */
 
 const DISPATCH_BUDGET = 'Truck dispatch (percentage of weekly gross)';
+const RCM_BUDGET = 'RCM (percentage of net monthly collections)';
 const NOT_SURE = 'Not sure yet';
 
 /** Values are the visible labels so the email reads plainly. */
@@ -741,7 +742,7 @@ export function ContactForm({ defaultService = '' }: { defaultService?: string }
         email: values.email,
         phone: values.phone,
         service: values.service,
-        budget: budgetOptions ? values.budget : DISPATCH_BUDGET,
+        budget: budgetOptions ? values.budget : values.service === 'revenue-cycle-management' ? RCM_BUDGET : DISPATCH_BUDGET,
         message: values.message,
         preferred_contact_time: values.preferredTime,
         enquiry_consent: enquiryConsent ? 'yes' : 'no',
@@ -822,7 +823,9 @@ export function ContactForm({ defaultService = '' }: { defaultService?: string }
           <div>
             <p className="mb-1.5 block text-sm font-medium">Budget</p>
             <p className="flex min-h-12 items-center rounded-xl border border-line bg-bg-soft px-4 py-3 text-sm text-fg-muted">
-              Dispatch fee is a percentage of weekly gross — no budget needed.
+              {values.service === 'revenue-cycle-management'
+                ? 'RCM fee is a percentage of net monthly collections — no budget needed.'
+                : 'Dispatch fee is a percentage of weekly gross — no budget needed.'}
             </p>
           </div>
         )}

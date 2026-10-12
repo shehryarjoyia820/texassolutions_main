@@ -1,7 +1,8 @@
 import type { RegionCode } from './regions';
 import { ENTERPRISE_PRICE_TABLES } from './pricing-enterprise';
 import { SERVICE_ORDER } from './services';
-import { SPECIALIST_QUOTE_NOTE, RCM_MODELS, RCM_TERMS } from './rates';
+import { SPECIALIST_QUOTE_NOTE, RCM_MODELS, RCM_TERMS, RCM_RANGE_LABEL, pctLabel } from './rates';
+export { pctLabel };
 
 /**
  * Price tables per service, built from the owner rate card in ./rates.ts.
@@ -154,13 +155,6 @@ const BASE_PRICE_TABLES: PriceTable[] = [
   },
 ];
 
-/** "4-7%" from [0.04, 0.07]. */
-export function pctLabel(p: Range): string {
-  const lo = Math.round(p[0] * 100);
-  const hi = Math.round(p[1] * 100);
-  return lo === hi ? `${lo}%` : `${lo}-${hi}%`;
-}
-
 /**
  * Services priced as a percentage rather than in dollars. Cards, the service
  * hero and the price-table notes read this instead of a dollar starting price.
@@ -173,10 +167,10 @@ export const PERCENT_PRICING: Record<string, { headline: string; unit: string; c
     note: 'Semi 5%, hotshot 8%, box truck 10%, OTR. No flat rate or extra charges.',
   },
   'revenue-cycle-management': {
-    headline: `${Math.round(RCM_MODELS[0].percent[0] * 100)}-${Math.round(RCM_MODELS[1].percent[1] * 100)}%`,
+    headline: RCM_RANGE_LABEL,
     unit: 'of net collections',
-    card: `${Math.round(RCM_MODELS[0].percent[0] * 100)}-${Math.round(RCM_MODELS[1].percent[1] * 100)}% of monthly collections`,
-    note: RCM_MODELS.map((m) => `${m.short} ${pctLabel(m.percent)}`).join(', ') + ' of net monthly collections. No setup fee.',
+    card: `${RCM_RANGE_LABEL} of monthly collections`,
+    note: RCM_MODELS.map((m) => `${m.short} ${pctLabel(m.percent)}`).join(', ') + ' of net monthly collections, or propose your own. No setup fee.',
   },
 };
 

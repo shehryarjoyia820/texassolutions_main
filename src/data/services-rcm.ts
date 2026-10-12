@@ -1,9 +1,7 @@
 import type { Service } from './services';
-import { RCM_MODELS } from './rates';
-
-const pct = (p: [number, number]) => `${Math.round(p[0] * 100)}-${Math.round(p[1] * 100)}%`;
+import { RCM_MODELS, RCM_RANGE_LABEL, pctLabel as pct } from './rates';
 const [MED, DEN] = RCM_MODELS;
-const ALL = pct([Math.min(MED.percent[0], DEN.percent[0]), Math.max(MED.percent[1], DEN.percent[1])]);
+const ALL = RCM_RANGE_LABEL;
 const usdK = (n: number) => n.toLocaleString('en-US');
 
 /**
@@ -133,7 +131,7 @@ export const RCM_SERVICE: Service = {
       tagline: 'Claims and payments for a smaller practice.',
       priceRow: 'rcm-medical',
       anchor: 'low',
-      priceLabel: { value: 'Quoted', unit: 'after a free billing review' },
+      priceLabel: { value: 'Your rate', unit: 'propose a percentage, confirmed after a free billing review' },
       features: ['Eligibility verification', 'Charge entry and claim submission', 'Payment posting', 'Unpaid claim follow-up', 'Monthly billing report'],
     },
     {
@@ -181,7 +179,7 @@ export const RCM_SERVICE: Service = {
     ],
   },
   faqs: [
-    { q: 'How much does medical billing cost?', a: `We charge a percentage of net monthly collections: ${pct(MED.percent)} for medical practices and ${pct(DEN.percent)} for dental practices, depending on specialty, claim volume and payer mix. On USD ${usdK(MED.exampleCollections)} of monthly collections at ${pct(MED.percent)}, that is about USD ${usdK(MED.exampleCollections * MED.percent[0])}-${usdK(MED.exampleCollections * MED.percent[1])} a month. The final percentage is confirmed in writing after a free billing review.` },
+    { q: 'How much does medical billing cost?', a: `We charge a percentage of net monthly collections: ${pct(MED.percent)} for medical practices and ${pct(DEN.percent)} for dental practices, as standard. On USD ${usdK(MED.exampleCollections)} of monthly collections at ${pct(MED.percent)}, that is about USD ${usdK(MED.exampleCollections * MED.percent[0])} a month. You can also propose your own percentage; the agreed rate is confirmed in writing after a free billing review.` },
     { q: 'Is the percentage taken from gross charges or collections?', a: 'From net collections: what your practice actually collects after adjustments. That keeps our fee tied to money you receive, not to what was billed.' },
     { q: 'Do you work with both medical and dental practices?', a: 'Yes. Medical and dental billing use different codes, claim forms and payer rules, so each practice is handled by people who work that side of billing.' },
     { q: 'Which software do you work in?', a: 'We work in your existing EHR, EMR or practice management system and your payer portals. Compatibility and access requirements for your specific system are confirmed during the consultation.' },

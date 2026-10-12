@@ -42,7 +42,7 @@ export const INSIGHTS: Insight[] = [
     service: 'revenue-cycle-management',
     tags: ['Medical billing services', 'Dental billing services', 'Revenue cycle management', 'Billing outsourcing cost'],
     body: [
-      { t: 'p', text: 'Short answer: most outsourced medical billing and dental billing companies charge a percentage of collections. Published industry guides put the common range at roughly 4% to 10% of collections, with most practices paying in the middle of that band and complex specialties paying more. Texas Solutions charges 4-7% of net monthly collections for medical practices and 5-8% for dental practices, with no setup fee.' },
+      { t: 'p', text: 'Short answer: most outsourced medical billing and dental billing companies charge a percentage of collections. Published industry guides put the common range at roughly 4% to 10% of collections, with most practices paying in the middle of that band and complex specialties paying more. Texas Solutions charges a standard 10% of net monthly collections for medical practices and 8% for dental practices, with no setup fee, and practices can propose their own percentage.' },
       { t: 'h2', text: 'The three common pricing models' },
       { t: 'table', head: ['Model', 'How it works', 'Suits'], rows: [
         ['Percentage of collections', 'A share of what the practice collects each month', 'Most practices; the fee follows results'],
@@ -63,7 +63,7 @@ export const INSIGHTS: Insight[] = [
       ] },
       { t: 'p', text: 'Credentialing and payer enrollment, standalone coding audits and prior authorization are often priced separately. Ask for them to be listed in the agreement.' },
       { t: 'h2', text: 'Medical vs dental billing costs' },
-      { t: 'p', text: 'Dental billing depends heavily on benefit breakdowns, frequency limits and claim attachments, which is why dental percentages often sit slightly higher than general medical billing. Medical billing carries more coding and prior authorization work in specialties such as cardiology or orthopedics.' },
+      { t: 'p', text: 'Dental billing depends heavily on benefit breakdowns, frequency limits and claim attachments. Medical billing carries more coding, modifier and prior authorization work, especially in specialties such as cardiology or orthopedics, which is why medical billing percentages are often higher.' },
       { t: 'h2', text: 'Questions to ask before you sign' },
       { t: 'ol', items: [
         'Is the percentage on net collections or gross charges?',

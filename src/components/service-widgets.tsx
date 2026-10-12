@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, GripVertical, Search, TrendingUp } from 'lucide-react';
 import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP, UNIT_LABEL, dispatchPercentLabel, pctLabel } from '@/data/pricing';
-import { MONTHLY_RESOURCES, RCM_INCLUDES, RCM_MODELS, RCM_TERMS, SUPPORT_PLANS } from '@/data/rates';
+import { MONTHLY_RESOURCES, RCM_CUSTOM_LIMITS, RCM_CUSTOM_NOTE, RCM_INCLUDES, RCM_MODELS, RCM_TERMS, SUPPORT_PLANS } from '@/data/rates';
 import { SERVICE_MAP } from '@/data/services';
 import { MARKETPLACE_ITEMS } from '@/data/catalog';
 import { TemplatePreview } from './template-preview';
@@ -437,7 +437,13 @@ export function RcmFeeCalculator() {
   const [practice, setPractice] = useState<(typeof RCM_MODELS)[number]['id']>('medical');
   const model = RCM_MODELS.find((m) => m.id === practice)!;
   const [collections, setCollections] = useState(model.exampleCollections);
-  const monthly: [number, number] = [Math.round(collections * model.percent[0]), Math.round(collections * model.percent[1])];
+  const [custom, setCustom] = useState(false);
+  const [proposed, setProposed] = useState(Math.round(model.percent[0] * 100));
+  const percent: [number, number] = custom ? [proposed / 100, proposed / 100] : model.percent;
+  const monthly: [number, number] = [Math.round(collections * percent[0]), Math.round(collections * percent[1])];
+  const contactHref =
+    `/contact?service=revenue-cycle-management&practice=${practice}&collections=${collections}` +
+    (custom ? `&proposed_percent=${proposed}` : '');
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
@@ -451,6 +457,7 @@ export function RcmFeeCalculator() {
                 onClick={() => {
                   setPractice(m.id);
                   setCollections(m.exampleCollections);
+                  if (!custom) setProposed(Math.round(m.percent[0] * 100));
                 }}
                 aria-pressed={practice === m.id}
                 className={cn(
@@ -475,11 +482,35 @@ export function RcmFeeCalculator() {
           display={formatMoney(collections, code)}
         />
         <p className="-mt-3 text-xs text-fg-subtle">Use your average over the last three months, after adjustments.</p>
+
+        <div className="border-t border-line pt-5">
+          <label className="flex items-center gap-2.5 text-sm font-medium">
+            <input type="checkbox" checked={custom} onChange={(e) => setCustom(e.target.checked)} className="h-4 w-4 accent-[rgb(var(--svc))]" />
+            Propose your own percentage
+          </label>
+          {custom && (
+            <div className="mt-4">
+              <Slider
+                id="rcm-proposed"
+                label="Your proposed percentage"
+                value={proposed}
+                min={RCM_CUSTOM_LIMITS.min}
+                max={RCM_CUSTOM_LIMITS.max}
+                step={RCM_CUSTOM_LIMITS.step}
+                onChange={setProposed}
+                display={`${proposed}%`}
+              />
+              <p className="mt-2 text-xs text-fg-subtle">{RCM_CUSTOM_NOTE}</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
         <div className="rounded-xl border border-success/45 bg-success/10 p-4">
-          <p className="text-xs uppercase tracking-wider text-fg-subtle">{pctLabel(model.percent)} of net collections</p>
+          <p className="text-xs uppercase tracking-wider text-fg-subtle">
+            {pctLabel(percent)} of net collections{custom ? ' (your proposal)' : ' (standard rate)'}
+          </p>
           <p className="mt-1.5 font-display text-2xl font-semibold">{formatRange(monthly, code)}</p>
           <p className="text-xs text-fg-subtle">USD per month, estimated</p>
         </div>
@@ -495,8 +526,8 @@ export function RcmFeeCalculator() {
         <NoteBox tone="warn" className="mt-4 text-xs">
           {RCM_TERMS} Results and collections are not guaranteed.
         </NoteBox>
-        <ButtonLink href="/contact?service=revenue-cycle-management" variant="service" icon={ArrowRight} className="mt-5 w-full">
-          Ask for a free billing review
+        <ButtonLink href={contactHref} variant="service" icon={ArrowRight} className="mt-5 w-full">
+          {custom ? `Send my ${proposed}% proposal` : 'Ask for a free billing review'}
         </ButtonLink>
       </div>
     </div>

@@ -224,16 +224,19 @@ export function computeEstimate(input: {
     // Percentage of net monthly collections, from the rate card.
     const model = RCM_MODELS.find((m) => m.id === subType) ?? RCM_MODELS[0];
     const collections = Math.max(0, num(answers, 'collections', model.exampleCollections));
-    range = [Math.round(collections * model.percent[0]), Math.round(collections * model.percent[1])];
+    const proposed = num(answers, 'customPercent', 0);
+    const percent: Range = proposed > 0 ? [proposed / 100, proposed / 100] : model.percent;
+    range = [Math.round(collections * percent[0]), Math.round(collections * percent[1])];
+    if (proposed > 0) assumptions.push(`Uses your proposed ${pctLabel(percent)} instead of our standard ${pctLabel(model.percent)}. Proposals are reviewed and the agreed rate is confirmed in writing.`);
     lineItems.push({
-      label: `${model.label}: ${pctLabel(model.percent)} of net collections`,
-      detail: `${pctLabel(model.percent)} x US$${collections.toLocaleString('en-US')} a month`,
+      label: `${model.label}: ${pctLabel(percent)} of net collections${proposed > 0 ? ' (your proposal)' : ''}`,
+      detail: `${pctLabel(percent)} x US$${collections.toLocaleString('en-US')} a month`,
       range: [...range] as Range,
       kind: 'base',
     });
     const extras = list(answers, 'extras');
     if (extras.length) assumptions.push('Credentialing, coding audits and prior authorization are quoted separately and are not in this figure.');
-    assumptions.push('Final percentage depends on specialty, claim volume and payer mix, and is confirmed in writing after a free billing review.');
+    assumptions.push('The agreed percentage is confirmed in writing after a free billing review.');
   } else {
     lineItems.push({ label: `${base.label} base range`, range: [...range] as Range, kind: 'base' });
   }

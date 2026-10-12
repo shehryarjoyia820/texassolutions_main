@@ -583,7 +583,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'revenue-cycle-management',
     metaTitle: 'Medical Billing & Dental Billing Services | Revenue Cycle Management (RCM)',
     metaDescription:
-      'Outsourced medical billing and dental billing services: eligibility verification, coding, claim submission, denial management, AR follow-up and credentialing. Medical RCM 4-7%, dental 5-8% of collections.',
+      'Outsourced medical billing and dental billing services: eligibility verification, coding, claim submission, denial management, AR follow-up and credentialing. Medical RCM 10%, dental 8% of collections, or propose your own rate.',
     keywords: [
       'medical billing services',
       'dental billing services',
@@ -603,7 +603,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'dental billing outsourcing',
     ],
     quickAnswer:
-      'Texas Solutions provides outsourced medical billing and dental billing services, also called revenue cycle management (RCM), for US practices: insurance eligibility verification, medical and dental coding, claim submission, payment posting, denial management, AR follow-up and provider credentialing. Medical RCM costs 4-7% and dental RCM 5-8% of net monthly collections, with no setup fee and 30 days notice.',
+      'Texas Solutions provides outsourced medical billing and dental billing services, also called revenue cycle management (RCM), for US practices: insurance eligibility verification, medical and dental coding, claim submission, payment posting, denial management, AR follow-up and provider credentialing. Standard rates are 10% of net monthly collections for medical practices and 8% for dental practices, practices can propose their own percentage, and there is no setup fee and 30 days notice.',
     guideTitle: 'Medical and dental billing outsourcing: what RCM covers and what it costs',
     guide: [
       {
@@ -620,7 +620,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much do medical billing services cost?',
         paragraphs: [
-          'Most outsourced billing companies charge a percentage of collections. Published industry guides put the common range at about 4% to 10% of collections, with most practices paying in the middle of that band; complex specialties sit higher. Our rates are 4-7% of net monthly collections for medical practices and 5-8% for dental practices, with no setup fee.',
+          'Most outsourced billing companies charge a percentage of collections. Published industry guides put the common range at about 4% to 10% of collections, with most practices paying in the middle of that band; complex specialties sit higher. Our standard rates are 10% of net monthly collections for medical practices and 8% for dental practices, with no setup fee. Practices can propose their own percentage, and the agreed rate is confirmed in writing.',
           'Always check what the percentage is taken from. A percentage of net collections (money actually received) costs far less than the same percentage of gross charges.',
         ],
       },

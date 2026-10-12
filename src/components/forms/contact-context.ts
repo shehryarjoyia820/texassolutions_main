@@ -16,6 +16,9 @@ export const CONTEXT_PARAMS = [
   'estimate_high',
   'estimate_billing',
   'subject',
+  'practice',
+  'collections',
+  'proposed_percent',
 ] as const;
 
 export type ContextKey = (typeof CONTEXT_PARAMS)[number];
@@ -72,6 +75,9 @@ export function describeContext(ctx: ContactContext, serviceName?: (slug: string
   } else if (ctx.estimate_billing) {
     lines.push(`Billing: ${humanise(ctx.estimate_billing).toLowerCase()}`);
   }
+  if (ctx.practice) lines.push(`Practice: ${humanise(ctx.practice)}`);
+  if (ctx.collections) lines.push(`Net monthly collections: ${money(ctx.collections)}`);
+  if (ctx.proposed_percent) lines.push(`Proposed percentage: ${ctx.proposed_percent}%`);
   if (ctx.subject) lines.push(`Subject: ${humanise(ctx.subject)}`);
   return lines;
 }

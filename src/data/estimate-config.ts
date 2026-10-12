@@ -1,8 +1,6 @@
 import type { RegionCode } from './regions';
 import { ENTERPRISE_ESTIMATE_CONFIG } from './estimate-config-enterprise';
-import { RCM_MODELS, RCM_TERMS } from './rates';
-
-const pct = (p: [number, number]) => `${Math.round(p[0] * 100)}-${Math.round(p[1] * 100)}%`;
+import { RCM_CUSTOM_LIMITS, RCM_MODELS, RCM_TERMS, pctLabel as pct } from './rates';
 
 /**
  * CMS model: estimateQuestionSet
@@ -438,6 +436,17 @@ const BASE_ESTIMATE_CONFIG: EstimateServiceConfig[] = [
         defaultValue: 50000,
         currency: true,
         unit: 'per month',
+      },
+      {
+        id: 'customPercent',
+        type: 'number',
+        label: 'Your proposed percentage (optional)',
+        help: 'Leave at 0 to use our standard rate, or propose your own. Proposals are reviewed and the agreed rate is confirmed in writing.',
+        min: 0,
+        max: RCM_CUSTOM_LIMITS.max,
+        step: RCM_CUSTOM_LIMITS.step,
+        defaultValue: 0,
+        unit: '%',
       },
       {
         id: 'extras',

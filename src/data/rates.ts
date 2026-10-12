@@ -205,9 +205,27 @@ export interface RcmModel {
 }
 
 export const RCM_MODELS: RcmModel[] = [
-  { id: 'medical', label: 'Medical practice RCM', short: 'Medical', percent: [0.04, 0.07], exampleCollections: 50000 },
-  { id: 'dental', label: 'Dental practice RCM', short: 'Dental', percent: [0.05, 0.08], exampleCollections: 40000 },
+  { id: 'medical', label: 'Medical practice RCM', short: 'Medical', percent: [0.1, 0.1], exampleCollections: 50000 },
+  { id: 'dental', label: 'Dental practice RCM', short: 'Dental', percent: [0.08, 0.08], exampleCollections: 40000 },
 ];
+
+/** "10%" from [0.1, 0.1], "4-7%" from [0.04, 0.07]. */
+export function pctLabel(p: Range): string {
+  const lo = Math.round(p[0] * 1000) / 10;
+  const hi = Math.round(p[1] * 1000) / 10;
+  return lo === hi ? `${lo}%` : `${lo}-${hi}%`;
+}
+
+/** Lowest to highest standard RCM percentage, e.g. "8-10%". */
+export const RCM_RANGE_LABEL = pctLabel([
+  Math.min(...RCM_MODELS.map((m) => m.percent[0])),
+  Math.max(...RCM_MODELS.map((m) => m.percent[1])),
+]);
+
+/** Practices may propose their own percentage; it is reviewed, not automatic. */
+export const RCM_CUSTOM_LIMITS = { min: 1, max: 15, step: 0.5 };
+export const RCM_CUSTOM_NOTE =
+  'You can propose your own percentage. Proposals are reviewed against your specialty, claim volume and payer mix, and the agreed rate is confirmed in writing.';
 
 export const RCM_INCLUDES = [
   'Insurance eligibility and benefits verification',
@@ -222,7 +240,7 @@ export const RCM_INCLUDES = [
 export const RCM_TERMS =
   'Percentage of net monthly collections (what is actually collected after adjustments), not gross charges. ' +
   'Credentialing and payer enrollment, standalone coding audits and prior-authorization-only work are quoted separately. ' +
-  'The final percentage depends on specialty, claim volume and payer mix and is confirmed in writing after a free billing review.';
+  'Standard rates can be adjusted for specialty, claim volume and payer mix, and you can propose your own percentage; the agreed rate is confirmed in writing after a free billing review.';
 
 export const RCM_DATA_NOTE =
   'Please do not send patient names, records or other protected health information through this website, its forms or its chat. Secure data-handling arrangements are agreed with your practice during onboarding.';

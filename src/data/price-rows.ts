@@ -4,7 +4,7 @@ import { HOURLY_RATES, SUPPORT_PLANS, MONTHLY_RESOURCES, type Range as RateRange
 /** Shared row types and builders for the price tables (no imports from pricing.ts, to avoid a cycle). */
 export type Range = RateRange;
 
-export type RowKind = 'project' | 'hourly' | 'resource' | 'support' | 'example' | 'unit' | 'quote';
+export type RowKind = 'project' | 'hourly' | 'resource' | 'support' | 'example' | 'unit' | 'quote' | 'tier';
 
 export interface PriceRow {
   id: string;
@@ -14,6 +14,8 @@ export interface PriceRow {
   kind?: RowKind;
   /** Starting scope or included hours, shown beside the price. */
   scope?: string;
+  /** Text shown instead of a dollar value, e.g. "3.5% of insurance collections". */
+  display?: string;
   /** Render as "from $X" (support plans). */
   from?: boolean;
   plus?: Partial<Record<RegionCode, boolean>>;

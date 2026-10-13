@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, GripVertical, Search, TrendingUp } from 'lucide-react';
 import { DISPATCH_MODELS, DISPATCH_DISCLAIMER, PRICE_TABLE_MAP, UNIT_LABEL, dispatchPercentLabel } from '@/data/pricing';
-import { MONTHLY_RESOURCES, RCM_DATA_NOTE, RCM_SERVICES, RCM_SITE, RCM_TERMS, SUPPORT_PLANS } from '@/data/rates';
+import { MONTHLY_RESOURCES, RCM_EXTRA_NOTE, RCM_FEE_BASIS, RCM_SERVICES, RCM_SITE, RCM_TIERS, SUPPORT_PLANS, pctLabel, rcmFee } from '@/data/rates';
 import { SERVICE_MAP } from '@/data/services';
 import { MARKETPLACE_ITEMS } from '@/data/catalog';
 import { TemplatePreview } from './template-preview';
@@ -36,8 +36,8 @@ export function ServiceInteractive({ kind, slug }: { kind: InteractiveKind; slug
       return <BallparkPicker slug={slug} />;
     case 'team-builder':
       return <TeamBuilder />;
-    case 'rcm-scope':
-      return <RcmScopePicker />;
+    case 'rcm-fee':
+      return <RcmFeeCalculator />;
     default:
       return (
         <ButtonLink href={`/estimate?service=${slug}`} icon={ArrowRight}>
@@ -429,73 +429,62 @@ export function DispatchFeeCalculator({ compact = false }: { compact?: boolean }
 }
 
 /* ================================================================== */
-/*  Dental RCM scope picker (no published prices)                      */
+/*  Dental RCM fee calculator (published tiers, per location)          */
 /* ================================================================== */
 
-const RCM_SIZES = [
-  { id: 'single', label: 'Single office' },
-  { id: 'multi', label: '2-5 locations' },
-  { id: 'dso', label: 'Group or DSO, 6+ locations' },
-];
-
-export function RcmScopePicker() {
-  const [picked, setPicked] = useState<string[]>(['eligibility-verification', 'dental-billing', 'ar-follow-up']);
-  const [size, setSize] = useState('single');
-  const toggle = (slug: string) => setPicked((p) => (p.includes(slug) ? p.filter((x) => x !== slug) : [...p, slug]));
-  const full = picked.length === RCM_SERVICES.length;
-  const href =
-    `/contact?service=revenue-cycle-management&rcm_services=${encodeURIComponent(picked.join(','))}` +
-    `&locations=${size}&subject=${encodeURIComponent('Dental RCM consultation')}`;
+export function RcmFeeCalculator() {
+  const { code } = useRegion();
+  const [collections, setCollections] = useState(60000);
+  const [locations, setLocations] = useState(1);
+  const { tier, fee } = rcmFee(collections);
+  const included = RCM_SERVICES.filter((r) => r.slug !== 'credentialing');
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
-      <div className="rounded-2xl border border-line bg-bg-soft p-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <span className="text-sm font-medium">Services you want help with</span>
-          <button type="button" onClick={() => setPicked(full ? [] : RCM_SERVICES.map((r) => r.slug))} className="text-xs font-semibold text-svc underline underline-offset-4">
-            {full ? 'Clear all' : 'Full revenue cycle'}
-          </button>
-        </div>
-        <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          {RCM_SERVICES.map((r) => (
-            <label
-              key={r.slug}
-              className={cn(
-                'flex cursor-pointer gap-3 rounded-xl border p-3.5 text-sm transition-colors',
-                picked.includes(r.slug) ? 'border-svc bg-svc/10' : 'border-line hover:border-svc/40',
-              )}
-            >
-              <input type="checkbox" checked={picked.includes(r.slug)} onChange={() => toggle(r.slug)} className="mt-0.5 h-4 w-4 shrink-0 accent-[rgb(var(--svc))]" />
-              <span>
-                <span className="block font-medium">{r.name}</span>
-                <span className="mt-0.5 block text-xs text-fg-subtle">{r.summary}</span>
-              </span>
-            </label>
-          ))}
-        </div>
-        <span className="mb-2.5 mt-6 block text-sm font-medium">Practice size</span>
-        <div className="grid gap-2 sm:grid-cols-3">
-          {RCM_SIZES.map((o) => (
-            <button
-              key={o.id}
-              type="button"
-              onClick={() => setSize(o.id)}
-              aria-pressed={size === o.id}
-              className={cn('rounded-xl border p-3 text-sm', size === o.id ? 'border-svc bg-svc/10 font-medium' : 'border-line hover:border-svc/40')}
-            >
-              {o.label}
-            </button>
-          ))}
+    <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+      <div className="space-y-6 rounded-2xl border border-line bg-bg-soft p-6">
+        <Slider
+          id="rcm-collections"
+          label="Monthly insurance collections per location"
+          value={collections}
+          min={5000}
+          max={300000}
+          step={5000}
+          onChange={setCollections}
+          display={formatMoney(collections, code)}
+        />
+        <p className="-mt-3 text-xs text-fg-subtle">{RCM_FEE_BASIS}</p>
+        {locations === 1 ? null : (
+          <p className="rounded-xl border border-svc/30 bg-svc/5 p-3 text-xs">Two or more locations: groups and DSOs get a custom quote. The figure shown is for one location at this level.</p>
+        )}
+        <Slider id="rcm-locations" label="Locations" value={locations} min={1} max={10} step={1} onChange={setLocations} display={String(locations)} />
+        <div className="overflow-hidden rounded-xl border border-line">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-bg text-xs uppercase tracking-wider text-fg-subtle">
+              <tr><th className="p-2.5">Insurance collections</th><th className="p-2.5">Monthly fee</th></tr>
+            </thead>
+            <tbody>
+              {RCM_TIERS.map((t) => (
+                <tr key={t.id} className={cn('border-t border-line', t.id === tier.id && 'bg-svc/10 font-medium')}>
+                  <td className="p-2.5">{t.label}</td>
+                  <td className="p-2.5">{t.flat ? `${formatMoney(t.flat, code)} flat` : pctLabel([t.percent!, t.percent!])}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
       <div className="rounded-2xl border border-svc/25 bg-svc/5 p-6">
-        <p className="text-xs uppercase tracking-wider text-fg-subtle">Your dental RCM scope</p>
-        <p className="mt-1.5 font-display text-2xl font-semibold">
-          {picked.length === 0 ? 'Pick at least one service' : full ? 'Full revenue cycle' : `${picked.length} of ${RCM_SERVICES.length} services`}
-        </p>
-        <ul className="mt-4 space-y-1.5">
-          {RCM_SERVICES.filter((r) => picked.includes(r.slug)).map((r) => (
+        <div className="rounded-xl border border-success/45 bg-success/10 p-4">
+          <p className="text-xs uppercase tracking-wider text-fg-subtle">
+            {tier.flat ? 'Flat fee tier' : `${pctLabel([tier.percent!, tier.percent!])} of insurance collections`}
+          </p>
+          <p className="mt-1.5 font-display text-2xl font-semibold">{formatMoney(fee, code)}</p>
+          <p className="text-xs text-fg-subtle">USD per month for one location{locations > 1 ? '; multi-location pricing is quoted' : ''}</p>
+        </div>
+        <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-fg-subtle">Included in the monthly fee</p>
+        <ul className="mt-2 space-y-1.5">
+          {included.map((r) => (
             <li key={r.slug} className="flex gap-2 text-sm text-fg-muted">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-svc" aria-hidden />
               {r.name}
@@ -503,13 +492,18 @@ export function RcmScopePicker() {
           ))}
         </ul>
         <NoteBox tone="warn" className="mt-4 text-xs">
-          {RCM_TERMS} {RCM_DATA_NOTE}
+          {RCM_EXTRA_NOTE} No setup fee. Your tier is confirmed in a written proposal after a free consultation.
         </NoteBox>
-        <ButtonLink href={href} variant="service" icon={ArrowRight} className={cn('mt-5 w-full', picked.length === 0 && 'pointer-events-none opacity-50')}>
-          Request a free consultation
+        <ButtonLink
+          href={`/contact?service=revenue-cycle-management&locations=${locations > 1 ? 'multi' : 'single'}&subject=${encodeURIComponent('Dental RCM consultation')}`}
+          variant="service"
+          icon={ArrowRight}
+          className="mt-5 w-full"
+        >
+          Book a free consultation
         </ButtonLink>
-        <a href={RCM_SITE} target="_blank" rel="noopener" className="mt-3 block text-center text-sm font-medium text-svc underline underline-offset-4">
-          Visit Texas Solutions RCM
+        <a href={`${RCM_SITE}/pricing/`} target="_blank" rel="noopener" className="mt-3 block text-center text-sm font-medium text-svc underline underline-offset-4">
+          Full pricing on Texas Solutions RCM
         </a>
       </div>
     </div>

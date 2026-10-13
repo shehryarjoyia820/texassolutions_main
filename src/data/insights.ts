@@ -34,7 +34,7 @@ export const INSIGHTS: Insight[] = [
     kind: 'Guide',
     title: 'How much do dental billing services cost? Dental RCM pricing explained',
     excerpt:
-      'Percentage of collections, per-claim and monthly scope pricing for outsourced dental billing and dental RCM, what full service includes, and the questions to ask before you sign.',
+      'Percentage of collections, per-claim and flat pricing for outsourced dental billing, our published dental RCM tiers, and the questions to ask before you sign.',
     date: '2026-10-11',
     readingMinutes: 8,
     author: 'Texas Solutions RCM team',
@@ -42,7 +42,16 @@ export const INSIGHTS: Insight[] = [
     service: 'revenue-cycle-management',
     tags: ['Dental billing services', 'Dental RCM', 'Dental billing cost', 'Outsourced dental billing'],
     body: [
-      { t: 'p', text: 'Short answer: dental billing companies usually charge in one of three ways: a percentage of collections, a fee per claim, or a monthly fee for an agreed scope. The right model depends on your claim volume, payer mix and how much of the revenue cycle you hand over. Texas Solutions RCM, our dental division, does not publish prices; it quotes in writing after a free consultation.' },
+      { t: 'p', text: 'Short answer: dental billing companies usually charge in one of three ways: a percentage of collections, a fee per claim, or a monthly fee for an agreed scope. The right model depends on your claim volume, payer mix and how much of the revenue cycle you hand over. Texas Solutions RCM, our dental division, publishes its pricing: per location, per month, a flat $1,200 under $40,000 in insurance collections, then 3.5%, 3% or 2.5%.' },
+      { t: 'h2', text: 'Texas Solutions RCM pricing' },
+      { t: 'table', head: ['Monthly insurance collections (per location)', 'Monthly fee'], rows: [
+        ['Under $40,000', 'Flat $1,200'],
+        ['$40,000 to $99,999', '3.5% of insurance collections'],
+        ['$100,000 to $149,999', '3% of insurance collections'],
+        ['$150,000 and above', '2.5% of insurance collections'],
+        ['Multi-location groups and DSOs', 'Custom quote'],
+      ] },
+      { t: 'p', text: 'Patient payments are not part of the fee base and there is no setup fee. Credentialing and cleanup of A/R from before your start date are quoted separately, and your clearinghouse and software costs stay with your practice. For example, $60,000 in insurance collections in a month is billed at 3.5%, or $2,100.' },
       { t: 'h2', text: 'The three common pricing models' },
       { t: 'table', head: ['Model', 'How it works', 'Watch for'], rows: [
         ['Percentage of collections', 'A share of what the office collects each month', 'Whether it is taken from net collections or gross production'],
@@ -67,7 +76,7 @@ export const INSIGHTS: Insight[] = [
         'Will you sign a Business Associate Agreement before accessing any patient data?',
         'Who is our day-to-day contact, and what reports do we receive?',
       ] },
-      { t: 'p', text: 'Want a written quote for your office? Book a free consultation with Texas Solutions RCM at rcm.texassolutions.co or through our contact form. Please do not send patient information through this website.' },
+      { t: 'p', text: 'Want to confirm your tier? Book a free consultation with Texas Solutions RCM at rcm.texassolutions.co or through our contact form. Please do not send patient information through this website.' },
     ],
   },
   {

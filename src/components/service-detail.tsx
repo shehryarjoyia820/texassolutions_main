@@ -503,11 +503,11 @@ export function ServiceDetail({
         <div aria-hidden className="pointer-events-none absolute inset-0 svc-glow" />
         <Container className="relative py-section-sm">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-display-md">{ESTIMATE_CONFIG_MAP[service.slug] ? 'Put a number on it' : 'Get a written quote'}</h2>
+            <h2 className="text-display-md">{ESTIMATE_CONFIG_MAP[service.slug] ? 'Put a number on it' : 'Confirm your price'}</h2>
             <p className="mt-5 text-lg leading-relaxed text-fg-muted">
               {ESTIMATE_CONFIG_MAP[service.slug]
                 ? `The calculator opens on ${lowerKeepAcronyms(service.navLabel)} already selected. A few questions and you have a range in US dollars.`
-                : 'Start with a free consultation. After a look at your workflow you receive a written scope and price, and nothing starts until you accept it.'}
+                : 'Start with a free consultation. After a look at your workflow you receive a written proposal confirming your scope and price, and nothing starts until you accept it.'}
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <ButtonLink

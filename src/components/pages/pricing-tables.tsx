@@ -79,7 +79,7 @@ export function PricingTables({ tables, services }: { tables: PriceTable[]; serv
                       <a href={RCM_SITE} target="_blank" rel="noopener" className="font-medium text-svc underline underline-offset-4">
                         Texas Solutions RCM
                       </a>
-                      . Book a free consultation there or through our contact form for a written quote.
+                      . The tiers above are its published pricing; a free consultation and written proposal confirm your tier.
                     </p>
                   )}
                 </section>

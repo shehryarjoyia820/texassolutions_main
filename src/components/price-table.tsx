@@ -14,12 +14,14 @@ const GROUPS: { kind: RowKind; title: string }[] = [
   { kind: 'support', title: 'Monthly plans (starting price and starting scope)' },
   { kind: 'example', title: 'Worked examples (not a price list)' },
   { kind: 'unit', title: 'Supplied and installed' },
-  { kind: 'quote', title: 'Quoted in writing after a free consultation' },
+  { kind: 'tier', title: "Monthly fee per location, set by that month's insurance collections" },
+  { kind: 'quote', title: 'Quoted after a review' },
 ];
 
 export function PriceCell({ row, code }: { row: PriceRow; code: Parameters<typeof formatRange>[1] }) {
   const value = row.values[code];
   const plus = Boolean(row.plus?.[code]);
+  if (row.display) return <>{row.display}</>;
   if (!value) return <>Quoted per scope</>;
   if (row.from) return <>from {formatMoney(value[0], code)}</>;
   if (value[0] === value[1]) return <>{formatMoney(value[0], code)}{plus ? '+' : ''}</>;

@@ -1,7 +1,7 @@
 import type { RegionCode } from './regions';
 import { ENTERPRISE_PRICE_TABLES } from './pricing-enterprise';
 import { SERVICE_ORDER } from './services';
-import { SPECIALIST_QUOTE_NOTE, RCM_TERMS, pctLabel } from './rates';
+import { SPECIALIST_QUOTE_NOTE, RCM_TERMS, RCM_TIERS, pctLabel } from './rates';
 export { pctLabel };
 
 /**
@@ -134,12 +134,23 @@ const BASE_PRICE_TABLES: PriceTable[] = [
   {
     service: 'revenue-cycle-management',
     title: 'Dental revenue cycle management',
-    intro: 'Dental RCM is priced per practice. After a free consultation and a look at your workflow, you receive a written scope and price.',
+    intro:
+      "Published pricing from Texas Solutions RCM. Each location pays one monthly fee, set by the insurance collections we post for it that month. Patient payments are not part of the fee base, and there is no setup fee.",
     rows: [
-      { id: 'rcm-single', label: 'Single service', note: 'For example insurance verification or an A/R cleanup', unit: 'monthly', kind: 'quote', values: usd(null) },
-      { id: 'rcm-full', label: 'Full dental revenue cycle', note: 'Verification through payment posting, denials and A/R', unit: 'monthly', kind: 'quote', values: usd(null) },
-      { id: 'rcm-group', label: 'Group practices and DSOs', note: 'Per location, with provider-level reporting', unit: 'monthly', kind: 'quote', values: usd(null) },
-      { id: 'rcm-credentialing', label: 'Credentialing and provider enrollment', note: 'Per provider and network list', unit: 'one-time', kind: 'quote', values: usd(null) },
+      ...RCM_TIERS.map(
+        (t): PriceRow => ({
+          id: t.id,
+          label: `${t.label} in monthly insurance collections`,
+          note: t.flat ? 'Flat fee for the month' : 'Percentage applied to the full month of insurance collections',
+          unit: 'monthly',
+          kind: 'tier',
+          display: t.flat ? undefined : `${pctLabel([t.percent!, t.percent!])} of insurance collections`,
+          values: usd(t.flat ? [t.flat, t.flat] : null),
+        }),
+      ),
+      { id: 'rcm-group', label: 'Multi-location groups and DSOs', note: 'Scoped per group', unit: 'monthly', kind: 'quote', display: 'Custom quote', values: usd(null) },
+      { id: 'rcm-credentialing', label: 'Credentialing and provider enrollment', note: 'Depends on dentists and carriers involved', unit: 'one-time', kind: 'quote', display: 'Quoted after review', values: usd(null) },
+      { id: 'rcm-old-ar', label: 'Cleanup of A/R from before your start date', note: 'Separate project after an aging review', unit: 'one-time', kind: 'quote', display: 'Quoted after review', values: usd(null) },
     ],
     disclaimer: RCM_TERMS,
   },
@@ -156,12 +167,12 @@ export const PERCENT_PRICING: Record<string, { headline: string; unit: string; c
     card: '5-10% of weekly gross',
     note: 'Semi 5%, hotshot 8%, box truck 10%, OTR. No flat rate or extra charges.',
   },
-  // Dental RCM publishes no prices; every engagement is quoted in writing.
+  // Dental RCM: flat $1,200 under $40k insurance collections, then 3.5% / 3% / 2.5% (per location, per month).
   'revenue-cycle-management': {
-    headline: 'Quoted',
-    unit: 'in writing',
-    card: 'Quoted after a free consultation',
-    note: 'Dental only. Free consultation, then a written scope and price. No published rates.',
+    headline: '$1,200',
+    unit: 'per month flat, or 2.5-3.5%',
+    card: 'From $1,200 per month per location',
+    note: 'Flat $1,200 under $40,000 monthly insurance collections, then 3.5%, 3% or 2.5%. Per location. No setup fee.',
   },
 };
 

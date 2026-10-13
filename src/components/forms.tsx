@@ -652,7 +652,7 @@ export function FormShell({
 /* ------------------------------------------------------------------ */
 
 const DISPATCH_BUDGET = 'Truck dispatch (percentage of weekly gross)';
-const RCM_BUDGET = 'Dental RCM (quoted in writing after a free consultation)';
+const RCM_BUDGET = 'Dental RCM (published tiers: $1,200 flat or 2.5-3.5% of insurance collections)';
 const NOT_SURE = 'Not sure yet';
 
 /** Values are the visible labels so the email reads plainly. */
@@ -824,7 +824,7 @@ export function ContactForm({ defaultService = '' }: { defaultService?: string }
             <p className="mb-1.5 block text-sm font-medium">Budget</p>
             <p className="flex min-h-12 items-center rounded-xl border border-line bg-bg-soft px-4 py-3 text-sm text-fg-muted">
               {values.service === 'revenue-cycle-management'
-                ? 'Dental RCM is quoted in writing after a free consultation — no budget needed.'
+                ? 'Dental RCM: $1,200 a month flat, or 2.5-3.5% of insurance collections, per location — no budget needed.'
                 : 'Dispatch fee is a percentage of weekly gross — no budget needed.'}
             </p>
           </div>

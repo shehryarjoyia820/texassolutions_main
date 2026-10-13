@@ -129,7 +129,7 @@ export const SOLUTIONS: Solution[] = [
       { label: 'Policy standing', value: 'Clean', note: 'Reviewed against platform health policy' },
     ],
     playbook: [
-      { title: 'Get dental claims paid', body: 'Our dental division, Texas Solutions RCM, verifies benefits before the visit, sends claims with the right attachments, works every denial and follows up aged A/R, quoted in writing after a free consultation.' },
+      { title: 'Get dental claims paid', body: 'Our dental division, Texas Solutions RCM, verifies benefits before the visit, sends claims with the right attachments, works every denial and follows up aged A/R, from $1,200 a month per location with no setup fee.' },
       { title: 'Handle data properly', body: 'Encrypted transport and storage, role-based access, retention rules and an audit trail on intake.' },
       { title: 'Stage the intake', body: 'Split long forms into short steps with save-and-resume, which is where most mobile abandonment comes from.' },
       { title: 'Advertise inside the rules', body: 'Campaigns reviewed against health advertising policy before launch, with restricted audience handling.' },

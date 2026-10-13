@@ -1,11 +1,12 @@
 import type { Service } from './services';
-import { RCM_SERVICES, RCM_SOFTWARE, RCM_SPECIALTIES } from './rates';
+import { RCM_EXTRA_NOTE, RCM_FEE_BASIS, RCM_INCLUDED_NOTE, RCM_SERVICES, RCM_SOFTWARE, RCM_SOFTWARE_NOTE, RCM_SPECIALTIES, RCM_TRANSACTIONS } from './rates';
 
 /**
  * Dental revenue cycle management, run by the dental division Texas Solutions
- * RCM (rcm.texassolutions.co). Dental only; prices are quoted in writing after
- * a free consultation; a Business Associate Agreement is signed before any
- * patient data is accessed (owner-confirmed, October 2026).
+ * RCM (rcm.texassolutions.co). Dental only; published per-location pricing
+ * (flat $1,200 under $40k insurance collections, then 3.5%, 3% or 2.5%); a
+ * Business Associate Agreement is signed before any patient data is accessed.
+ * Keep in step with rcm.texassolutions.co/pricing and /technology.
  */
 export const RCM_SERVICE: Service = {
   slug: 'revenue-cycle-management',
@@ -20,9 +21,9 @@ export const RCM_SERVICE: Service = {
   accent: '20 160 133',
   accentHex: '#14A085',
   heroVisual: 'Dental claim moving from verification to posted payment',
-  interactive: 'rcm-scope',
-  interactiveTitle: 'Pick the dental RCM services you need',
-  startingPriceRow: 'rcm-full',
+  interactive: 'rcm-fee',
+  interactiveTitle: 'Dental RCM fee calculator',
+  startingPriceRow: 'rcm-flat',
   problem: {
     title: 'The dentistry gets done. The claims get stuck.',
     body: 'Benefits are checked in a rush between patients, claims go out without the x-ray or narrative the carrier wants, denials sit unworked, and insurance A/R quietly ages past 90 days.',
@@ -60,33 +61,33 @@ export const RCM_SERVICE: Service = {
     'Every note and posting kept in your system',
     'PPO, DHMO, indemnity and Medicaid dental plans',
     'Regular reporting and review calls',
-    'Scope and responsibilities written into the proposal',
+    'No setup fee; tier confirmed in a written proposal',
   ],
   packages: [
     {
       name: 'Starter',
-      tagline: 'One service for one bottleneck, such as verification or old A/R.',
-      priceRow: 'rcm-single',
+      tagline: 'One location under $40,000 in monthly insurance collections.',
+      priceRow: 'rcm-flat',
       anchor: 'low',
-      priceLabel: { value: 'Quoted', unit: 'in writing after a free consultation' },
-      features: ['Any one of the eight services', 'Named point of contact', 'Work inside your software', 'Monthly report'],
+      priceLabel: { value: '$1,200', unit: 'per month, flat, per location' },
+      features: ['Seven of the eight services included', 'Named point of contact', 'Work inside your software', 'No setup fee'],
     },
     {
       name: 'Growth',
-      tagline: 'The full dental revenue cycle for a single office.',
-      priceRow: 'rcm-full',
+      tagline: 'One location with $40,000 or more in monthly insurance collections.',
+      priceRow: 'rcm-35',
       anchor: 'mid',
       popular: true,
-      priceLabel: { value: 'Quoted', unit: 'in writing after a free consultation' },
-      features: ['Verification, claims and attachments', 'Denials, appeals and payment posting', 'Insurance and patient A/R', 'Reporting and review calls'],
+      priceLabel: { value: '2.5-3.5%', unit: "of that month's insurance collections, per location" },
+      features: ['3.5% from $40,000, 3% from $100,000, 2.5% from $150,000', 'Patient payments not in the fee base', 'Same seven services included', 'No setup fee'],
     },
     {
       name: 'Pro',
       tagline: 'Multi-location groups and DSOs.',
       priceRow: 'rcm-group',
       anchor: 'high',
-      priceLabel: { value: 'Quoted', unit: 'per group, after a workflow review' },
-      features: ['Everything in Growth, per location', 'Credentialing and provider enrollment', 'Location and provider reporting', 'Agreed escalation channels'],
+      priceLabel: { value: 'Custom quote', unit: 'scoped per group' },
+      features: ['Work organized across locations', 'Location and provider reporting', 'Agreed escalation channels', 'Credentialing quoted separately'],
     },
   ],
   process: [
@@ -95,7 +96,7 @@ export const RCM_SERVICE: Service = {
     { title: 'Proposal and onboarding', body: 'A written scope and price, then a BAA, named logins to your software and portals, and a documented handover plan.', duration: 'Week 2-3' },
     { title: 'Daily operations and reporting', body: 'Verification, claims, attachments, posting, denials and follow-up every business day, with regular reports and review calls.', duration: 'Ongoing' },
   ],
-  tools: [...RCM_SOFTWARE, 'Clearinghouses', 'Carrier portals', 'ADA claim form', '837D', 'CDT', 'ERA and EOB'],
+  tools: [...RCM_SOFTWARE, 'Clearinghouses', 'Carrier portals', 'ADA claim form', 'CDT', ...RCM_TRANSACTIONS.map((t) => `X12 ${t.code}`)],
   caseStudy: {
     slug: 'rcm-dental-office',
     client: 'Sample profile: two-dentist general practice',
@@ -116,16 +117,17 @@ export const RCM_SERVICE: Service = {
     ],
   },
   faqs: [
-    { q: 'How much does dental RCM cost?', a: 'We do not publish prices. After a free consultation and a look at your workflow, we quote in writing. The fee depends on the services you choose, your claim volume, the number of locations and how much of the cycle we manage, and nothing starts until you accept the scope and price.' },
+    { q: 'How much does dental RCM cost?', a: `Per location, per month, set by the insurance collections we post that month: a flat $1,200 under $40,000, 3.5% from $40,000 to $99,999, 3% from $100,000 to $149,999, and 2.5% at $150,000 and above. Groups and DSOs get a custom quote. No setup fee. ${RCM_FEE_BASIS}` },
+    { q: 'What does the monthly fee include?', a: `${RCM_INCLUDED_NOTE} ${RCM_EXTRA_NOTE}` },
     { q: 'Do you do medical billing?', a: 'No. Texas Solutions RCM focuses on dental revenue cycle management only, because dental plans, CDT coding, attachments and dental remittances work differently from medical claims.' },
-    { q: 'Do we need to change our dental software?', a: `No. The team commonly works in ${RCM_SOFTWARE.join(', ')}, using named accounts your administrator creates and can disable at any time. We are not affiliated with any software vendor.` },
+    { q: 'Which dental software do you work in?', a: `${RCM_SOFTWARE_NOTE} Claims go out as X12 837D and payments post from 835 ERAs through the clearinghouse connected to your system.` },
     { q: 'Can we outsource only one part, such as insurance verification or A/R?', a: 'Yes. Many offices start with one area and keep the rest in-house. The written proposal spells out which tasks are ours and which stay with your team.' },
     { q: 'How do you protect patient information?', a: 'We sign a Business Associate Agreement before accessing any patient data, work only inside your systems through named accounts with the least access each task needs, and never send patient details by ordinary email or chat. This website and its forms are for business enquiries only.' },
     { q: 'Which dental specialties do you support?', a: `${RCM_SPECIALTIES.join(', ')}.` },
   ],
   metrics: [
-    { label: 'Focus', value: 'Dental only' },
-    { label: 'Pricing', value: 'Written quote' },
-    { label: 'Coverage', value: 'All 50 states' },
+    { label: 'From', value: '$1,200 / month' },
+    { label: 'Setup fee', value: 'None' },
+    { label: 'Software', value: 'Open Dental, Dentrix, Eaglesoft' },
   ],
 };

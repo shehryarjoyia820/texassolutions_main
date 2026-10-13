@@ -192,8 +192,8 @@ export const PREMIUMS_NOTE =
 
 /**
  * Dental RCM is run by the dental division, Texas Solutions RCM, at
- * rcm.texassolutions.co. It is dental only, and prices are not published:
- * every engagement is quoted in writing after a free consultation.
+ * rcm.texassolutions.co. It is dental only, with published per-location pricing
+ * (RCM_TIERS below); a free consultation and written proposal confirm the tier.
  * Keep this block in step with that site.
  */
 export const RCM_SITE = 'https://rcm.texassolutions.co';
@@ -253,16 +253,16 @@ export const RCM_SERVICES: RcmService[] = [
     slug: 'ar-follow-up',
     name: 'Accounts receivable (A/R) management',
     rcmPath: '/services/dental-accounts-receivable/',
-    summary: 'Insurance A/R worked by age bucket, with older balances cleaned up.',
-    points: ['30, 60 and 90+ day A/R follow-up', 'Outstanding claim follow-up', 'Carrier calls and portal checks', 'Aging report analysis', 'A/R cleanup and recovery projects'],
+    summary: 'Insurance A/R from your start date worked by age bucket; older A/R cleanup is a separate project.',
+    points: ['30, 60 and 90+ day A/R follow-up', 'Outstanding claim follow-up', 'Carrier calls and portal checks', 'Aging report analysis', 'Older A/R cleanup quoted as a separate project'],
     keyword: 'dental accounts receivable services',
   },
   {
     slug: 'patient-billing',
     name: 'Patient billing and collections support',
     rcmPath: '/services/patient-billing/',
-    summary: 'Statements, balance reviews and payment allocation handled consistently.',
-    points: ['Patient statement processing', 'Patient balance review', 'Payment allocation', 'Outstanding balance follow-up', 'Patient billing coordination'],
+    summary: 'Patient statements prepared and sent; balance conversations stay with your front desk.',
+    points: ['Patient statement processing', 'Patient balance review', 'Payment allocation', 'Patient billing coordination', 'No phone calls to patients'],
     keyword: 'dental patient billing services',
   },
   {
@@ -295,12 +295,55 @@ export const RCM_SPECIALTIES = [
 ];
 
 /** Practice management systems the team commonly works in. No partnership with any vendor. */
-export const RCM_SOFTWARE = ['Dentrix', 'Open Dental', 'Eaglesoft', 'Curve Dental'];
+export const RCM_SOFTWARE = ['Open Dental', 'Dentrix', 'Eaglesoft'];
 export const RCM_SOFTWARE_NOTE =
-  'We work inside the dental software you already use, through named accounts your administrator controls. Product names belong to their owners; Texas Solutions is not a partner or reseller of any dental software company.';
+  'The team works inside Open Dental, Dentrix and Eaglesoft through named accounts your administrator controls; other systems are confirmed during the consultation. Nothing to install and no data to migrate. Texas Solutions is not a partner, reseller or integration vendor of any software company.';
+
+/** Electronic dental transactions (X12) used across the cycle. */
+export const RCM_TRANSACTIONS = [
+  { code: '837D', what: 'Electronic dental claim (the ADA claim form equivalent)' },
+  { code: '835', what: 'Electronic remittance advice (ERA) for payment posting' },
+  { code: '270/271', what: 'Eligibility inquiry and response' },
+  { code: '276/277', what: 'Claim status inquiry and response' },
+];
+
+/**
+ * Published dental RCM pricing (rcm.texassolutions.co/pricing, October 2026).
+ * Per location, per month, set by the insurance collections posted that month.
+ * Patient payments are not part of the fee base. No setup fee.
+ */
+export interface RcmTier {
+  id: string;
+  label: string;
+  /** Monthly insurance collections, inclusive lower bound and exclusive upper bound. */
+  from: number;
+  to: number | null;
+  flat?: number;
+  percent?: number;
+}
+
+export const RCM_TIERS: RcmTier[] = [
+  { id: 'rcm-flat', label: 'Under $40,000', from: 0, to: 40000, flat: 1200 },
+  { id: 'rcm-35', label: '$40,000 to $99,999', from: 40000, to: 100000, percent: 0.035 },
+  { id: 'rcm-30', label: '$100,000 to $149,999', from: 100000, to: 150000, percent: 0.03 },
+  { id: 'rcm-25', label: '$150,000 and above', from: 150000, to: null, percent: 0.025 },
+];
+
+/** Monthly fee for one location from that month's insurance collections. */
+export function rcmFee(collections: number): { tier: RcmTier; fee: number } {
+  const tier = RCM_TIERS.find((t) => collections >= t.from && (t.to === null || collections < t.to)) ?? RCM_TIERS[0];
+  return { tier, fee: tier.flat ?? Math.round(collections * (tier.percent ?? 0)) };
+}
+
+export const RCM_FEE_BASIS =
+  'Insurance collections are the carrier payments we post for a location in that month (PPO, DHMO, indemnity and Medicaid dental). Patient payments are not part of the fee base.';
+export const RCM_INCLUDED_NOTE =
+  'The monthly fee covers seven of the eight services: insurance verification, claims, denials and appeals, payment posting, A/R management from your start date, patient statements and reporting.';
+export const RCM_EXTRA_NOTE =
+  'Charged separately: credentialing and provider enrollment, and cleanup of A/R that existed before your start date, each quoted after a review. Your clearinghouse and software subscriptions stay with your practice.';
 
 export const RCM_TERMS =
-  'We do not publish dental RCM prices. After a free consultation and a look at your workflow, we quote in writing. The fee depends on the services you choose, your claim volume, the number of locations and how much of the cycle we manage, and nothing starts until you accept the scope and price.';
+  'Per location, per month: a flat $1,200 when insurance collections are under $40,000, then 3.5% ($40,000 to $99,999), 3% ($100,000 to $149,999) or 2.5% ($150,000 and above) of that month\'s insurance collections. Groups and DSOs get a custom quote. No setup fee; a free consultation and written proposal confirm your tier and scope before work begins.';
 
 export const RCM_DATA_NOTE =
   'Please do not send patient information through this website, its forms or its chat. We sign a Business Associate Agreement with your practice before accessing any patient data, and we work only inside your own systems through named accounts.';

@@ -583,7 +583,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
     slug: 'revenue-cycle-management',
     metaTitle: 'Dental Revenue Cycle Management (RCM) & Dental Billing Services',
     metaDescription:
-      'Dental RCM for US practices: insurance verification, dental claims, denials, payment posting, A/R, credentialing and reporting. BAA signed. Free consultation.',
+      'Dental RCM from $1,200 a month per location: insurance verification, claims, denials, payment posting, A/R and reporting. No setup fee. BAA signed.',
     keywords: [
       'dental revenue cycle management',
       'dental RCM',
@@ -599,9 +599,11 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       'Dentrix billing services',
       'Open Dental billing services',
       'Eaglesoft billing services',
+      'dental RCM pricing',
+      'dental billing cost',
     ],
     quickAnswer:
-      'Texas Solutions RCM, the dental division of Texas Solutions, provides dental revenue cycle management for practices in all 50 states: insurance verification and eligibility, dental claims, denials and appeals, payment posting, A/R management, patient billing, credentialing and reporting. The team works inside Dentrix, Open Dental, Eaglesoft, Curve Dental and other systems, signs a Business Associate Agreement before accessing patient data, and quotes in writing after a free consultation.',
+      'Texas Solutions RCM, the dental division of Texas Solutions, provides dental revenue cycle management for practices in all 50 states: insurance verification and eligibility, dental claims, denials and appeals, payment posting, A/R management, patient billing, credentialing and reporting. The team works inside Open Dental, Dentrix and Eaglesoft, signs a Business Associate Agreement before accessing patient data, and publishes its pricing: a flat $1,200 a month per location under $40,000 in insurance collections, then 3.5%, 3% or 2.5%, with no setup fee.',
     guideTitle: 'Dental revenue cycle management: what it covers and how outsourcing works',
     guide: [
       {
@@ -624,7 +626,7 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
       {
         heading: 'How much does outsourced dental billing cost?',
         paragraphs: [
-          'Dental billing companies price in different ways: a percentage of collections, a fee per claim, or a monthly fee for an agreed scope. We do not publish prices. After a free consultation and a look at your workflow, you receive a written scope and price based on the services you choose, claim volume and number of locations.',
+          'Dental billing companies price in different ways: a percentage of collections, a fee per claim, or a monthly fee for an agreed scope. Ours is published: per location, per month, a flat $1,200 when insurance collections are under $40,000, 3.5% from $40,000 to $99,999, 3% from $100,000 to $149,999 and 2.5% at $150,000 and above. Patient payments are not part of the fee base, and there is no setup fee.',
         ],
       },
       {

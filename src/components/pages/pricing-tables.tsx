@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import type { PriceTable } from '@/data/pricing';
-import { DISPATCH_MODELS, dispatchPercentLabel, pctLabel } from '@/data/pricing';
-import { RCM_MODELS } from '@/data/rates';
+import { DISPATCH_MODELS, dispatchPercentLabel } from '@/data/pricing';
+import { RCM_SITE } from '@/data/rates';
 import type { Service } from '@/data/services';
 import { FullPriceTable, ServicePriceTable } from '@/components/price-table';
 import { Container, Section, SectionHeading, NoteBox, ArrowLink } from '@/components/ui';
@@ -74,15 +74,13 @@ export function PricingTables({ tables, services }: { tables: PriceTable[]; serv
                   )}
 
                   {table.service === 'revenue-cycle-management' && (
-                    <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                      {RCM_MODELS.map((m) => (
-                        <div key={m.id} className="rounded-xl border border-svc/25 bg-svc/5 p-5">
-                          <p className="text-sm font-medium">{m.label}</p>
-                          <p className="mt-2 font-display text-2xl font-semibold text-svc">{pctLabel(m.percent)} of net collections</p>
-                          <p className="mt-1 text-xs text-fg-subtle">Per month, no setup fee. Final percentage confirmed after a free billing review.</p>
-                        </div>
-                      ))}
-                    </div>
+                    <p className="mt-5 text-sm text-fg-muted">
+                      Dental RCM is run by our dental division,{' '}
+                      <a href={RCM_SITE} target="_blank" rel="noopener" className="font-medium text-svc underline underline-offset-4">
+                        Texas Solutions RCM
+                      </a>
+                      . Book a free consultation there or through our contact form for a written quote.
+                    </p>
                   )}
                 </section>
               </Reveal>

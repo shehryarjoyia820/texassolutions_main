@@ -27,6 +27,13 @@ import { cn } from '@/lib/utils';
 import type { ServiceSeo } from '@/data/seo-content';
 import { QuickAnswer, SeoGuide } from './seo-blocks';
 import { mergeFaqs } from '@/lib/faqs';
+import { ESTIMATE_CONFIG_MAP } from '@/data/estimate-config';
+
+/** Services without estimator settings (dental RCM) are quoted after a consultation instead. */
+const ctaFor = (slug: string) =>
+  ESTIMATE_CONFIG_MAP[slug]
+    ? { href: `/estimate?service=${slug}`, label: 'Get an Estimate' }
+    : { href: `/contact?service=${slug}&subject=${encodeURIComponent('Free consultation')}`, label: 'Request a Free Consultation' };
 
 /** Lowercase for mid-sentence use, keeping acronyms such as QA, AI, CRM and RCM. */
 const lowerKeepAcronyms = (s: string) =>
@@ -76,15 +83,15 @@ export function ServiceDetail({
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <ButtonLink
-                  href={`/estimate?service=${service.slug}`}
+                  href={ctaFor(service.slug).href}
                   size="lg"
                   variant="service"
                   icon={ArrowRight}
                   magnetic
-                  trackLabel="Get an Estimate"
+                  trackLabel={ctaFor(service.slug).label}
                   trackLocation={`service-hero-${service.slug}`}
                 >
-                  Get an Estimate
+                  {ctaFor(service.slug).label}
                 </ButtonLink>
                 <ButtonLink href="/contact" size="lg" variant="secondary">
                   Talk to a specialist
@@ -343,12 +350,12 @@ export function ServiceDetail({
                     </ul>
 
                     <ButtonLink
-                      href={`/estimate?service=${service.slug}&package=${pkg.name.toLowerCase()}`}
+                      href={ESTIMATE_CONFIG_MAP[service.slug] ? `/estimate?service=${service.slug}&package=${pkg.name.toLowerCase()}` : `/contact?service=${service.slug}&package=${pkg.name.toLowerCase()}`}
                       variant={pkg.popular ? 'service' : 'secondary'}
                       className="mt-7 w-full"
                       icon={ArrowRight}
                     >
-                      Estimate this package
+                      {ESTIMATE_CONFIG_MAP[service.slug] ? 'Estimate this package' : 'Ask about this package'}
                     </ButtonLink>
                   </div>
                 </Reveal>
@@ -496,14 +503,15 @@ export function ServiceDetail({
         <div aria-hidden className="pointer-events-none absolute inset-0 svc-glow" />
         <Container className="relative py-section-sm">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-display-md">Put a number on it</h2>
+            <h2 className="text-display-md">{ESTIMATE_CONFIG_MAP[service.slug] ? 'Put a number on it' : 'Get a written quote'}</h2>
             <p className="mt-5 text-lg leading-relaxed text-fg-muted">
-              The calculator opens on {lowerKeepAcronyms(service.navLabel)} already selected. A few questions and you
-              have a range in US dollars.
+              {ESTIMATE_CONFIG_MAP[service.slug]
+                ? `The calculator opens on ${lowerKeepAcronyms(service.navLabel)} already selected. A few questions and you have a range in US dollars.`
+                : 'Start with a free consultation. After a look at your workflow you receive a written scope and price, and nothing starts until you accept it.'}
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <ButtonLink
-                href={`/estimate?service=${service.slug}`}
+                href={ctaFor(service.slug).href}
                 size="lg"
                 variant="service"
                 icon={ArrowRight}
@@ -511,7 +519,7 @@ export function ServiceDetail({
                 trackLabel="Estimate from service CTA"
                 trackLocation={service.slug}
               >
-                Estimate {service.navLabel}
+                {ESTIMATE_CONFIG_MAP[service.slug] ? `Estimate ${service.navLabel}` : 'Request a Free Consultation'}
               </ButtonLink>
               <ButtonLink href="/pricing" size="lg" variant="secondary">
                 See all pricing
@@ -565,12 +573,12 @@ export function SubServiceDetail({
               <p className="mt-5 max-w-2xl text-lg leading-relaxed text-fg-muted">{sub.summary}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink
-                  href={`/estimate?service=${service.slug}`}
+                  href={ctaFor(service.slug).href}
                   size="lg"
                   variant="service"
                   icon={ArrowRight}
                 >
-                  Get an Estimate
+                  {ctaFor(service.slug).label}
                 </ButtonLink>
                 <ButtonLink href="/contact" size="lg" variant="secondary">
                   Ask a question

@@ -35,8 +35,8 @@ export const DIVISIONS: Division[] = [
   },
   {
     id: 'healthcare',
-    name: 'Healthcare Revenue Cycle',
-    summary: 'Medical and dental billing, coding, eligibility, denials, AR and credentialing for US practices, priced as a percentage of collections.',
+    name: 'Dental Revenue Cycle',
+    summary: 'Texas Solutions RCM, our dental division: insurance verification, dental claims, denials, payment posting, A/R and credentialing for dental practices in all 50 states.',
     services: ['revenue-cycle-management'],
   },
   {

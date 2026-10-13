@@ -187,27 +187,16 @@ export const PREMIUMS_NOTE =
   'Onsite delivery, extended time-zone overlap or specialist requirements (for example regulated-industry compliance) can carry a premium. Any premium is explained and quoted in writing before work starts.';
 
 /* ------------------------------------------------------------------ */
-/*  Medical and dental revenue cycle management (RCM)                  */
+/*  Dental revenue cycle management (Texas Solutions RCM)              */
 /* ------------------------------------------------------------------ */
 
 /**
- * RCM is priced as a percentage of net monthly collections, separately from
- * every other service. Final percentage is confirmed after a billing review.
+ * Dental RCM is run by the dental division, Texas Solutions RCM, at
+ * rcm.texassolutions.co. It is dental only, and prices are not published:
+ * every engagement is quoted in writing after a free consultation.
+ * Keep this block in step with that site.
  */
-export interface RcmModel {
-  id: 'medical' | 'dental';
-  label: string;
-  short: string;
-  /** Low and high percentage of net monthly collections. */
-  percent: Range;
-  /** Example monthly collections used for the illustrative fee. */
-  exampleCollections: number;
-}
-
-export const RCM_MODELS: RcmModel[] = [
-  { id: 'medical', label: 'Medical practice RCM', short: 'Medical', percent: [0.1, 0.1], exampleCollections: 50000 },
-  { id: 'dental', label: 'Dental practice RCM', short: 'Dental', percent: [0.08, 0.08], exampleCollections: 40000 },
-];
+export const RCM_SITE = 'https://rcm.texassolutions.co';
 
 /** "10%" from [0.1, 0.1], "4-7%" from [0.04, 0.07]. */
 export function pctLabel(p: Range): string {
@@ -216,31 +205,102 @@ export function pctLabel(p: Range): string {
   return lo === hi ? `${lo}%` : `${lo}-${hi}%`;
 }
 
-/** Lowest to highest standard RCM percentage, e.g. "8-10%". */
-export const RCM_RANGE_LABEL = pctLabel([
-  Math.min(...RCM_MODELS.map((m) => m.percent[0])),
-  Math.max(...RCM_MODELS.map((m) => m.percent[1])),
-]);
+export interface RcmService {
+  slug: string;
+  name: string;
+  /** Matching page on rcm.texassolutions.co. */
+  rcmPath: string;
+  summary: string;
+  points: string[];
+  keyword: string;
+}
 
-/** Practices may propose their own percentage; it is reviewed, not automatic. */
-export const RCM_CUSTOM_LIMITS = { min: 1, max: 15, step: 0.5 };
-export const RCM_CUSTOM_NOTE =
-  'You can propose your own percentage. Proposals are reviewed against your specialty, claim volume and payer mix, and the agreed rate is confirmed in writing.';
-
-export const RCM_INCLUDES = [
-  'Insurance eligibility and benefits verification',
-  'Charge entry and claim submission',
-  'Payment posting (ERA and EOB)',
-  'Denial management and appeals',
-  'Accounts receivable follow-up',
-  'Patient statements and balance follow-up',
-  'Monthly collections and AR reporting',
+/** The eight dental RCM services, as offered on rcm.texassolutions.co. */
+export const RCM_SERVICES: RcmService[] = [
+  {
+    slug: 'eligibility-verification',
+    name: 'Insurance verification and eligibility',
+    rcmPath: '/services/dental-insurance-verification/',
+    summary: 'Benefits checked before the appointment, so the front desk knows what to collect.',
+    points: ['Dental insurance eligibility verification', 'Benefits breakdowns', 'Deductible and annual maximum checks', 'Frequency limitation and waiting period checks', 'Patient responsibility estimates'],
+    keyword: 'dental insurance verification services',
+  },
+  {
+    slug: 'dental-billing',
+    name: 'Dental claims management',
+    rcmPath: '/services/dental-claims-processing/',
+    summary: 'Claims built, coded, attached and followed until the carrier answers.',
+    points: ['Dental claim creation and submission', 'CDT code and documentation review', 'Claim attachments and corrections', 'Rejected claim resubmission', 'Claim status tracking and follow-up'],
+    keyword: 'dental billing services',
+  },
+  {
+    slug: 'denial-management',
+    name: 'Denial management and appeals',
+    rcmPath: '/services/denial-management/',
+    summary: 'Every denial worked, and the cause behind repeat denials fixed.',
+    points: ['Claim denial analysis', 'Corrected claims submission', 'Appeals and reconsiderations', 'Missing documentation follow-up', 'Denial prevention and root-cause analysis'],
+    keyword: 'dental denial management services',
+  },
+  {
+    slug: 'payment-posting',
+    name: 'Payment posting',
+    rcmPath: '/services/payment-posting/',
+    summary: 'EOBs and ERAs posted, adjusted and reconciled against deposits.',
+    points: ['EOB and ERA payment posting', 'Insurance and patient payment entry', 'Contractual adjustments', 'Payment reconciliation', 'Underpayment and discrepancy checks'],
+    keyword: 'dental payment posting services',
+  },
+  {
+    slug: 'ar-follow-up',
+    name: 'Accounts receivable (A/R) management',
+    rcmPath: '/services/dental-accounts-receivable/',
+    summary: 'Insurance A/R worked by age bucket, with older balances cleaned up.',
+    points: ['30, 60 and 90+ day A/R follow-up', 'Outstanding claim follow-up', 'Carrier calls and portal checks', 'Aging report analysis', 'A/R cleanup and recovery projects'],
+    keyword: 'dental accounts receivable services',
+  },
+  {
+    slug: 'patient-billing',
+    name: 'Patient billing and collections support',
+    rcmPath: '/services/patient-billing/',
+    summary: 'Statements, balance reviews and payment allocation handled consistently.',
+    points: ['Patient statement processing', 'Patient balance review', 'Payment allocation', 'Outstanding balance follow-up', 'Patient billing coordination'],
+    keyword: 'dental patient billing services',
+  },
+  {
+    slug: 'credentialing',
+    name: 'Dental credentialing and provider enrollment',
+    rcmPath: '/services/dental-credentialing/',
+    summary: 'Dentists enrolled with the networks you accept, and kept current.',
+    points: ['Dental provider credentialing', 'Insurance network enrollment', 'Re-credentialing', 'Provider information updates', 'EFT and ERA enrollment assistance'],
+    keyword: 'dental credentialing services',
+  },
+  {
+    slug: 'rcm-reporting',
+    name: 'Dental RCM reporting and revenue analysis',
+    rcmPath: '/services/rcm-analytics-reporting/',
+    summary: 'Aging, claim status, denial trends and monthly revenue from your own data.',
+    points: ['A/R aging reports', 'Claim status reporting', 'Denial trend analysis', 'Collection and adjustment reporting', 'Monthly revenue performance reports'],
+    keyword: 'dental RCM reporting',
+  },
 ];
 
+export const RCM_SPECIALTIES = [
+  'General dentistry',
+  'Orthodontics',
+  'Endodontics',
+  'Periodontics',
+  'Oral and maxillofacial surgery',
+  'Pediatric dentistry',
+  'Prosthodontics',
+  'Dental group practices and DSOs',
+];
+
+/** Practice management systems the team commonly works in. No partnership with any vendor. */
+export const RCM_SOFTWARE = ['Dentrix', 'Open Dental', 'Eaglesoft', 'Curve Dental'];
+export const RCM_SOFTWARE_NOTE =
+  'We work inside the dental software you already use, through named accounts your administrator controls. Product names belong to their owners; Texas Solutions is not a partner or reseller of any dental software company.';
+
 export const RCM_TERMS =
-  'Percentage of net monthly collections (what is actually collected after adjustments), not gross charges. ' +
-  'Credentialing and payer enrollment, standalone coding audits and prior-authorization-only work are quoted separately. ' +
-  'Standard rates can be adjusted for specialty, claim volume and payer mix, and you can propose your own percentage; the agreed rate is confirmed in writing after a free billing review.';
+  'We do not publish dental RCM prices. After a free consultation and a look at your workflow, we quote in writing. The fee depends on the services you choose, your claim volume, the number of locations and how much of the cycle we manage, and nothing starts until you accept the scope and price.';
 
 export const RCM_DATA_NOTE =
-  'Please do not send patient names, records or other protected health information through this website, its forms or its chat. Secure data-handling arrangements are agreed with your practice during onboarding.';
+  'Please do not send patient information through this website, its forms or its chat. We sign a Business Associate Agreement with your practice before accessing any patient data, and we work only inside your own systems through named accounts.';

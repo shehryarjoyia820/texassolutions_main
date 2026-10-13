@@ -14,11 +14,13 @@ import {
   SPECIALIST_QUOTE_NOTE,
   RESOURCE_NOTE,
   HOURS_PER_ALLOCATION,
-  RCM_MODELS,
-  RCM_INCLUDES,
+  RCM_SERVICES,
+  RCM_SOFTWARE,
+  RCM_SOFTWARE_NOTE,
+  RCM_SPECIALTIES,
+  RCM_SITE,
   RCM_TERMS,
   RCM_DATA_NOTE,
-  RCM_CUSTOM_NOTE,
   pctLabel,
 } from '@/data/rates';
 import { SITE, OFFICES } from '@/data/site';
@@ -97,7 +99,7 @@ export function buildSiteKnowledge(): Draft[] {
       `Hours: ${SITE.hours}.`,
       'First reply to any enquiry: within one business day.',
       'Consultations are requested through the booking form on /contact and confirmed by a person by email.',
-      `Truck dispatch has its own site: ${SITE.dispatchUrl}.`,
+      `Truck dispatch has its own site: ${SITE.dispatchUrl}. Dental revenue cycle management has its own site: ${SITE.rcmUrl}.`,
     ].join('\n'),
   });
   add({
@@ -194,22 +196,19 @@ export function buildSiteKnowledge(): Draft[] {
 
   add({
     id: 'pricing-rcm',
-    title: 'Medical and dental RCM / billing fees (percentage of net collections)',
+    title: 'Dental RCM (Texas Solutions RCM): scope, pricing and patient data',
     category: 'pricing',
     sourcePage: '/services/revenue-cycle-management',
     service: 'revenue-cycle-management',
     body: [
-      ...RCM_MODELS.map(
-        (m) =>
-          `- ${m.label}: ${pctLabel(m.percent)} of net monthly collections (standard rate) ` +
-          `(example: on ${usd(m.exampleCollections)} a month, about ${range([m.exampleCollections * m.percent[0], m.exampleCollections * m.percent[1]])} per month)`,
-      ),
-      RCM_CUSTOM_NOTE +
-        ' The visitor can enter a proposed percentage in the RCM fee calculator or estimator and send it with the contact form; never accept or confirm a custom rate yourself, say the team will review it.',
-      `Full RCM includes: ${RCM_INCLUDES.join('; ')}.`,
+      `Texas Solutions RCM is the dental division of Texas Solutions (${RCM_SITE}). It does dental revenue cycle management only; it does not offer medical billing.`,
+      `Services, alone or together: ${RCM_SERVICES.map((r) => `${r.name} (${RCM_SITE}${r.rcmPath})`).join('; ')}.`,
+      `Specialties: ${RCM_SPECIALTIES.join(', ')}. Plans: PPO, DHMO, indemnity and Medicaid/CHIP dental plans in all 50 states.`,
+      `Software: commonly ${RCM_SOFTWARE.join(', ')}. ${RCM_SOFTWARE_NOTE}`,
       RCM_TERMS,
+      'Never quote a price, percentage or estimate for dental RCM; offer a free consultation and a written quote instead.',
       RCM_DATA_NOTE,
-      'No setup fee; 30 days notice. Collections and revenue are not guaranteed. Do not claim HIPAA compliance, a signed BAA, certified coders or partnerships with specific EHR/PMS vendors; say data-handling terms and system compatibility are confirmed during onboarding.',
+      'Process: free consultation, billing review, written proposal, Business Associate Agreement and onboarding, then daily operations with regular reports.',
     ].join('\n'),
   });
 

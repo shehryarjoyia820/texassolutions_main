@@ -1,7 +1,7 @@
 import type { RegionCode } from './regions';
 import { ENTERPRISE_PRICE_TABLES } from './pricing-enterprise';
 import { SERVICE_ORDER } from './services';
-import { SPECIALIST_QUOTE_NOTE, RCM_MODELS, RCM_TERMS, RCM_RANGE_LABEL, pctLabel } from './rates';
+import { SPECIALIST_QUOTE_NOTE, RCM_TERMS, pctLabel } from './rates';
 export { pctLabel };
 
 /**
@@ -133,30 +133,20 @@ const BASE_PRICE_TABLES: PriceTable[] = [
   },
   {
     service: 'revenue-cycle-management',
-    title: 'Medical and dental revenue cycle management',
-    intro:
-      'A percentage of net monthly collections, so our fee moves with what your practice actually collects. No setup fee. Dollar figures below are worked examples, not prices.',
+    title: 'Dental revenue cycle management',
+    intro: 'Dental RCM is priced per practice. After a free consultation and a look at your workflow, you receive a written scope and price.',
     rows: [
-      ...RCM_MODELS.map(
-        (m): PriceRow => ({
-          id: `rcm-${m.id}`,
-          label: `${m.label}: ${pctLabel(m.percent)} of net collections`,
-          note: `Example: ${pctLabel(m.percent)} of USD ${m.exampleCollections.toLocaleString('en-US')} monthly collections`,
-          unit: 'monthly',
-          kind: 'example',
-          values: usd([Math.round(m.exampleCollections * m.percent[0]), Math.round(m.exampleCollections * m.percent[1])]),
-        }),
-      ),
-      { id: 'rcm-credentialing', label: 'Provider credentialing and payer enrollment', note: 'Per provider and payer list', unit: 'one-time', kind: 'project', values: usd(null) },
-      { id: 'rcm-coding-audit', label: 'Coding audit or standalone coding', note: 'ICD-10-CM, CPT, HCPCS or CDT', unit: 'one-time', kind: 'project', values: usd(null) },
-      { id: 'rcm-prior-auth', label: 'Prior authorization only', note: 'Volume-based', unit: 'monthly', kind: 'project', values: usd(null) },
+      { id: 'rcm-single', label: 'Single service', note: 'For example insurance verification or an A/R cleanup', unit: 'monthly', kind: 'quote', values: usd(null) },
+      { id: 'rcm-full', label: 'Full dental revenue cycle', note: 'Verification through payment posting, denials and A/R', unit: 'monthly', kind: 'quote', values: usd(null) },
+      { id: 'rcm-group', label: 'Group practices and DSOs', note: 'Per location, with provider-level reporting', unit: 'monthly', kind: 'quote', values: usd(null) },
+      { id: 'rcm-credentialing', label: 'Credentialing and provider enrollment', note: 'Per provider and network list', unit: 'one-time', kind: 'quote', values: usd(null) },
     ],
     disclaimer: RCM_TERMS,
   },
 ];
 
 /**
- * Services priced as a percentage rather than in dollars. Cards, the service
+ * Services shown with a percentage or "quoted" label rather than a dollar starting price. Cards, the service
  * hero and the price-table notes read this instead of a dollar starting price.
  */
 export const PERCENT_PRICING: Record<string, { headline: string; unit: string; card: string; note: string }> = {
@@ -166,11 +156,12 @@ export const PERCENT_PRICING: Record<string, { headline: string; unit: string; c
     card: '5-10% of weekly gross',
     note: 'Semi 5%, hotshot 8%, box truck 10%, OTR. No flat rate or extra charges.',
   },
+  // Dental RCM publishes no prices; every engagement is quoted in writing.
   'revenue-cycle-management': {
-    headline: RCM_RANGE_LABEL,
-    unit: 'of net collections',
-    card: `${RCM_RANGE_LABEL} of monthly collections`,
-    note: RCM_MODELS.map((m) => `${m.short} ${pctLabel(m.percent)}`).join(', ') + ' of net monthly collections, or propose your own. No setup fee.',
+    headline: 'Quoted',
+    unit: 'in writing',
+    card: 'Quoted after a free consultation',
+    note: 'Dental only. Free consultation, then a written scope and price. No published rates.',
   },
 };
 

@@ -14,6 +14,7 @@ const GROUPS: { kind: RowKind; title: string }[] = [
   { kind: 'support', title: 'Monthly plans (starting price and starting scope)' },
   { kind: 'example', title: 'Worked examples (not a price list)' },
   { kind: 'unit', title: 'Supplied and installed' },
+  { kind: 'quote', title: 'Quoted in writing after a free consultation' },
 ];
 
 export function PriceCell({ row, code }: { row: PriceRow; code: Parameters<typeof formatRange>[1] }) {

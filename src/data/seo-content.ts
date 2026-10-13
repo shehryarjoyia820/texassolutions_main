@@ -581,73 +581,63 @@ export const SERVICE_SEO: Record<string, ServiceSeo> = {
   /* ================================================================ */
   'revenue-cycle-management': {
     slug: 'revenue-cycle-management',
-    metaTitle: 'Medical Billing & Dental Billing Services | Revenue Cycle Management (RCM)',
+    metaTitle: 'Dental Revenue Cycle Management (RCM) & Dental Billing Services',
     metaDescription:
-      'Outsourced medical billing and dental billing services: eligibility verification, coding, claim submission, denial management, AR follow-up and credentialing. Medical RCM 10%, dental 8% of collections, or propose your own rate.',
+      'Dental RCM for US practices: insurance verification, dental claims, denials, payment posting, A/R, credentialing and reporting. BAA signed. Free consultation.',
     keywords: [
-      'medical billing services',
+      'dental revenue cycle management',
+      'dental RCM',
+      'dental RCM company',
       'dental billing services',
-      'revenue cycle management services',
-      'medical billing company',
-      'outsourced medical billing',
       'dental billing company',
-      'dental insurance billing',
-      'RCM services',
-      'medical coding services',
-      'denial management services',
-      'insurance eligibility verification services',
-      'prior authorization services',
-      'provider credentialing services',
-      'medical AR recovery',
-      'medical billing for small practices',
-      'dental billing outsourcing',
+      'outsourced dental billing',
+      'dental insurance verification services',
+      'dental claims processing',
+      'dental denial management',
+      'dental accounts receivable services',
+      'dental credentialing services',
+      'Dentrix billing services',
+      'Open Dental billing services',
+      'Eaglesoft billing services',
     ],
     quickAnswer:
-      'Texas Solutions provides outsourced medical billing and dental billing services, also called revenue cycle management (RCM), for US practices: insurance eligibility verification, medical and dental coding, claim submission, payment posting, denial management, AR follow-up and provider credentialing. Standard rates are 10% of net monthly collections for medical practices and 8% for dental practices, practices can propose their own percentage, and there is no setup fee and 30 days notice.',
-    guideTitle: 'Medical and dental billing outsourcing: what RCM covers and what it costs',
+      'Texas Solutions RCM, the dental division of Texas Solutions, provides dental revenue cycle management for practices in all 50 states: insurance verification and eligibility, dental claims, denials and appeals, payment posting, A/R management, patient billing, credentialing and reporting. The team works inside Dentrix, Open Dental, Eaglesoft, Curve Dental and other systems, signs a Business Associate Agreement before accessing patient data, and quotes in writing after a free consultation.',
+    guideTitle: 'Dental revenue cycle management: what it covers and how outsourcing works',
     guide: [
       {
-        heading: 'What is revenue cycle management?',
+        heading: 'What is dental revenue cycle management?',
         paragraphs: [
-          'Revenue cycle management (RCM) is everything between booking a patient and the practice being paid: checking insurance, coding the visit, submitting the claim, posting the payment, working denials and following up on unpaid balances. Medical billing is the core of it; outsourced RCM hands the whole cycle to a specialist team.',
+          'Dental revenue cycle management (dental RCM) is the full process of getting a dental office paid for the care it delivers, from checking benefits before the visit to posting the final payment and resolving the patient balance. Dental billing, the claim and payment work in the middle, is one part of that cycle.',
         ],
         bullets: [
-          'Front end: scheduling data, eligibility and benefits checks, prior authorizations.',
-          'Middle: coding (ICD-10-CM, CPT, HCPCS, CDT), charge entry and claim scrubbing.',
-          'Back end: claim submission, payment posting, denials and appeals, AR and patient balances.',
+          'Before the visit: provider enrollment, eligibility and benefits verification, frequency and waiting period checks.',
+          'Claims: CDT coding review, ADA claim form or 837D submission, x-rays, perio charts and narratives attached.',
+          'After the claim: EOB and ERA posting, denials and appeals, insurance and patient A/R, reporting.',
         ],
       },
       {
-        heading: 'How much do medical billing services cost?',
+        heading: 'Why dental billing is different',
         paragraphs: [
-          'Most outsourced billing companies charge a percentage of collections. Published industry guides put the common range at about 4% to 10% of collections, with most practices paying in the middle of that band; complex specialties sit higher. Our standard rates are 10% of net monthly collections for medical practices and 8% for dental practices, with no setup fee. Practices can propose their own percentage, and the agreed rate is confirmed in writing.',
-          'Always check what the percentage is taken from. A percentage of net collections (money actually received) costs far less than the same percentage of gross charges.',
+          'Dental plans carry annual maximums, frequency limits, waiting periods, missing tooth clauses and alternate benefit downgrades, and many patients carry PPO, DHMO or Medicaid dental coverage, sometimes two plans at once. That is why our dental division focuses on dental only rather than mixing dental and medical claims.',
         ],
       },
       {
-        heading: 'Medical billing vs dental billing',
+        heading: 'How much does outsourced dental billing cost?',
         paragraphs: [
-          'Dental claims use CDT codes and the ADA claim form, and depend on benefit breakdowns, frequency limits and attachments such as X-rays and narratives. Medical claims use ICD-10-CM, CPT and HCPCS on the CMS-1500 or UB-04, with more prior authorization and modifier rules. The workflows overlap, but the rules differ enough that each needs people who work that side every day.',
+          'Dental billing companies price in different ways: a percentage of collections, a fee per claim, or a monthly fee for an agreed scope. We do not publish prices. After a free consultation and a look at your workflow, you receive a written scope and price based on the services you choose, claim volume and number of locations.',
         ],
       },
       {
-        heading: 'Outsourced billing or an in-house biller?',
+        heading: 'Patient data and your software',
         paragraphs: [
-          'An in-house biller costs a salary, benefits, software and cover for leave, and the work stops when they are away. Outsourcing turns that into a percentage of collections, adds a team behind the billing lead and ties the fee to what is collected. In-house can still suit large practices with steady volume and a strong billing manager.',
-        ],
-      },
-      {
-        heading: 'What we need to start',
-        paragraphs: [
-          'A free billing review uses summary reports, such as an AR aging report and a denial summary, never patient records. After the agreement is signed, we work through user accounts you create in your own system and payer portals. Please do not send patient information through this website.',
+          'We sign a Business Associate Agreement before accessing any patient data and work only inside your practice management software, clearinghouse and carrier portals through named accounts your administrator controls. We are not a partner or reseller of any dental software company. Please do not send patient information through this website.',
         ],
       },
     ],
     faqs: [
-      { q: 'What is the difference between medical billing and RCM?', a: 'Medical billing is submitting claims and getting them paid. Revenue cycle management covers the whole cycle around it, from eligibility checks and coding before the claim to denials, AR follow-up and patient balances after it.' },
-      { q: 'Do you offer dental insurance billing only, without the full cycle?', a: 'Yes. Starter covers eligibility, claim submission, payment posting and unpaid claim follow-up. Denials, AR recovery and credentialing can be added.' },
-      { q: 'How long does it take to switch billing companies?', a: 'Typically two to four weeks: a billing review, the agreement and system access, then a transition in which current claims are taken over and the oldest AR is prioritised.' },
-      { q: 'Do you handle provider credentialing?', a: 'Yes. Payer enrollment, CAQH upkeep and re-credentialing are quoted per provider and payer list.' },
+      { q: 'Is dental RCM the same as dental billing?', a: 'Dental billing is part of dental RCM. Billing covers claims, attachments and payment posting; RCM also covers credentialing, verification before the visit, denials, A/R and reporting.' },
+      { q: 'Do you work with DSOs and multi-location groups?', a: 'Yes. There is no minimum size: solo offices, specialty practices and multi-location groups each get a scope and price sized to their claim volume.' },
+      { q: 'Where can I learn more?', a: 'Our dental division has its own site, rcm.texassolutions.co, with service details, free dental billing calculators and guides.' },
     ],
   },
 };

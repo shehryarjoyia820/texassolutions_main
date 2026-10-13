@@ -17,7 +17,7 @@ export type InteractiveKind =
   | 'engine-finder'
   | 'ballpark'
   | 'team-builder'
-  | 'rcm-fee';
+  | 'rcm-scope';
 
 export interface SubService {
   slug: string;

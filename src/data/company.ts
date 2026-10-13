@@ -135,7 +135,7 @@ export const ENGAGEMENT_MODELS: EngagementModel[] = [
 /* ------------------------------------------------------------------ */
 
 export const PROOF_POINTS = [
-  { value: 14, suffix: '', label: 'Service lines under one contract', body: 'Web, QA, leads and engines, enterprise IT from AI to cybersecurity, medical and dental billing, plus dispatch, ads and AdSense, with one account contact across all of them.' },
+  { value: 14, suffix: '', label: 'Service lines under one contract', body: 'Web, QA, leads and engines, enterprise IT from AI to cybersecurity, dental revenue cycle management, plus dispatch, ads and AdSense, with one account contact across all of them.' },
   { value: 1, suffix: '', label: 'Published price list', body: 'One set of US dollar ranges for every client, with no pricing by location.' },
   { value: 24, suffix: '/7', label: 'Dispatch desk coverage', body: 'Overnight and weekend cover for breakdowns, delivery issues and next-day booking.' },
   { value: 30, suffix: ' days', label: 'Notice period, never longer', body: 'No multi-year lock-in on any service. If we are not earning the fee you should be able to leave.' },

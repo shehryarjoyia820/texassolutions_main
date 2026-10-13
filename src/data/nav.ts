@@ -344,6 +344,8 @@ export const FOOTER_COLUMNS = [
       { label: 'Get an estimate', href: '/estimate' },
       { label: 'Answers', href: '/answers' },
       { label: 'Solutions by industry', href: '/solutions' },
+      { label: 'Texas Solutions RCM (dental)', href: 'https://rcm.texassolutions.co' },
+      { label: 'Truck dispatch site', href: 'https://dispatch.texassolutions.co' },
       { label: 'Products', href: '/products' },
       { label: 'Marketplace', href: '/marketplace' },
       { label: 'Privacy policy', href: '/privacy' },

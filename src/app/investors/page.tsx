@@ -34,7 +34,7 @@ export default function InvestorsPage() {
               <p>
                 Texas Solutions operates fourteen service lines: web and app development, quality assurance,
                 lead generation and auto engines; enterprise IT across AI, data, cloud, CRM and ERP,
-                cybersecurity and dedicated teams; medical and dental revenue cycle management; and truck dispatch, ads and AdSense management. Each line
+                cybersecurity and dedicated teams; dental revenue cycle management through Texas Solutions RCM; and truck dispatch, ads and AdSense management. Each line
                 carries its own agreements and pricing.
               </p>
               <p>

@@ -6,6 +6,8 @@ export const SITE = {
     'Texas Solutions is a custom software development company: web and mobile app development, SaaS, AI and machine learning, QA and software testing, and dedicated development teams for growing businesses and enterprises, plus truck dispatch for US carriers.',
   url: 'https://texassolutions.co',
   dispatchUrl: 'https://dispatch.texassolutions.co',
+  /** Dental RCM division. */
+  rcmUrl: 'https://rcm.texassolutions.co',
   phone: '(838) 910-3147',
   phoneHref: 'tel:+18389103147',
   email: 'info@texassolutions.co',

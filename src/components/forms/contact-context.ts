@@ -1,3 +1,5 @@
+import { RCM_SERVICES } from '@/data/rates';
+
 /**
  * Context carried into /contact from other pages, e.g.
  * /contact?service=truck-dispatch&package=growth&estimate_low=1200&estimate_billing=monthly
@@ -16,15 +18,14 @@ export const CONTEXT_PARAMS = [
   'estimate_high',
   'estimate_billing',
   'subject',
-  'practice',
-  'collections',
-  'proposed_percent',
+  'rcm_services',
+  'locations',
 ] as const;
 
 export type ContextKey = (typeof CONTEXT_PARAMS)[number];
 export type ContactContext = Partial<Record<ContextKey, string>>;
 
-const MAX_LEN = 120;
+const MAX_LEN = 240;
 
 function clean(v: string | null): string {
   if (!v) return '';
@@ -75,9 +76,8 @@ export function describeContext(ctx: ContactContext, serviceName?: (slug: string
   } else if (ctx.estimate_billing) {
     lines.push(`Billing: ${humanise(ctx.estimate_billing).toLowerCase()}`);
   }
-  if (ctx.practice) lines.push(`Practice: ${humanise(ctx.practice)}`);
-  if (ctx.collections) lines.push(`Net monthly collections: ${money(ctx.collections)}`);
-  if (ctx.proposed_percent) lines.push(`Proposed percentage: ${ctx.proposed_percent}%`);
+  if (ctx.rcm_services) lines.push(`Dental RCM services: ${ctx.rcm_services.split(',').map((s) => RCM_SERVICES.find((r) => r.slug === s)?.name ?? humanise(s)).join(', ')}`);
+  if (ctx.locations) lines.push(`Practice size: ${humanise(ctx.locations)}`);
   if (ctx.subject) lines.push(`Subject: ${humanise(ctx.subject)}`);
   return lines;
 }

@@ -4,7 +4,7 @@ import { HOURLY_RATES, SUPPORT_PLANS, MONTHLY_RESOURCES, type Range as RateRange
 /** Shared row types and builders for the price tables (no imports from pricing.ts, to avoid a cycle). */
 export type Range = RateRange;
 
-export type RowKind = 'project' | 'hourly' | 'resource' | 'support' | 'example' | 'unit';
+export type RowKind = 'project' | 'hourly' | 'resource' | 'support' | 'example' | 'unit' | 'quote';
 
 export interface PriceRow {
   id: string;

@@ -162,9 +162,9 @@ const BASE_PRICE_TABLES: PriceTable[] = [
  */
 export const PERCENT_PRICING: Record<string, { headline: string; unit: string; card: string; note: string }> = {
   'truck-dispatch': {
-    headline: '5-10%',
+    headline: '5-8%',
     unit: 'of weekly gross',
-    card: '5-10% of weekly gross',
+    card: '5-8% of weekly gross',
     note: 'Semi 5%, hotshot 7%, box truck 8%, OTR. No flat rate or extra charges.',
   },
   // Dental RCM: flat $1,200 under $40k insurance collections, then 3.5% / 3% / 2.5% (per location, per month).
@@ -232,7 +232,7 @@ export const DISPATCH_MODELS = [
   },
 ] as const;
 
-/** "5%" or "8-10%" */
+/** "5%" or "7-8%" */
 export function dispatchPercentLabel(p: Range): string {
   const lo = Math.round(p[0] * 100);
   const hi = Math.round(p[1] * 100);

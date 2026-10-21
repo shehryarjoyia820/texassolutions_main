@@ -78,7 +78,7 @@ const BASE_PRICE_TABLES: PriceTable[] = [
     service: 'truck-dispatch',
     title: 'Truck dispatch',
     intro:
-      "The fee is a percentage of the truck's weekly gross (OTR): semi trucks 5%, hotshots 8%, box trucks and straight trucks 10%. No flat rate, no setup fee, no monthly subscription and no extra charges. The dollar figures below are examples only.",
+      "The fee is a percentage of the truck's weekly gross (OTR): semi trucks 5%, hotshots 7%, box trucks and straight trucks 8%. No flat rate, no setup fee, no monthly subscription and no extra charges. The dollar figures below are examples only.",
     rows: [
       {
         id: 'semi',
@@ -90,19 +90,19 @@ const BASE_PRICE_TABLES: PriceTable[] = [
       },
       {
         id: 'hotshot',
-        label: 'Hotshot trucks: 8%',
+        label: 'Hotshot trucks: 7%',
+        note: 'Example: 7% of USD 7,000-9,000 weekly gross',
+        unit: 'weekly',
+        kind: 'example',
+        values: usd([490, 630]),
+      },
+      {
+        id: 'box-truck',
+        label: 'Box trucks and straight trucks: 8%',
         note: 'Example: 8% of USD 7,000-9,000 weekly gross',
         unit: 'weekly',
         kind: 'example',
         values: usd([560, 720]),
-      },
-      {
-        id: 'box-truck',
-        label: 'Box trucks and straight trucks: 10%',
-        note: 'Example: 10% of USD 7,000-9,000 weekly gross',
-        unit: 'weekly',
-        kind: 'example',
-        values: usd([700, 900]),
       },
     ],
     disclaimer:
@@ -165,7 +165,7 @@ export const PERCENT_PRICING: Record<string, { headline: string; unit: string; c
     headline: '5-10%',
     unit: 'of weekly gross',
     card: '5-10% of weekly gross',
-    note: 'Semi 5%, hotshot 8%, box truck 10%, OTR. No flat rate or extra charges.',
+    note: 'Semi 5%, hotshot 7%, box truck 8%, OTR. No flat rate or extra charges.',
   },
   // Dental RCM: flat $1,200 under $40k insurance collections, then 3.5% / 3% / 2.5% (per location, per month).
   'revenue-cycle-management': {
@@ -220,14 +220,14 @@ export const DISPATCH_MODELS = [
     id: 'hotshot',
     label: 'Hotshot truck',
     short: 'Hotshot',
-    percent: [0.08, 0.08] as Range,
+    percent: [0.07, 0.07] as Range,
     typicalGross: [7000, 9000] as Range,
   },
   {
     id: 'boxTruckOrHotshot',
     label: 'Box truck or straight truck',
     short: 'Box truck',
-    percent: [0.1, 0.1] as Range,
+    percent: [0.08, 0.08] as Range,
     typicalGross: [7000, 9000] as Range,
   },
 ] as const;

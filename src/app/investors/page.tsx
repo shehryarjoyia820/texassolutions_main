@@ -43,7 +43,7 @@ export default function InvestorsPage() {
               </p>
               <h2>How we charge</h2>
               <p>
-                Dispatch is a percentage of carrier weekly gross: 5% for semis, 8% for hotshots and 10% for box
+                Dispatch is a percentage of carrier weekly gross: 5% for semis, 7% for hotshots and 8% for box
                 trucks. Marketing and QA run on monthly retainers. Development is project-based. Engine supply is
                 transactional.
               </p>

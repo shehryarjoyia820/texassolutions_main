@@ -13,7 +13,7 @@ const cases = [
   ['Ads, 2 platforms', { service: 'ads-optimization', subType: 'google', answers: { extraPlatforms: 1 } }, 600],
   ['AdSense, 3 sites', { service: 'adsense-management', subType: 'single', answers: { sites: 3 } }, 600],
   ['Dispatch semi, 1 truck, $9,000', { service: 'truck-dispatch', subType: 'semi', answers: { trucks: 1, weeklyGross: 9000 } }, 450],
-  ['Dispatch box truck, 2 trucks, $8,000', { service: 'truck-dispatch', subType: 'boxTruckOrHotshot', answers: { trucks: 2, weeklyGross: 8000 } }, 1600],
+  ['Dispatch box truck, 2 trucks, $8,000', { service: 'truck-dispatch', subType: 'boxTruckOrHotshot', answers: { trucks: 2, weeklyGross: 8000 } }, 1280],
 ];
 let fail = 0;
 for (const [name, input, expect] of cases) {

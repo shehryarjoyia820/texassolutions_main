@@ -187,7 +187,7 @@ export default function WhyPage() {
                 {[
                   ['Ranges, not single numbers', 'A single figure before scope is known is a guess dressed as a quote. We publish the range and narrow it with you.'],
                   ['One price list', 'Every client sees the same published US dollar ranges. No pricing by location, no hidden markups.'],
-                  ['The fee base is stated', 'Dispatch is a stated percentage of weekly gross with no flat rate: 5% for semis, 8% for hotshots, 10% for box trucks. Monthly plans state their included hours and scope; extra hours need your written approval.'],
+                  ['The fee base is stated', 'Dispatch is a stated percentage of weekly gross with no flat rate: 5% for semis, 7% for hotshots, 8% for box trucks. Monthly plans state their included hours and scope; extra hours need your written approval.'],
                 ].map(([title, body]) => (
                   <li key={title} className="rounded-xl border border-line bg-bg-soft p-5">
                     <p className="font-display text-base font-semibold">{title}</p>
